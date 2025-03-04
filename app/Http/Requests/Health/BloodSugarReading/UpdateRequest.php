@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Helth\BloodSugarReading;
+namespace App\Http\Requests\Health\BloodSugarReading;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Helth;
+namespace App\Http\Controllers\Health;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Helth\BloodSugarReading\CreateRequest;
-use App\Http\Requests\Helth\BloodSugarReading\UpdateRequest;
+use App\Http\Requests\Health\BloodSugarReading\CreateRequest;
+use App\Http\Requests\Health\BloodSugarReading\UpdateRequest;
 use App\Http\Resources\Health\BloodSugarReadingResource;
 use App\Http\Services\Health\BloodSugarReadingService;
 use App\Services\ResponseService;

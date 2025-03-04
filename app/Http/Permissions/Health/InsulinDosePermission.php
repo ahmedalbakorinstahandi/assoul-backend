@@ -2,40 +2,38 @@
 
 namespace App\Http\Permissions\Health;
 
-use App\Models\Health\BloodSugarReading;
+use App\Models\Health\InsulinDose;
 use App\Models\Users\User;
 use App\Services\MessageService;
 
-class BloodSugarReadingPermission
+class InsulinDosePermission
 {
-    public static function index($qusery)
+    public static function index($query)
     {
         $user = User::auth();
 
         if ($user->isPatient()) {
-            $qusery->where('patient_id', $user->id);
+            $query->where('patient_id', $user->id);
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
             $childrenIds = $user->guardian->children->pluck('id')->toArray();
-            $qusery->orWhereIn('patient_id', $childrenIds);
+            $query->orWhereIn('patient_id', $childrenIds);
         }
 
-
-
-        return $qusery;
+        return $query;
     }
 
-    public static function show(BloodSugarReading $bloodSugarReading)
+    public static function show(InsulinDose $insulinDose)
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->id) {
+        if ($user->isPatient() && $insulinDose->patient_id !== $user->id) {
             MessageService::abort(403, 'غير مسموح لك بالوصول لهذه البيانات');
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
-            $isChild = $user->guardian->children->contains('id', $bloodSugarReading->patient_id);
+            $isChild = $user->guardian->children->contains('id', $insulinDose->patient_id);
             if (!$isChild) {
                 MessageService::abort(403, 'غير مسموح لك بالوصول لهذه البيانات');
             }
@@ -57,41 +55,38 @@ class BloodSugarReadingPermission
             }
         }
 
-
         return $data;
     }
 
-    public static function update(BloodSugarReading $bloodSugarReading)
+    public static function update(InsulinDose $insulinDose)
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->id) {
+        if ($user->isPatient() && $insulinDose->patient_id !== $user->id) {
             MessageService::abort(403, 'غير مسموح لك بتعديل هذه البيانات');
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
-            $isChild = $user->guardian->children->contains('id', $bloodSugarReading->patient_id);
+            $isChild = $user->guardian->children->contains('id', $insulinDose->patient_id);
             if (!$isChild) {
                 MessageService::abort(403, 'غير مسموح لك بتعديل هذه البيانات');
             }
         }
     }
 
-    public static function delete(BloodSugarReading $bloodSugarReading)
+    public static function delete(InsulinDose $insulinDose)
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->id) {
+        if ($user->isPatient() && $insulinDose->patient_id !== $user->id) {
             MessageService::abort(403, 'غير مسموح لك بحذف هذه البيانات');
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
-            $isChild = $user->guardian->children->contains('id', $bloodSugarReading->patient_id);
+            $isChild = $user->guardian->children->contains('id', $insulinDose->patient_id);
             if (!$isChild) {
                 MessageService::abort(403, 'غير مسموح لك بحذف هذه البيانات');
             }
         }
-
-        return $bloodSugarReading;
     }
 }

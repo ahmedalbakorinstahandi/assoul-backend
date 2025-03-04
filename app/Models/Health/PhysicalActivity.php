@@ -3,10 +3,14 @@
 namespace App\Models\Health;
 
 use App\Models\Users\Patient;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PhysicalActivity extends Model
 {
+    use HasFactory, SoftDeletes;
+
     protected $table = 'physical_activities';
     protected $fillable = [
         'patient_id',

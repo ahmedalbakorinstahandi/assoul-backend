@@ -30,7 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*')) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'You are not logged in. Please log in first.',
+                    'message' => 'لم تقم بتسجيل الدخول. يرجى تسجيل الدخول أولاً.',
                     'status' => 401
                 ], 401);
             }

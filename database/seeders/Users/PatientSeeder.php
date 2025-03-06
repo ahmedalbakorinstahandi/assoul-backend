@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Users;
 
 use App\Models\Users\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

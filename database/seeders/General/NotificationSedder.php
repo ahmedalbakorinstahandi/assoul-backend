@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\General;
 
 use App\Models\Notifications\Notification;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

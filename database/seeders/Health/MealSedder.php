@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Health;
 
 use App\Models\Health\Meal;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

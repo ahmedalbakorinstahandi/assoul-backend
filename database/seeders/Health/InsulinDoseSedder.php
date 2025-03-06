@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Health;
 
 use App\Models\Health\InsulinDose;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

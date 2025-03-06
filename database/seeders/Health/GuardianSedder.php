@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Health;
 
 use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\Guardian;

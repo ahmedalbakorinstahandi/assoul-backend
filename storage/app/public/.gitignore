@@ -1,8 +1,8 @@
 *
 !.gitignore
-!/games
-!/games/*
-!/questions
-!/questions/*
-!/answers
-!/answers/*
+# !/games
+# !/games/*
+# !/questions
+# !/questions/*
+# !/answers
+# !/answers/*

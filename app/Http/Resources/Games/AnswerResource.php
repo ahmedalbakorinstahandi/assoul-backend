@@ -11,7 +11,7 @@ class AnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->question->type == 'LetterArrangement' ? $this->mb_str_shuffle($this->text) : $this->text,
+            'text' => $this->question->type == 'LetterArrangement' ? preg_split('//u', $this->mb_str_shuffle($this->text), -1, PREG_SPLIT_NO_EMPTY) : preg_split('//u', $this->text, -1, PREG_SPLIT_NO_EMPTY),
             'image' => $this->image,
             // 'is_correct' => $this->is_correct,
             'question_id' => $this->question_id,

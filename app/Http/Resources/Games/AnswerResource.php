@@ -11,9 +11,8 @@ class AnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->question->type == 'LetterArrangement'
-                ? str_split(self::shuffleUtf8($this->text))
-                : $this->text,
+            'text' => $this->question->type == 'LetterArrangement' ? preg_split('//u', $this->mb_str_shuffle($this->text), -1, PREG_SPLIT_NO_EMPTY) :  $this->text,
+
 
 
 
@@ -28,10 +27,10 @@ class AnswerResource extends JsonResource
         ];
     }
 
-    private static function shuffleUtf8($string)
+    private function mb_str_shuffle($string)
     {
-        $array = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
-        shuffle($array);
-        return implode('', $array);
+        $characters = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
+        shuffle($characters);
+        return implode('', $characters);
     }
 }

@@ -11,7 +11,7 @@ class AnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->question->type == 'LetterArrangement' ? str_shuffle($this->text) : $this->text,
+            'text' => $this->question->type == 'LetterArrangement' ? $this->mb_str_shuffle($this->text) : $this->text,
             'image' => $this->image,
             // 'is_correct' => $this->is_correct,
             'question_id' => $this->question_id,
@@ -21,5 +21,11 @@ class AnswerResource extends JsonResource
             'patient_answers' => PatientAnswerResource::collection($this->whenLoaded('patientAnswers')),
             'progresses' => ProgressResource::collection($this->whenLoaded('progresses')),
         ];
+    }
+    private function mb_str_shuffle($string)
+    {
+        $characters = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
+        shuffle($characters);
+        return implode('', $characters);
     }
 }

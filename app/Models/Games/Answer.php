@@ -30,7 +30,7 @@ class Answer extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => !is_null($value) ? asset("storage/" . $value) : null,
+            get: fn(?string $value) => $value !== null ? asset("storage/{$value}") : null,
         );
     }
 }

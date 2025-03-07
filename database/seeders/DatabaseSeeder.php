@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Users\User;
 use Database\Seeders\Games\AnswerSeeder;
 use Database\Seeders\Games\GameSeeder;
 use Database\Seeders\Games\LevelSeeder;
@@ -12,6 +13,7 @@ use Database\Seeders\Health\GuardianSedder;
 use Database\Seeders\Health\InsulinDoseSedder;
 use Database\Seeders\Health\MealSedder;
 use Database\Seeders\Users\PatientSeeder;
+use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,18 +23,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call([
-        //     PatientSeeder::class,
-        //     GuardianSedder::class,
-        //     BloodSugarReadingSedder::class,
-        //     InsulinDoseSedder::class,
-        //     MealSedder::class,
-        //     NotificationSedder::class,
-        //     PhysicalActivitySedder::class,
-        // ]);
+        $this->call([
+            //     PatientSeeder::class,
+            //     GuardianSedder::class,
+            //     BloodSugarReadingSedder::class,
+            //     InsulinDoseSedder::class,
+            //     MealSedder::class,
+            //     NotificationSedder::class,
+            //     PhysicalActivitySedder::class,
+            UserSeeder::class,
+        ]);
 
         $this->call([
-            GameSeeder::class,
+            // GameSeeder::class,
             // LevelSeeder::class,
             // QuestionSeeder::class,
             // AnswerSeeder::class,

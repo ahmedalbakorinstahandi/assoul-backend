@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Games\AnswerController;
 use App\Http\Controllers\Games\GameController;
 use App\Http\Controllers\Games\LevelController;
 use App\Http\Controllers\Games\QuestionController;
@@ -36,6 +37,13 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('questions', [QuestionController::class, 'create']);
         Route::put('questions/{id}', [QuestionController::class, 'update']);
         Route::delete('questions/{id}', [QuestionController::class, 'delete']);
+
+        //Answers
+        Route::get('answers', [AnswerController::class, 'index']);
+        Route::get('answers/{id}', [AnswerController::class, 'show']);
+        Route::post('answers', [AnswerController::class, 'create']);
+        Route::put('answers/{id}', [AnswerController::class, 'update']);
+        Route::delete('answers/{id}', [AnswerController::class, 'delete']);
     });
 
 

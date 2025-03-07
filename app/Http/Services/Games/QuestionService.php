@@ -15,7 +15,7 @@ class QuestionService
 {
     public function index($data)
     {
-        $query = Question::query();
+        $query = Question::query()->with(['answers']);
 
         $searchFields = ['text'];
         $numericFields = ['points'];
@@ -45,6 +45,8 @@ class QuestionService
         }
 
         QuestionPermission::show($question);
+
+        $question->load('answers');
 
         return $question;
     }

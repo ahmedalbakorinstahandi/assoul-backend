@@ -12,8 +12,9 @@ class AnswerResource extends JsonResource
         return [
             'id' => $this->id,
             'text' => $this->question->type == 'LetterArrangement'
-                ? str_split(str_shuffle(mb_convert_encoding($this->text, 'UTF-8', 'UTF-8')))
+                ? str_split(self::shuffleUtf8($this->text))
                 : $this->text,
+
 
 
             'image' => $this->image,
@@ -25,5 +26,12 @@ class AnswerResource extends JsonResource
             'patient_answers' => PatientAnswerResource::collection($this->whenLoaded('patientAnswers')),
             'progresses' => ProgressResource::collection($this->whenLoaded('progresses')),
         ];
+    }
+
+    private static function shuffleUtf8($string)
+    {
+        $array = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
+        shuffle($array);
+        return implode('', $array);
     }
 }

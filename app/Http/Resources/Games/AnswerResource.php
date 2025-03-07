@@ -15,6 +15,7 @@ class AnswerResource extends JsonResource
                 ? str_split(str_shuffle(mb_convert_encoding($this->text, 'UTF-8', 'UTF-8')))
                 : $this->text,
 
+
             'image' => $this->image,
             // 'is_correct' => $this->is_correct,
             'question_id' => $this->question_id,

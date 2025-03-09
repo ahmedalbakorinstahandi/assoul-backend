@@ -3,6 +3,7 @@
 use App\Http\Controllers\Games\GameController;
 use App\Http\Controllers\Games\LevelController;
 use App\Http\Controllers\Games\QuestionController;
+use App\Http\Controllers\General\EducationalContentController;
 use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
@@ -50,5 +51,12 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
 
         Route::post('/questions/next', [QuestionController::class, 'getNextQuestion']);
         Route::post('/questions/{id}/answer', [QuestionController::class, 'answerQuestion']);
+    });
+
+
+    // general 
+    Route::prefix('general')->group(function () {
+        Route::get('/educational-contents', [EducationalContentController::class, 'index']);
+        Route::get('/educational-contents/{id}', [EducationalContentController::class, 'show']);
     });
 });

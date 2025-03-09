@@ -4,6 +4,7 @@ use App\Http\Controllers\Games\AnswerController;
 use App\Http\Controllers\Games\GameController;
 use App\Http\Controllers\Games\LevelController;
 use App\Http\Controllers\Games\QuestionController;
+use App\Http\Controllers\General\EducationalContentController;
 use App\Http\Controllers\General\ImageController;
 use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->group(function () {
 
-    Route::post('upload-image', [ImageController::class, 'uploadImage']);
 
     Route::prefix('games')->group(function () {
         Route::get('games', [GameController::class, 'index']);
@@ -74,5 +74,18 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/meals', [MealController::class, 'create']);
         Route::put('/meals/{id}', [MealController::class, 'update']);
         Route::delete('/meals/{id}', [MealController::class, 'delete']);
+    });
+
+
+    // general routes
+    Route::prefix('general')->group(function () {
+        Route::post('upload-image', [ImageController::class, 'uploadImage']);
+
+        //EducationalContentController
+        Route::get('educational-contents', [EducationalContentController::class, 'index']);
+        Route::get('educational-contents/{id}', [EducationalContentController::class, 'show']);
+        Route::post('educational-contents', [EducationalContentController::class, 'create']);
+        Route::put('educational-contents/{id}', [EducationalContentController::class, 'update']);
+        Route::delete('educational-contents/{id}', [EducationalContentController::class, 'delete']);
     });
 });

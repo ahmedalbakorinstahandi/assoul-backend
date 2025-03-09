@@ -47,7 +47,12 @@ class EducationalContentService
     {
         $data = EducationalContentPermission::create($data);
 
-        return EducationalContent::create($data);
+        $educationalContent = EducationalContent::create($data);
+
+        $educationalContent->order = $educationalContent->id;
+        $educationalContent->save();
+
+        return $educationalContent;
     }
 
     public function update(EducationalContent $content, $data)

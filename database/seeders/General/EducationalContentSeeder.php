@@ -13,7 +13,7 @@ class EducationalContentSeeder extends Seeder
      */
     public function run(): void
     {
-        EducationalContent::cerate([
+        EducationalContent::create([
             [
                 'title' => 'كيف تأخذ جرعة الانسولين',
                 'link' => 'https://www.youtube.com/watch?v=3bbg79oEKuQ',

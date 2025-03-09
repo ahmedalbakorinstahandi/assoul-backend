@@ -15,6 +15,8 @@ class EducationalContent extends Model
     protected $fillable = [
         'title',
         'link',
+        'key',
+        'order',
         'duration',
         'is_visible',
     ];

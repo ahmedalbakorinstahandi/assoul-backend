@@ -13,6 +13,7 @@ class CreateRequest extends BaseFormRequest
             'title' => 'required|string|max:255',
             'link' => 'required|url|max:255',
             'duration' => 'required|integer|min:1',
+            'key' => 'required|string|in:physical_activity,meal,blood_sugar_reading,insulin_dose|max:255',
             'is_visible' => 'required|boolean',
         ];
     }

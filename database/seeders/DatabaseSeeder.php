@@ -7,6 +7,7 @@ use Database\Seeders\Games\AnswerSeeder;
 use Database\Seeders\Games\GameSeeder;
 use Database\Seeders\Games\LevelSeeder;
 use Database\Seeders\Games\QuestionSeeder;
+use Database\Seeders\General\EducationalContentSeeder;
 use Database\Seeders\General\NotificationSedder;
 use Database\Seeders\Health\BloodSugarReadingSedder;
 use Database\Seeders\Health\GuardianSedder;
@@ -31,7 +32,8 @@ class DatabaseSeeder extends Seeder
             //     MealSedder::class,
             //     NotificationSedder::class,
             //     PhysicalActivitySedder::class,
-            UserSeeder::class,
+            // UserSeeder::class,
+            EducationalContentSeeder::class,
         ]);
 
         $this->call([

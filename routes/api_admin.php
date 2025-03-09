@@ -10,6 +10,7 @@ use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
+use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Middleware\AdminMiddlware;
 use Illuminate\Support\Facades\Route;
 
@@ -87,5 +88,14 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('educational-contents', [EducationalContentController::class, 'create']);
         Route::put('educational-contents/{id}', [EducationalContentController::class, 'update']);
         Route::delete('educational-contents/{id}', [EducationalContentController::class, 'delete']);
+    });
+
+
+    Route::prefix('notifications')->group(function () {
+        Route::get('/scheduled-notifications', [ScheduledNotificationController::class, 'index']);
+        Route::get('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'show']);
+        Route::post('/scheduled-notifications', [ScheduledNotificationController::class, 'create']);
+        Route::put('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'update']);
+        Route::delete('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'delete']);
     });
 });

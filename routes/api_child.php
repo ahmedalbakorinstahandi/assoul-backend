@@ -8,6 +8,7 @@ use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
+use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ChildMiddleware;
 
@@ -58,5 +59,11 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
     Route::prefix('general')->group(function () {
         Route::get('/educational-contents', [EducationalContentController::class, 'index']);
         Route::get('/educational-contents/{id}', [EducationalContentController::class, 'show']);
+    });
+
+    // notifications
+    Route::prefix('notifications')->group(function () {
+        Route::get('/scheduled-notifications', [ScheduledNotificationController::class, 'index']);
+        Route::get('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'show']);
     });
 });

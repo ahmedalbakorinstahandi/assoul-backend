@@ -13,7 +13,7 @@ class EducationalContentSeeder extends Seeder
      */
     public function run(): void
     {
-        EducationalContent::create([
+        $contents = [
             [
                 'title' => 'كيف تأخذ جرعة الانسولين',
                 'link' => 'https://www.youtube.com/watch?v=3bbg79oEKuQ',
@@ -62,6 +62,10 @@ class EducationalContentSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
-        ]);
+        ];
+
+        foreach ($contents as $content) {
+            EducationalContent::create($content);
+        }
     }
 }

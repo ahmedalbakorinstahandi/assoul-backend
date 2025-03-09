@@ -10,6 +10,8 @@ class EducationalContent extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'educational_contents';
+
     protected $fillable = [
         'title',
         'link',

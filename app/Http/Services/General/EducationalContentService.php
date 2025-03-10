@@ -3,7 +3,7 @@
 namespace App\Http\Services\General;
 
 use App\Services\MessageService;
-use App\Http\Permissions\EducationalContentPermission;
+use App\Http\Permissions\General\EducationalContentPermission;
 use App\Models\General\EducationalContent;
 use App\Services\FilterService;
 

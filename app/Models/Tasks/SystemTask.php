@@ -10,7 +10,6 @@ class SystemTask extends Model
 
     protected $fillable = [
         'title',
-        'description',
         'points',
         'image',
         'unique_key'

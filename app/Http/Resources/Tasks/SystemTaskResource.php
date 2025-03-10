@@ -17,7 +17,7 @@ class SystemTaskResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'description' => $this->description,
+            'color' => $this->color,
             'points' => $this->points,
             'image' => $this->image,
             'unique_key' => $this->unique_key,

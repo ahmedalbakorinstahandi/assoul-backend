@@ -9,6 +9,7 @@ use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
+use App\Http\Controllers\Tasks\SystemTaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ChildMiddleware;
 
@@ -65,5 +66,12 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
     Route::prefix('notifications')->group(function () {
         Route::get('/scheduled-notifications', [ScheduledNotificationController::class, 'index']);
         Route::get('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'show']);
+    });
+
+
+    // tasks
+    Route::prefix('tasks')->group(function () {
+        Route::get('/system-tasks', [SystemTaskController::class, 'index']);
+        Route::get('/system-tasks/{id}', [SystemTaskController::class, 'show']);
     });
 });

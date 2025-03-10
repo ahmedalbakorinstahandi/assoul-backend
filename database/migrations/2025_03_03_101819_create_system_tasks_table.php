@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('system_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->string('color', 10);
             $table->integer('points');
             $table->string('image', 110)->nullable();
             $table->string('unique_key');

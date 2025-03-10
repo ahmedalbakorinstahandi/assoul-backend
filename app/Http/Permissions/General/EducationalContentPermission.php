@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Permissions;
+namespace App\Http\Permissions\General;
 
 use App\Models\General\EducationalContent;
 

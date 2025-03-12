@@ -19,6 +19,6 @@ class SystemTask extends Model
 
     public function systemTaskCompletion()
     {
-        return $this->hasMany(SystemTaskCompletion::class, 'system_task_id', 'id');
+        return $this->hasMany(SystemTaskCompletion::class, 'task_id', 'id');
     }
 }

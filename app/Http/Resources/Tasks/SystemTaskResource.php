@@ -21,8 +21,8 @@ class SystemTaskResource extends JsonResource
             'points' => $this->points,
             'image' => $this->image,
             'unique_key' => $this->unique_key,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'created_at' => \Carbon\Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
+            'updated_at' => \Carbon\Carbon::parse($this->updated_at)->format('Y-m-d H:i:s'),
             'system_task_completion' => new SystemTaskCompletionResource($this->whenLoaded('systemTaskCompletion')),
         ];
     }

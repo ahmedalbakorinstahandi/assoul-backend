@@ -35,13 +35,13 @@ class DatabaseSeeder extends Seeder
             //     NotificationSedder::class,
             //     PhysicalActivitySedder::class,
             // UserSeeder::class,
-            // EducationalContentSeeder::class,
+            EducationalContentSeeder::class,
             // ScheduledNotificationSeeder::class,
             SystemTaskSeeder::class,
         ]);
 
         $this->call([
-            // GameSeeder::class,
+            GameSeeder::class,
             // LevelSeeder::class,
             // QuestionSeeder::class,
             // AnswerSeeder::class,

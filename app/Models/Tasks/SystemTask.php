@@ -23,7 +23,7 @@ class SystemTask extends Model
     {
         $patient = User::auth()->patient;
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
-            ->whereDate('created_at', request()->input('created_at', now()->toDateString()))
+            ->whereDate('created_at', request()->get('created_at', now()->toDateString()))
             ->where('patient_id', $patient->id);
     }
 

@@ -82,7 +82,7 @@ class SystemTaskService
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
-            ->where(DB::raw("DATE(created_at)"), $createdAt)
+            ->whereDate(DB::raw("DATE(created_at)"), $createdAt)
             ->first();
 
         if ($status == 'completed') {

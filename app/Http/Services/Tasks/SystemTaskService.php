@@ -99,7 +99,7 @@ class SystemTaskService
             $patient->save();
         }
 
-        $task->systemTaskCompletion = $systemTaskCompletion;
+        $task->load('systemTaskCompletion');
 
         return $task;
     }

@@ -10,6 +10,7 @@ use App\Models\Users\User;
 use App\Services\FilterService;
 use Carbon\Carbon;
 use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SystemTaskService
 {
@@ -81,14 +82,14 @@ class SystemTaskService
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
-            ->whereDate('created_at', $createdAt)
+            ->where(DB::raw("DATE(created_at)"), $createdAt)
             ->first();
 
         if ($status == 'completed') {
             if ($systemTaskCompletion) {
                 return $systemTaskCompletion->status;
             }
-            $systemTaskCompletion =   SystemTaskCompletion::create([
+            $systemTaskCompletion = SystemTaskCompletion::create([
                 'patient_id' => $patient->id,
                 'task_id' => $task->id,
                 'created_at' => $data['created_at'],

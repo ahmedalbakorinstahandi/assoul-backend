@@ -77,18 +77,15 @@ class SystemTaskService
         $status =  $data['status'];
         $patient = User::auth()->patient;
 
-        $completedAt = Carbon::parse($data['completed_at'])->toDateString();
+        $createdAt = Carbon::parse($data['completed_at'])->toDateString();
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
-            ->whereDate('completed_at', $completedAt)
+            ->whereDate('completed_at', $createdAt)
             ->first();
 
-        if ($status == 'completed') {
-            if ($systemTaskCompletion) {
-                return $systemTaskCompletion->status;
-            }
-            $systemTaskCompletion = SystemTaskCompletion::create([
+        if ($status == 'completed' && !$systemTaskCompletion) {
+            SystemTaskCompletion::create([
                 'patient_id' => $patient->id,
                 'task_id' => $task->id,
                 'completed_at' => $data['completed_at'],
@@ -96,21 +93,16 @@ class SystemTaskService
 
             $patient->points += $task->points;
             $patient->save();
-
-            return $systemTaskCompletion->status;
         }
-        if ($status == 'not_completed') {
-            if ($systemTaskCompletion) {
-                $systemTaskCompletion->delete();
+        if ($status == 'not_completed' && $systemTaskCompletion) {
 
-                $patient->points -= $task->points;
-                $patient->save();
+            $systemTaskCompletion->delete();
 
-                return false;
-            }
-
-            return false;
+            $patient->points -= $task->points;
+            $patient->save();
         }
+
+        $task->load('systemTaskCompletion');
 
         return $task;
     }

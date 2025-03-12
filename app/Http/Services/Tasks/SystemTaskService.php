@@ -8,6 +8,7 @@ use App\Models\Tasks\SystemTask;
 use App\Models\Tasks\SystemTaskCompletion;
 use App\Models\Users\User;
 use App\Services\FilterService;
+use Carbon\Carbon;
 use Illuminate\Container\Attributes\Auth;
 
 class SystemTaskService
@@ -72,35 +73,36 @@ class SystemTaskService
 
     public function taskStatus($task, $data)
     {
-
-        $status =  $data['status'];
+        // if (!$task || !isset($data['status']) || !isset($data['created_at'])) {
+        //     throw new \Exception("Invalid input: Task, status, or created_at is missing.");
+        // }
+    
+        $status = $data['status'];
         $patient = User::auth()->patient;
-
+        $createdAt = Carbon::parse($data['created_at'])->toDateString(); // تأكد من أن التاريخ صحيح
+    
+        // جلب سجل الإكمال إذا كان موجودًا
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
-            ->whereDate('created_at', $data['created_at'])
+            ->whereDate('created_at', $createdAt)
             ->first();
-
+    
         if ($status == 'completed' && !$systemTaskCompletion) {
-            $task->systemTaskCompletion()->create([
-                'patient_id' => $patient->id,
-                'task_id' => $task->id,
-                'created_at' => $data['created_at'],
-                'updated_at' => $data['created_at'],
-            ]);
-
-            $patient->points += $task->points;
-            $patient->save();
+            SystemTaskCompletion::updateOrCreate(
+                [
+                    'task_id' => $task->id,
+                    'patient_id' => $patient->id,
+                    'created_at' => $createdAt
+                ],
+                ['updated_at' => now()] // تحديث وقت التعديل فقط
+            );
+    
+            $patient->increment('points', $task->points);
         } elseif ($status == 'not_completed' && $systemTaskCompletion) {
-
             $systemTaskCompletion->delete();
-
-            $patient->points -= $task->points;
-            $patient->save();
+            $patient->decrement('points', $task->points);
         }
-
-        $task->load('systemTaskCompletion');
-
-        return $task;
+    
+        return $task->load('systemTaskCompletion'); // جلب العلاقة بعد التحديث
     }
 }

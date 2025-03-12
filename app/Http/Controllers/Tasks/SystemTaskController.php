@@ -81,12 +81,13 @@ class SystemTaskController extends Controller
     {
         $task = $this->systemTaskService->show($id);
 
-        $task =  $this->systemTaskService->taskStatus($task, $request->validated());
+        $status =  $this->systemTaskService->taskStatus($task, $request->validated());
 
         return response()->json([
             'success' => true,
-            'data' => new SystemTaskResource($task),
+            'status' => $status,
             'message' => 'تم تحديث حالة المهمة بنجاح',
+            'data' => new SystemTaskResource($task),
         ]);
     }
 }

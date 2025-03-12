@@ -13,7 +13,7 @@ class SystemTaskService
 {
     public function index($data)
     {
-        $query = SystemTask::query()->load('systemTaskCompletion');
+        $query = SystemTask::query()->with('systemTaskCompletion');
 
         $searchFields = ['title', 'description'];
         $numericFields = ['points'];

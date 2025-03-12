@@ -20,7 +20,7 @@ class SystemTask extends Model
 
     public function systemTaskCompletion()
     {
-        return $this->hasMany(SystemTaskCompletion::class, 'task_id', 'id');
+        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id');
     }
 
 

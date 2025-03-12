@@ -10,6 +10,9 @@ class SystemTask extends Model
 {
     protected $table = 'system_tasks';
 
+    // off the timestamps
+    public $timestamps = false;
+
     protected $fillable = [
         'title',
         'points',
@@ -22,10 +25,14 @@ class SystemTask extends Model
     public function systemTaskCompletion()
     {
         $patient = User::auth()->patient;
+
+        $createdAt = request()->input('created_at') ?? request()->query('created_at') ?? now()->toDateString();
+
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
-            ->whereDate('created_at', request()->created_at ?? now()->toDateString())
+            ->whereDate('created_at', $createdAt)
             ->where('patient_id', $patient->id);
     }
+
 
     public function getSystemTaskCompletionFirst()
     {

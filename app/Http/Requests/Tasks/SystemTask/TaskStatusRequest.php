@@ -12,7 +12,7 @@ class TaskStatusRequest extends BaseFormRequest
     {
         return [
             'status' => 'required|in:completed,not_completed',
-            'created_at' => 'required|date',
+            'completed_at' => 'required|date',
         ];
     }
 }

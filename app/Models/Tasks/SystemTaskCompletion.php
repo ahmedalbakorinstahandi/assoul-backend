@@ -12,6 +12,7 @@ class SystemTaskCompletion extends Model
     protected $fillable = [
         'task_id',
         'patient_id',
+        'completed_at',
     ];
 
     public function task()
@@ -24,3 +25,6 @@ class SystemTaskCompletion extends Model
         return $this->belongsTo(Patient::class);
     }
 }
+
+
+//ALTER TABLE `system_task_completions` ADD `completed_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `patient_id`;

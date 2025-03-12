@@ -10,9 +10,6 @@ class SystemTask extends Model
 {
     protected $table = 'system_tasks';
 
-    // off the timestamps
-    public $timestamps = false;
-
     protected $fillable = [
         'title',
         'points',

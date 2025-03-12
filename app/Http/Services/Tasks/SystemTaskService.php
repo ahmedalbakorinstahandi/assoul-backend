@@ -77,11 +77,11 @@ class SystemTaskService
         $status =  $data['status'];
         $patient = User::auth()->patient;
 
-        $createdAt = Carbon::parse($data['created_at'])->toDateString();
+        $completedAt = Carbon::parse($data['completed_at'])->toDateString();
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
-            ->whereDate('created_at', $createdAt)
+            ->whereDate('completed_at', $completedAt)
             ->first();
 
         if ($status == 'completed') {
@@ -91,8 +91,7 @@ class SystemTaskService
             $systemTaskCompletion = SystemTaskCompletion::create([
                 'patient_id' => $patient->id,
                 'task_id' => $task->id,
-                'created_at' => $data['created_at'],
-                'updated_at' => $data['created_at'],
+                'completed_at' => $data['completed_at'],
             ]);
 
             $patient->points += $task->points;

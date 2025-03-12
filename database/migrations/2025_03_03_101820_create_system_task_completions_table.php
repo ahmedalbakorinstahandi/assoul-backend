@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('task_id')->constrained('system_tasks')->onDelete('cascade');
             $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
-            $table->timestamps();
+            $table->dateTime('completed_at');
             $table->softDeletes();
         });
 

@@ -19,8 +19,7 @@ class SystemTaskCompletionResource extends JsonResource
             'id' => $this->id,
             'task_id' => $this->task_id,
             'patient_id' => $this->patient_id,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'completed_at' => $this->completed_at,
             'patient' => new PatientResource($this->whenLoaded('patient')),
             'task' => new SystemTaskResource($this->whenLoaded('task')),
         ];

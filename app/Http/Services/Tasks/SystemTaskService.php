@@ -99,12 +99,13 @@ class SystemTaskService
             $patient->save();
         }
 
-        $task->systemTaskCompletion = $systemTaskCompletion;
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
             ->whereDate('created_at', $data['created_at'])
             ->first();
+
+        $task->systemTaskCompletion = $systemTaskCompletion;
 
         return $task;
     }

@@ -78,6 +78,8 @@ class SystemTaskService
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
+            // and where date is today
+            ->whereDate('created_at', now()->toDateString())
             ->first();
 
         if ($status == 'completed' && !$systemTaskCompletion) {

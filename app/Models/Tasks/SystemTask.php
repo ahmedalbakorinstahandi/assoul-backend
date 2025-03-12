@@ -22,7 +22,9 @@ class SystemTask extends Model
     public function systemTaskCompletion()
     {
         $patient = User::auth()->patient;
-        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')->where('patient_id', $patient->id);
+        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
+            ->whereDate('created_at', now()->toDateString())
+            ->where('patient_id', $patient->id);
     }
 
     public function getSystemTaskCompletionFirst()

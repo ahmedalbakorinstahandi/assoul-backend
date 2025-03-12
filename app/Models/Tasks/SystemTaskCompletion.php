@@ -3,10 +3,13 @@
 namespace App\Models\Tasks;
 
 use App\Models\Users\Patient;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SystemTaskCompletion extends Model
 {
+    use HasFactory, SoftDeletes;
     protected $table = 'system_task_completions';
 
     protected $fillable = [

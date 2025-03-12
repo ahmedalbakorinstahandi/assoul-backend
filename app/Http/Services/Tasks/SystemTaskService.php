@@ -84,11 +84,11 @@ class SystemTaskService
             ->whereDate('created_at', $createdAt)
             ->first();
 
-        if ($status == 'completed' ) {
+        if ($status == 'completed') {
             if ($systemTaskCompletion) {
-                return true;
+                return $systemTaskCompletion->status;
             }
-            SystemTaskCompletion::create([
+            $systemTaskCompletion =   SystemTaskCompletion::create([
                 'patient_id' => $patient->id,
                 'task_id' => $task->id,
                 'created_at' => $data['created_at'],
@@ -98,7 +98,7 @@ class SystemTaskService
             $patient->points += $task->points;
             $patient->save();
 
-            return true;
+            return $systemTaskCompletion->status;
         }
         if ($status == 'not_completed') {
             if ($systemTaskCompletion) {

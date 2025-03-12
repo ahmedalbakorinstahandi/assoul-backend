@@ -80,12 +80,7 @@ class SystemTaskService
             ->where('patient_id', $patient->id)
             ->first();
 
-        if ($status == 'completed') {
-
-            if ($systemTaskCompletion) {
-                return $task;
-            }
-
+        if ($status == 'completed' && !$systemTaskCompletion) {
             $task->systemTaskCompletion()->create([
                 'patient_id' => $patient->id,
                 'task_id' => $task->id
@@ -93,11 +88,7 @@ class SystemTaskService
 
             $patient->points += $task->points;
             $patient->save();
-        } else {
-
-            if (!$systemTaskCompletion) {
-                return $task;
-            }
+        } elseif ($status == 'not_completed' && $systemTaskCompletion) {
 
             $systemTaskCompletion->delete();
 

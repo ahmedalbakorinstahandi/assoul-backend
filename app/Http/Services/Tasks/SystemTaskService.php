@@ -78,14 +78,15 @@ class SystemTaskService
 
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
             ->where('patient_id', $patient->id)
-            // and where date is today
-            ->whereDate('created_at', now()->toDateString())
+            ->whereDate('created_at', $data['created_at'])
             ->first();
 
         if ($status == 'completed' && !$systemTaskCompletion) {
             $task->systemTaskCompletion()->create([
                 'patient_id' => $patient->id,
-                'task_id' => $task->id
+                'task_id' => $task->id,
+                'created_at' => $data['created_at'],
+                'updated_at' => $data['created_at'],
             ]);
 
             $patient->points += $task->points;

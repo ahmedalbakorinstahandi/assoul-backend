@@ -105,7 +105,7 @@ class SystemTaskService
             ->whereDate('created_at', $data['created_at'])
             ->first();
 
-        $task->systemTaskCompletion = $systemTaskCompletion;
+        $task->completion = $systemTaskCompletion;
 
         return $task;
     }

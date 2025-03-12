@@ -20,15 +20,17 @@ class SystemTask extends Model
     protected $dates = ['deleted_at'];
 
     public function systemTaskCompletion()
-{
-    $patient = User::auth()->patient;
-
-    $createdAt = request()->input('created_at') ?? request()->query('created_at') ?? now()->toDateString();
-
-    return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
-        ->whereDate('created_at', $createdAt)
-        ->where('patient_id', $patient->id);
-}
+    {
+        $patient = User::auth()->patient;
+    
+        // جلب قيمة created_at من form-data
+        $createdAt = app()->request->input('created_at', now()->toDateString());
+    
+        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
+            ->whereDate('created_at', $createdAt)
+            ->where('patient_id', $patient->id);
+    }
+    
 
 
     public function getSystemTaskCompletionFirst()

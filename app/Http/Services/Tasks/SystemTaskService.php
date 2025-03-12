@@ -96,6 +96,8 @@ class SystemTaskService
             $patient->save();
         }
 
+        $task->load('systemTaskCompletion');
+
         return $task;
     }
 }

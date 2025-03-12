@@ -15,6 +15,8 @@ class SystemTaskCompletion extends Model
         'completed_at',
     ];
 
+    public $timestamps = false;
+
     public function task()
     {
         return $this->belongsTo(SystemTask::class);

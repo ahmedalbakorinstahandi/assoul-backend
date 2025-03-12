@@ -20,7 +20,7 @@ class SystemTaskService
         $searchFields = ['title', 'description'];
         $numericFields = ['points'];
         $exactMatchFields = ['unique_key'];
-        $dateFields = ['created_at'];
+        $dateFields = ['completed_at'];
 
 
         return FilterService::applyFilters(

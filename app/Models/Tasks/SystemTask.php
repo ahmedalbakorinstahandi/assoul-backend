@@ -22,16 +22,10 @@ class SystemTask extends Model
     public function systemTaskCompletion()
     {
         $patient = User::auth()->patient;
-    
-        // جلب قيمة created_at من form-data
-        $createdAt = app()->request->input('created_at', now()->toDateString());
-    
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
-            ->whereDate('created_at', $createdAt)
+            ->whereDate('created_at', request()->created_at ?? now()->toDateString())
             ->where('patient_id', $patient->id);
     }
-    
-
 
     public function getSystemTaskCompletionFirst()
     {

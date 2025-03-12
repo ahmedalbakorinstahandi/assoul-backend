@@ -16,7 +16,7 @@ class SystemTaskPermission
             MessageService::abort(403, 'غير مصرح لك بتغيير حالة المهمة');
         }
 
-        if ($task->patient_id != $user->patient->id) {
+        if ($task->systemTaskCompletion->patient_id != $user->patient->id) {
             MessageService::abort(403, 'غير مصرح لك بتغيير حالة المهمة');
         }
     }

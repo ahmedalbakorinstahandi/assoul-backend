@@ -5,6 +5,7 @@ namespace App\Http\Services\Tasks;
 use App\Services\MessageService;
 use App\Http\Permissions\Tasks\SystemTaskPermission;
 use App\Models\Tasks\SystemTask;
+use App\Models\Tasks\SystemTaskCompletion;
 use App\Models\Users\User;
 use App\Services\FilterService;
 use Illuminate\Container\Attributes\Auth;
@@ -75,30 +76,30 @@ class SystemTaskService
         $status =  $data['status'];
         $patient = User::auth()->patient;
 
-        SystemTaskPermission::taskSTatus($task);
-
+        $systemTaskCompletion = SystemTaskCompletion::where('task_id', $task->id)
+            ->where('patient_id', $patient->id)
+            ->first();
 
         if ($status == 'completed') {
 
-            if ($task->systemTaskCompletion) {
+            if ($systemTaskCompletion) {
                 return $task;
-                // MessageService::abort(400, 'المهمة مكتملة بالفعل');
             }
 
             $task->systemTaskCompletion()->create([
                 'patient_id' => $patient->id,
+                'task_id' => $task->id
             ]);
 
             $patient->points += $task->points;
             $patient->save();
         } else {
 
-            if (!$task->systemTaskCompletion) {
+            if (!$systemTaskCompletion) {
                 return $task;
-                // MessageService::abort(400, 'المهمة غير مكتملة بالفعل');
             }
 
-            $task->systemTaskCompletion()->delete();
+            $systemTaskCompletion->delete();
 
             $patient->points -= $task->points;
             $patient->save();

@@ -2,6 +2,7 @@
 
 namespace App\Models\Tasks;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,8 @@ class SystemTask extends Model
 
     public function systemTaskCompletion()
     {
-        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id');
+        $patient = User::auth()->patient;
+        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')->where('patient_id', $patient->id);
     }
 
     public function getSystemTaskCompletionFirst()
@@ -36,5 +38,4 @@ class SystemTask extends Model
             get: fn(string $value) => !is_null($value) ? asset("storage/" . $value) : null,
         );
     }
-
 }

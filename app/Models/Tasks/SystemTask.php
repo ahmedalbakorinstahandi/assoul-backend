@@ -23,6 +23,12 @@ class SystemTask extends Model
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id');
     }
 
+    public function getSystemTaskCompletionFirst()
+    {
+        $completion = $this->systemTaskCompletion;
+        return $completion ? $completion->first() : null;
+    }
+
 
     protected function image(): Attribute
     {

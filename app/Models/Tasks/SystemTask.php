@@ -16,4 +16,9 @@ class SystemTask extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function systemTaskCompletion()
+    {
+        return $this->hasMany(SystemTaskCompletion::class, 'system_task_id', 'id');
+    }
 }

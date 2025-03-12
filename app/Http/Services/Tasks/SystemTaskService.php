@@ -5,13 +5,15 @@ namespace App\Http\Services\Tasks;
 use App\Services\MessageService;
 use App\Http\Permissions\Tasks\SystemTaskPermission;
 use App\Models\Tasks\SystemTask;
+use App\Models\Users\User;
 use App\Services\FilterService;
+use Illuminate\Container\Attributes\Auth;
 
 class SystemTaskService
 {
     public function index($data)
     {
-        $query = SystemTask::query();
+        $query = SystemTask::query()->load('systemTaskCompletion');
 
         $searchFields = ['title', 'description'];
         $numericFields = ['points'];
@@ -37,20 +39,26 @@ class SystemTaskService
             MessageService::abort(404, 'المهمة غير موجودة');
         }
 
+        $task->load('systemTaskCompletion');
 
         return $task;
     }
 
     public function create($data)
     {
+        $task = SystemTask::create($data);
 
-        return SystemTask::create($data);
+        $task->load('systemTaskCompletion');
+
+        return  $task;
     }
 
     public function update(SystemTask $task, $data)
     {
 
         $task->update($data);
+
+        $task->load('systemTaskCompletion');
 
         return $task;
     }
@@ -59,5 +67,43 @@ class SystemTaskService
     {
 
         return $task->delete();
+    }
+
+    public function taskStatus($task, $data)
+    {
+
+        $status =  $data['status'];
+        $patient = User::auth()->patient;
+
+        SystemTaskPermission::taskSTatus($task);
+
+
+        if ($status == 'completed') {
+
+            if ($task->systemTaskCompletion) {
+                return $task;
+                // MessageService::abort(400, 'المهمة مكتملة بالفعل');
+            }
+
+            $task->systemTaskCompletion()->create([
+                'patient_id' => $patient->id,
+            ]);
+
+            $patient->points += $task->points;
+            $patient->save();
+        } else {
+
+            if (!$task->systemTaskCompletion) {
+                return $task;
+                // MessageService::abort(400, 'المهمة غير مكتملة بالفعل');
+            }
+
+            $task->systemTaskCompletion()->delete();
+
+            $patient->points -= $task->points;
+            $patient->save();
+        }
+
+        return $task;
     }
 }

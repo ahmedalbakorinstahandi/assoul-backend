@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tasks;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tasks\SystemTask\CreateRequest;
+use App\Http\Requests\Tasks\SystemTask\TaskStatusRequest;
 use App\Http\Requests\Tasks\SystemTask\UpdateRequest;
 use App\Http\Resources\Tasks\SystemTaskResource;
 use App\Http\Services\Tasks\SystemTaskService;
@@ -73,6 +74,19 @@ class SystemTaskController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'تم حذف المهمة بنجاح',
+        ]);
+    }
+
+    public function taskStatus($id, TaskStatusRequest $request)
+    {
+        $task = $this->systemTaskService->show($id);
+
+        $task =  $this->systemTaskService->taskStatus($task, $request->validated());
+
+        return response()->json([
+            'success' => true,
+            'data' => new SystemTaskResource($task),
+            'message' => 'تم تحديث حالة المهمة بنجاح',
         ]);
     }
 }

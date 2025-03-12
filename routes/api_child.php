@@ -73,5 +73,6 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
     Route::prefix('tasks')->group(function () {
         Route::get('/system-tasks', [SystemTaskController::class, 'index']);
         Route::get('/system-tasks/{id}', [SystemTaskController::class, 'show']);
+        Route::post('/system-tasks/{id}/status', [SystemTaskController::class, 'taskStatus']);
     });
 });

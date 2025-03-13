@@ -26,7 +26,7 @@ class ToDoListService
         $user = User::auth();
 
         if ($user->isPatient()) {
-            $query->load('completion');
+            $query->with('completion');
         }
 
         return FilterService::applyFilters(

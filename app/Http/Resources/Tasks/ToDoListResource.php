@@ -18,7 +18,7 @@ class ToDoListResource extends JsonResource
             'assigned_by_id' => $this->assigned_by,
             'patient' => new PatientResource($this->whenLoaded('patient')),
             'assigned_by' => new GuardianResource($this->whenLoaded('assignedBy')),
-            'completion' => new ToDoListCompletionResource($this->whenLoaded('completions')),
+            'completion' => new ToDoListCompletionResource($this->whenLoaded('completion')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

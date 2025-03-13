@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tasks\ToDoList;
 use App\Models\Users\User;
 use Database\Seeders\Games\AnswerSeeder;
 use Database\Seeders\Games\GameSeeder;
@@ -40,6 +41,7 @@ class DatabaseSeeder extends Seeder
             // ScheduledNotificationSeeder::class,
             // SystemTaskSeeder::class,
             GuardianSeeder::class,
+            ToDoList::class,
         ]);
 
         $this->call([

@@ -14,6 +14,8 @@ class ToDoListResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'patient_id' => $this->patient_id,
+            'assigned_by_id' => $this->assigned_by,
             'patient' => new PatientResource($this->whenLoaded('patient')),
             'assigned_by' => new GuardianResource($this->whenLoaded('assignedBy')),
             'completions' => ToDoListCompletionResource::collection($this->whenLoaded('completions')),

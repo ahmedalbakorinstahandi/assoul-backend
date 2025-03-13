@@ -30,13 +30,13 @@ class ToDoListPermission
         $user = User::auth();
 
         if ($user->isPatient() && $task->patient_id != $user->id) {
-            abort(403, 'غير مسموح لك بالوصول إلى هذه المهمة');
+            MessageService::abort(403, 'غير مسموح لك بالوصول إلى هذه المهمة');
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
             $childrenIds = $user->guardian->children->pluck('id')->toArray();
             if (!in_array($task->patient_id, $childrenIds)) {
-                abort(403, 'غير مسموح لك بالوصول إلى هذه المهمة');
+                MessageService::abort(403, 'غير مسموح لك بالوصول إلى هذه المهمة');
             }
         }
     }

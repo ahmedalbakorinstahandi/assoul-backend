@@ -10,6 +10,8 @@ class ToDoList extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'to_do_list';
+
     protected $fillable = [
         'title',
         'patient_id',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tasks;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tasks\SystemTask\TaskStatusRequest;
 use App\Http\Requests\Tasks\ToDoList\CreateRequest;
 use App\Http\Requests\Tasks\ToDoList\UpdateRequest;
 use App\Http\Resources\Tasks\ToDoListResource;
@@ -73,6 +74,20 @@ class ToDoListController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'تم حذف المهمة بنجاح',
+        ]);
+    }
+
+    //check
+    public function check($id, TaskStatusRequest $request)
+    {
+        $task = $this->toDoListService->show($id);
+
+        $task = $this->toDoListService->check($task, $request->validated());
+
+        return response()->json([
+            'success' => true,
+            'data' => new ToDoListResource($task),
+            'message' => 'تم تحديث المهمة بنجاح',
         ]);
     }
 }

@@ -37,12 +37,12 @@ class DatabaseSeeder extends Seeder
             //     MealSedder::class,
             //     NotificationSedder::class,
             //     PhysicalActivitySedder::class,
-            // UserSeeder::class,
+            UserSeeder::class,
             // EducationalContentSeeder::class,
             // ScheduledNotificationSeeder::class,
             // SystemTaskSeeder::class,
             // GuardianSeeder::class,
-            ToDoListSeeder::class,
+            // ToDoListSeeder::class,
         ]);
 
         $this->call([

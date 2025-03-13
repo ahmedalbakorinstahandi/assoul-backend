@@ -4,6 +4,7 @@ use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
+use App\Http\Controllers\Tasks\ToDoListController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\GuardianMiddleware;
 
@@ -35,5 +36,15 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
         Route::post('/meals', [MealController::class, 'create']);
         Route::put('/meals/{id}', [MealController::class, 'update']);
         Route::delete('/meals/{id}', [MealController::class, 'delete']);
+    });
+
+
+    // Tasks
+    Route::prefix('tasks')->group(function () {
+        Route::get('/to-do-list', [ToDoListController::class, 'index']);
+        Route::get('/to-do-list/{id}', [ToDoListController::class, 'show']);
+        Route::post('/to-do-list', [ToDoListController::class, 'create']);
+        Route::put('/to-do-list/{id}', [ToDoListController::class, 'update']);
+        Route::delete('/to-do-list/{id}', [ToDoListController::class, 'delete']);
     });
 });

@@ -15,6 +15,7 @@ use Database\Seeders\Health\InsulinDoseSedder;
 use Database\Seeders\Health\MealSedder;
 use Database\Seeders\Notifications\ScheduledNotificationSeeder;
 use Database\Seeders\Tasks\SystemTaskSeeder;
+use Database\Seeders\Users\GuardianSeeder;
 use Database\Seeders\Users\PatientSeeder;
 use Database\Seeders\Users\UserSeeder;
 use Illuminate\Database\Seeder;
@@ -35,13 +36,14 @@ class DatabaseSeeder extends Seeder
             //     NotificationSedder::class,
             //     PhysicalActivitySedder::class,
             // UserSeeder::class,
-            EducationalContentSeeder::class,
+            // EducationalContentSeeder::class,
             // ScheduledNotificationSeeder::class,
-            SystemTaskSeeder::class,
+            // SystemTaskSeeder::class,
+            GuardianSeeder::class,
         ]);
 
         $this->call([
-            GameSeeder::class,
+            // GameSeeder::class,
             // LevelSeeder::class,
             // QuestionSeeder::class,
             // AnswerSeeder::class,

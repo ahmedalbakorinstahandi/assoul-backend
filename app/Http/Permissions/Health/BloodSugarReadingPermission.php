@@ -8,22 +8,22 @@ use App\Services\MessageService;
 
 class BloodSugarReadingPermission
 {
-    public static function index($qusery)
+    public static function index($query)
     {
         $user = User::auth();
 
         if ($user->isPatient()) {
-            $qusery->where('patient_id', $user->id);
+            $query->where('patient_id', $user->id);
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
             $childrenIds = $user->guardian->children->pluck('id')->toArray();
-            $qusery->orWhereIn('patient_id', $childrenIds);
+            $query->orWhereIn('patient_id', $childrenIds);
         }
 
 
 
-        return $qusery;
+        return $query;
     }
 
     public static function show(BloodSugarReading $bloodSugarReading)

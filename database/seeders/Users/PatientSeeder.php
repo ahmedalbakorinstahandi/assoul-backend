@@ -111,5 +111,26 @@ class PatientSeeder extends Seeder
                 'updated_at' => now(),
             ]
         );
+
+
+
+
+        // // To Do List : create tasks for each patient
+
+        // $tasks = [
+        //     ['title' => 'Check blood sugar level', 'assigned_by' => null],
+        //     ['title' => 'Take morning insulin dose', 'assigned_by' => null],
+        //     ['title' => 'Exercise for 30 minutes', 'assigned_by' => null],
+        // ];
+
+        // foreach ([$patient1, $patient2, $patient3] as $patient) {
+        //     foreach ($tasks as $task) {
+        //     $patient->toDoList()->create(array_merge($task, [
+        //         'patient_id' => $patient->id,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]));
+        //     }
+        // }
     }
 }

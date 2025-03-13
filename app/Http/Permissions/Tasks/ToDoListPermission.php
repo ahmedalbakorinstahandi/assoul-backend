@@ -78,4 +78,15 @@ class ToDoListPermission
             }
         }
     }
+
+
+    public static function check($task)
+    {
+
+        $patient = User::auth()->patient;
+
+        if ($patient->id != $task->patient_id) {
+            MessageService::abort(403, 'غير مسموح لك بتعديل حالة هذه المهمة');
+        }
+    }
 }

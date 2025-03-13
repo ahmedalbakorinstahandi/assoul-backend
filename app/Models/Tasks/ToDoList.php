@@ -2,6 +2,9 @@
 
 namespace App\Models\Tasks;
 
+use App\Models\Users\Guardian;
+use App\Models\Users\Patient;
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,16 +23,21 @@ class ToDoList extends Model
 
     public function patient()
     {
-        return $this->belongsTo(\App\Models\Users\Patient::class)->withTrashed();
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
 
     public function assignedBy()
     {
-        return $this->belongsTo(\App\Models\Users\Guardian::class, 'assigned_by')->withTrashed();
+        return $this->belongsTo(Guardian::class, 'assigned_by')->withTrashed();
     }
 
-    public function completions()
+    public function completion()
     {
-        return $this->hasMany(ToDoListCompletion::class);
+        $patient = User::auth()->patient;
+
+        $createdAt = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
+        return $this->hasOne(ToDoListCompletion::class, 'task_id', 'id')
+            ->whereDate('completed_at', $createdAt)
+            ->where('patient_id', $patient->id);
     }
 }

@@ -79,5 +79,6 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
 
         Route::get('/to-do-list', [ToDoListController::class, 'index']);
         Route::get('/to-do-list/{id}', [ToDoListController::class, 'show']);
+        Route::post('/to-do-list/{id}/check', [ToDoListController::class, 'check']);
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Models\Tasks;
 
+use App\Models\Users\Patient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ToDoListCompletion extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public $timestamps = false;
 
     protected $fillable = [
         'task_id',
@@ -23,6 +26,6 @@ class ToDoListCompletion extends Model
 
     public function patient()
     {
-        return $this->belongsTo(\App\Models\Users\Patient::class)->withTrashed();
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
 }

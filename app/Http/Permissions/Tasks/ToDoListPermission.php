@@ -52,6 +52,8 @@ class ToDoListPermission
             }
         }
 
+        $data['assigned_by'] = $user->guardian->id;
+
         return $data;
     }
 

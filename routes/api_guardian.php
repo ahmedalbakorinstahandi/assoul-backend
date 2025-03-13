@@ -43,7 +43,7 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
     Route::prefix('tasks')->group(function () {
         Route::get('/to-do-list', [ToDoListController::class, 'index']);
         Route::get('/to-do-list/{id}', [ToDoListController::class, 'show']);
-        Route::post('/to-do-list', [MealController::class, 'create']);
+        Route::post('/to-do-list', [ToDoListController::class, 'create']);
         Route::put('/to-do-list/{id}', [ToDoListController::class, 'update']);
         Route::delete('/to-do-list/{id}', [ToDoListController::class, 'delete']);
     });

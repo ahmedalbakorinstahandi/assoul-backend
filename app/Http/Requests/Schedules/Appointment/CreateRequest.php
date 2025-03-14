@@ -33,6 +33,7 @@ class CreateRequest extends BaseFormRequest
 
         if ($user->isDoctor()) {
             unset($rules['doctor_id']);
+            unset($rules['guardian_id']);
         }
 
         return $rules;

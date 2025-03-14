@@ -2,6 +2,7 @@
 
 namespace App\Http\Permissions\Schedules;
 
+use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\MessageService;
 
@@ -61,6 +62,10 @@ class AppointmentPermission
 
         if ($user->isDoctor()) {
             $data['doctor_id'] = $user->doctor->id;
+            $patient_id = $data['patient_id'];
+            $patient = Patient::find($patient_id);
+
+            $data['guardian_id'] = $patient->guardian->id;
         }
 
         return $data;

@@ -59,7 +59,7 @@ class AuthService
         if ($requestData['role'] == 'guardian') {
             $guardianService = new GuardianService();
 
-            $guardianService->create($requestData['guardian'], $user);
+            $guardianService->create([], $user);
         }
 
 

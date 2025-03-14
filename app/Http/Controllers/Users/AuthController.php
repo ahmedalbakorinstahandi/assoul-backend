@@ -96,7 +96,7 @@ class AuthController extends Controller
 
         $role = $data['role'];
 
-        $roleName = $role == 'guardian' ? "ولي الأمر" : "الطبيب";
+        $roleName = $role == 'guardian' ? "أولياء الأمور" : "الأطباء";
 
 
 

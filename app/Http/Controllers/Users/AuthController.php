@@ -7,6 +7,7 @@ use App\Http\Requests\Users\Auth\LoginRequest;
 use App\Http\Resources\Users\UserResource;
 use App\Http\Services\Users\AuthService;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -31,5 +32,17 @@ class AuthController extends Controller
             ],
             200
         );
+    }
+
+    public function logout()
+    {
+        $token = request()->bearerToken();
+
+        $this->authService->logout(PersonalAccessToken::findToken($token));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User logged out successfully',
+        ], 200);
     }
 }

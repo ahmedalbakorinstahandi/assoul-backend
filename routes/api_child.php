@@ -11,10 +11,16 @@ use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Controllers\Tasks\ToDoListController;
+use App\Http\Controllers\Users\PatientController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ChildMiddleware;
 
 Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->group(function () {
+
+    Route::get('/profile', [PatientController::class, 'getPatientData']);
+    Route::post('/profile/avatar', [PatientController::class, 'updateAvatar']);
+
+
     Route::prefix('health')->group(function () {
         Route::get('/blood-sugar-readings', [BloodSugarReadingController::class, 'index']);
         Route::get('/blood-sugar-readings/{id}', [BloodSugarReadingController::class, 'show']);

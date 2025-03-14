@@ -12,10 +12,13 @@ class Game extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'description',
-        'type',
+        'name',
+        'image',
+        'is_enable',
+        'color',
+        'order',
     ];
+
 
     public function levels()
     {

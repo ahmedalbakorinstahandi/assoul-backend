@@ -19,6 +19,7 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
 
     Route::get('/profile', [PatientController::class, 'getPatientData']);
     Route::post('/profile/avatar', [PatientController::class, 'updateAvatar']);
+    Route::get('/home', [PatientController::class, 'getHomeData']);
 
 
     Route::prefix('health')->group(function () {

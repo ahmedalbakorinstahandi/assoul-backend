@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Schedules;
+namespace App\Http\Services\Schedules;
 
 use App\Http\Permissions\Schedules\AppointmentPermission;
 use App\Models\Schedules\Appointment;

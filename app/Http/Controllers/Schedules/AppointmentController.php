@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Schedules\Appointment\CreateRequest;
 use App\Http\Requests\Schedules\Appointment\UpdateRequest;
 use App\Http\Resources\Schedules\AppointmentResource;
+use App\Http\Services\Schedules\AppointmentService;
 use App\Services\ResponseService;
 use Illuminate\Http\Request;
 

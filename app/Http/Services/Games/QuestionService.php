@@ -15,7 +15,7 @@ class QuestionService
 {
     public function index($data)
     {
-        $query = Question::query()->with(['answers']);
+        $query = Question::query()->with(['answers', 'level.game']);
 
         $searchFields = ['text'];
         $numericFields = ['points'];

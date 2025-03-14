@@ -15,7 +15,7 @@ class LevelService
 
     public function index($data)
     {
-        $query = Level::query();
+        $query = Level::query()->with('game');
 
         $data['sort_order'] = 'asc';
         $data['sort_field'] = 'number';

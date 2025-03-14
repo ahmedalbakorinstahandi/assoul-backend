@@ -16,6 +16,7 @@ class GameResource extends JsonResource
             'is_enable' => $this->is_enable,
             'color' => $this->color,
             'order' => $this->order,
+            'levels_count' => $this->levels()->count(),
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d H:i:s') : null,
             'levels' => LevelResource::collection($this->whenLoaded('levels')),

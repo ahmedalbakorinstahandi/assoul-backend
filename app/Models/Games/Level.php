@@ -17,6 +17,7 @@ class Level extends Model
         'number',
         'status',
     ];
+    
 
     public function game()
     {

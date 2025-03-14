@@ -20,11 +20,11 @@ class LevelService
         $data['sort_order'] = 'asc';
         $data['sort_field'] = 'number';
 
-        $searchFields = ['name', 'color'];
-        $numericFields = ['order'];
+        $searchFields = ['title'];
+        $numericFields = ['number'];
         $dateFields = ['created_at'];
-        $exactMatchFields = ['is_enable'];
-        $inFields = ['name'];
+        $exactMatchFields = ['game_id'];
+        $inFields = ['status', 'number'];
 
         $query = LevelPermission::index($query);
 

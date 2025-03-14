@@ -65,7 +65,7 @@ class AppointmentPermission
             $patient_id = $data['patient_id'];
             $patient = Patient::find($patient_id);
 
-            $data['guardian_id'] = $patient->guardian->id;
+            $data['guardian_id'] = $patient->guardian->first()->id;
         }
 
         return $data;

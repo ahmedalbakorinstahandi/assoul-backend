@@ -11,7 +11,7 @@ class ForgetPasswordRequest extends BaseFormRequest
     {
         return [
             'email' => 'required|string|email|max:255|exists:users',
-            'role' => 'required|in:patient,guardian',
+            'role' => 'required|in:doctor,guardian',
         ];
     }
 }

@@ -91,7 +91,7 @@ class AuthService
     {
         $email = $requestData['email'];
 
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)->where('role', $requestData['role'])->first();
 
 
         if (!$user) {

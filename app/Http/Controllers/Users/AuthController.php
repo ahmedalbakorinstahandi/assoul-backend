@@ -92,10 +92,18 @@ class AuthController extends Controller
 
         $res =  $this->authService->forgetPassword($request->validated());
 
+        $data = $request->validated();
+
+        $role = $data['role'];
+
+        $roleName = $role == 'guardian' ? "ولي الأمر" : "الطبيب";
+
+
+
         if (!$res) {
             return response()->json([
                 'success' => false,
-                'message' => 'هذا البريد الإلكتروني غير موجود في نظامنا.',
+                'message' => "هذا البريد الإلكتروني غير موجود في $roleName .",
             ], 404);
         }
 

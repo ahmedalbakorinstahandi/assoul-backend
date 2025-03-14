@@ -4,6 +4,7 @@ namespace App\Http\Services\Users;
 
 use App\Models\Users\User;
 use App\Services\MessageService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService
@@ -36,8 +37,133 @@ class AuthService
         return $user;
     }
 
+    public function register($requestData)
+    {
+        $verifyCode = rand(100000, 999999);
+        $codeExpiry = Carbon::now()->addMinutes(30);
+
+        $user = User::create([
+            'first_name' => $requestData['first_name'],
+            'last_name' => $requestData['last_name'],
+            'email' => $requestData['email'],
+            'password' => Hash::make($requestData['password']),
+            'phone' => $requestData['phone'],
+            'otp' => $verifyCode,
+            'otp_expide_at' => $codeExpiry,
+            'verified' => 0,
+            'role' => $requestData['role'],
+            'status' => 'Active',
+        ]);
+
+
+        if ($requestData['role'] == 'guardian') {
+            $guardianService = new GuardianService();
+
+            $guardianService->create($requestData['guardian'], $user);
+        }
+
+
+        if ($requestData['role'] == 'doctor') {
+            $doctorService = new DoctorService();
+
+            $doctorService->create($requestData['doctor'], $user);
+        }
+
+        return $user;
+    }
+
+    public function verifyCode($user, $verifyCode)
+    {
+        if ($user->verify_code !== $verifyCode || Carbon::now()->greaterThan($user->code_expiry_date)) {
+            return false;
+        }
+
+        $user->update([
+            'verified' => 1,
+            'otp' => null,
+            'otp_expide_at' => null,
+        ]);
+
+        return $user;
+    }
+
+    public function forgetPassword($requestData)
+    {
+        $email = $requestData['email'];
+
+        $user = User::where('email', $email)->first();
+
+
+        if (!$user) {
+            return false;
+        }
+
+        $verifyCode = rand(100000, 999999);
+        $codeExpiry = Carbon::now()->addMinutes(30);
+
+        $user->update([
+            'otp' => $verifyCode,
+            'otp_expide_at' => $codeExpiry,
+        ]);
+
+        # TODO
+        // Mail::to($user->email)->send(new VerifyEmail($verifyCode));
+
+        return true;
+    }
+
+    public function resetPassword($requestData)
+    {
+        $user = User::auth();
+
+        $password = $requestData['password'];
+        $user->update([
+            'password' => Hash::make($password),
+        ]);
+
+        $user->tokens()->delete();
+
+        $newToken = $user->createToken('NewTokenName')->plainTextToken;
+
+        return [
+            'success' => true,
+            'token' => $newToken,
+        ];
+    }
+
     public function logout($token)
     {
         return $token->delete();
+    }
+
+    public function requestDeleteAccount(User $user)
+    {
+        $otp = rand(100000, 999999);
+        $otpExpideAt = Carbon::now()->addMinutes(30);
+
+        $user->update([
+            'otp' => $otp,
+            'otp_expide_at' => $otpExpideAt,
+        ]);
+
+        # TODO
+        // Mail::to($user->email)->send(new VerifyEmail($verifyCode));   
+    }
+
+    public function confirmDeleteAccount(User $user, $code)
+    {
+        if ($user->otp !== $code || Carbon::now()->greaterThan($user->otp_expide_at)) {
+            return false;
+        }
+
+        if ($user->role == "client") {
+            $user->client->delete();
+        }
+        if ($user->role == "provider") {
+            $user->provider->delete();
+        }
+        $user->delete();
+
+        return true;
     }
 }

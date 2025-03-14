@@ -11,7 +11,7 @@ class AnswerService
 {
     public function index($data)
     {
-        $query = Answer::query();
+        $query = Answer::query()->with('question.level.game');
 
         $searchFields = ['text'];
         $exactMatchFields = ['is_correct', 'question_id'];

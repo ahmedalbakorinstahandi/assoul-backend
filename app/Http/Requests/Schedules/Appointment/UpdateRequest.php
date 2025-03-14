@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Requests\Schedules\Appointment;
+
+use App\Http\Requests\BaseFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateRequest extends BaseFormRequest
+{
+    public function rules(): array
+    {
+        return [
+            'appointment_date' => 'nullable|date|after:now',
+            'status' => 'nullable|in:pending,confirmed,cancelled,completed',
+            'patient_status' => 'nullable|in:emergency,needs_follow_up,stable',
+            'notes' => 'nullable|string',
+        ];
+    }
+}

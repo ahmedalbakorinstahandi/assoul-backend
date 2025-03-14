@@ -11,6 +11,7 @@ use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
+use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Middleware\AdminMiddlware;
 use Illuminate\Support\Facades\Route;
@@ -106,5 +107,13 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/system-tasks', [SystemTaskController::class, 'create']);
         Route::put('/system-tasks/{id}', [SystemTaskController::class, 'update']);
         Route::delete('/system-tasks/{id}', [SystemTaskController::class, 'delete']);
+    });
+
+    Route::prefix('schedules')->group(function () {
+        Route::get('/appointments', [AppointmentController::class, 'index']);
+        Route::get('/appointments/{id}', [AppointmentController::class, 'show']);
+        Route::post('/appointments', [AppointmentController::class, 'create']);
+        Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
+        Route::delete('/appointments/{id}', [AppointmentController::class, 'delete']);
     });
 });

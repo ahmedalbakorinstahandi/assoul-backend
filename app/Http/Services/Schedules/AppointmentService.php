@@ -51,6 +51,8 @@ class AppointmentService
     {
         $data = AppointmentPermission::create($data);
 
+        $data['status'] = 'pending';
+
         return Appointment::create($data);
     }
 

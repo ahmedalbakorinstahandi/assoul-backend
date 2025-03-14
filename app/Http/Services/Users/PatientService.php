@@ -31,6 +31,8 @@ class PatientService
 
         $patient = $user->patient;
 
+        $patient->load(['user', 'guardian']);
+
         return $patient;
     }
 }

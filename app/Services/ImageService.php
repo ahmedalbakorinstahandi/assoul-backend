@@ -23,14 +23,11 @@ class ImageService
         self::MakeFolder($folder);
         $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
         if ($name) {
-            $imageName = "{$name}-{$imageName}";
+            $imageName = $name . '-' . $imageName;
         }
         // $imageName = $name != null ? $name : uniqid() . '.' . $image->getClientOriginalExtension();
         $new_path = storage_path(sprintf('app/public/%s/%s', $folder, $imageName));
-        if (!File::isDirectory(dirname($new_path))) {
-            File::makeDirectory(dirname($new_path), 0755, true, true);
-        }
-        move_uploaded_file($image->getPathname(), $new_path);
+        move_uploaded_file($image, $new_path);
         return sprintf('%s/%s', $folder, $imageName);
     }
 

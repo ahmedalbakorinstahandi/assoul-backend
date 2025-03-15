@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Games\Answer\CreateRequest;
-use App\Http\Requests\Games\Answer\UpdateRequest;
+use App\Http\Requests\General\EducationalContent\CreateRequest;
+use App\Http\Requests\General\EducationalContent\UpdateRequest;
 use App\Http\Resources\General\EducationalContentResource;
 use App\Http\Services\General\EducationalContentService;
 use App\Services\ResponseService;

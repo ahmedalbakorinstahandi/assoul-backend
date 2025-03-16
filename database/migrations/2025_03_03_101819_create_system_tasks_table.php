@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('color', 10);
             $table->integer('points');
             $table->string('image', 110)->nullable();
-            $table->string('unique_key');
+            $table->string('unique_key')->unique()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

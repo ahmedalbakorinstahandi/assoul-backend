@@ -13,7 +13,7 @@ class UpdateRequest extends BaseFormRequest
             'title' => 'nullable|string|max:255',
             'points' => 'nullable|integer',
             'image' => 'nullable|string|max:110',
-            'unique_key' => 'nullable|string|max:255|unique:system_tasks,unique_key',
+            'unique_key' => 'nullable|string|max:255|unique:system_tasks,unique_key,deleted_at,NULL',
         ];
     }
 }

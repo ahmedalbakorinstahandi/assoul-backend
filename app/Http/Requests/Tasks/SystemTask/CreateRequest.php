@@ -13,7 +13,7 @@ class CreateRequest extends BaseFormRequest
             'title' => 'required|string|max:255',
             'points' => 'required|integer|min:0',
             'image' => 'required|string|max:110',
-            'unique_key' => 'required|string|unique:system_tasks,unique_key',
+            'unique_key' => 'nullable|string|max:255|unique:system_tasks,unique_key,deleted_at,NULL',
         ];
     }
 }

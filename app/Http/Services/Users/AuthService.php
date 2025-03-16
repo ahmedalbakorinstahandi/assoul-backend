@@ -152,9 +152,10 @@ class AuthService
 
     public function confirmDeleteAccount(User $user, $code)
     {
-        if ($user->otp !== $code || Carbon::now()->greaterThan($user->otp_expide_at)) {
-            return false;
-        }
+        // TODO: Uncomment this
+        // if ($user->otp !== $code || Carbon::now()->greaterThan($user->otp_expide_at)) {
+        //     return false;
+        // }
 
         if ($user->isPatient()) {
             $user->patient->delete();

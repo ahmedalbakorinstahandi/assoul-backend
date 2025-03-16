@@ -35,7 +35,7 @@ class GuardianController extends Controller
 
     public function updateProfile(UpdateProfileRequest $request)
     {
-        $guardian = $this->guardianService->updateProfile($request->all());
+        $guardian = $this->guardianService->updateProfile($request->validated());
 
         return response()->json(
             [

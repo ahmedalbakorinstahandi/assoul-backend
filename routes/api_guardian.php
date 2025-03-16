@@ -6,6 +6,7 @@ use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\ToDoListController;
+use App\Http\Controllers\Users\GuardianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\GuardianMiddleware;
 
@@ -55,5 +56,11 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
         Route::post('/appointments', [AppointmentController::class, 'create']);
         Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{id}', [AppointmentController::class, 'delete']);
+    });
+
+
+    // children
+    Route::prefix('children')->group(function () {
+        Route::post('/add-child', [GuardianController::class, 'addChild']);
     });
 });

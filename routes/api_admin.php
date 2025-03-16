@@ -135,6 +135,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/children', [PatientController::class, 'create']);
         Route::post('/children/{id}', [PatientController::class, 'update']);
         Route::delete('/children/{id}', [PatientController::class, 'delete']);
+        Route::post('/children/{id}/generate-code', [PatientController::class, 'generateCode']);
+
 
         //GuardianController
         Route::get('/guardians', [GuardianController::class, 'index']);

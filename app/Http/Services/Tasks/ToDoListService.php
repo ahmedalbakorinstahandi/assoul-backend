@@ -22,13 +22,6 @@ class ToDoListService
 
         $query = ToDoListPermission::index($query);
 
-
-        // $user = User::auth();
-
-        // if ($user->isPatient()) {
-        //     $query->with('completion');
-        // }
-
         $user = User::auth();
         if (isset($data['patient_id']) || $user->isPatient()) {
             $query->with('completion');
@@ -54,11 +47,6 @@ class ToDoListService
 
         ToDoListPermission::show($task);
 
-        // $user = User::auth();
-        // if ($user->isPatient()) {
-        //     $task->load('completion');
-        // }
-
         $user = User::auth();
         if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('completion');
@@ -73,11 +61,6 @@ class ToDoListService
 
         $task = ToDoList::create($data);
 
-        // $user = User::auth();
-        // if ($user->isPatient()) {
-        //     $task->load('completion');
-        // }
-
         $user = User::auth();
         if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('completion');
@@ -91,11 +74,6 @@ class ToDoListService
         ToDoListPermission::update($task);
 
         $task->update($data);
-
-        // $user = User::auth();
-        // if ($user->isPatient()) {
-        //     $task->load('completion');
-        // }
 
         $user = User::auth();
         if (isset($data['patient_id']) || $user->isPatient()) {

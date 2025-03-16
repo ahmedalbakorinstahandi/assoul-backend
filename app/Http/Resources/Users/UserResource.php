@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Users;
 
 use App\Http\Resources\Notifications\NotificationResource;
+use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,6 +16,22 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $user = User::auth();
+
+        if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {
+            $childrenIds = $user->guardian->children->pluck('id')->toArray();
+            if (in_array($this->id, $childrenIds)) {
+                $condition = true;
+            }
+        }
+
+        if ($user->isAdmin() && $this->isPatient()) {
+            $condition = true;
+        }
+
+
+
         return [
             'id' => $this->id,
             'first_name' => $this->first_name,
@@ -25,6 +42,8 @@ class UserResource extends JsonResource
             'verified' => $this->verified,
             'avatar' => $this->avatar,
             'status' => $this->status,
+            'code' => $this->when($condition, $this->code),
+            'otp_expide_at' => $this->when($condition, $this->otp_expide_at),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'patient' => new PatientResource($this->whenLoaded('patient')),

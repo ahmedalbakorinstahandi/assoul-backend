@@ -141,4 +141,22 @@ class PatientController extends Controller
             200
         );
     }
+
+
+    // generate a new code for the patient
+    public function generateCode($id)
+    {
+        $patient = $this->patientService->show($id);
+
+        $patient = $this->patientService->generateCode($patient);
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'تم توليد الكود بنجاح',
+                'data' => new PatientResource($patient),
+            ],
+            200
+        );
+    }
 }

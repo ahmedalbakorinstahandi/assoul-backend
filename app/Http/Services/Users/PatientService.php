@@ -162,4 +162,28 @@ class PatientService
         $patient->user->delete();
         $patient->delete();
     }
+
+
+    public function generateCode($patient)
+    {
+
+        $user = User::auth();
+
+        if ($user->isGuardian() && optional($user->guardian)->children) {
+            $childrenIds = $user->guardian->children->pluck('id')->toArray();
+            if (!in_array($patient->id, $childrenIds)) {
+                MessageService::abort(403, 'لا يمكنك توليد كود لهذا الطفل');
+            }
+        }
+
+        $otp = rand(10000, 99999);
+
+        $patient->user->otp = $otp;
+        $patient->user->otp_expide_at = now()->addMinutes(5);
+        $patient->user->save();
+
+        $patient->load(['user', 'guardian.user']);
+
+        return $patient;
+    }
 }

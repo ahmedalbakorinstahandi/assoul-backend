@@ -72,7 +72,7 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
         Route::get('/', [PatientController::class, 'index']);
         Route::get('/{id}', [PatientController::class, 'show']);
         Route::post('/', [PatientController::class, 'create']);
-        Route::put('/{id}', [PatientController::class, 'update']);
+        Route::post('/{id}', [PatientController::class, 'update']);
         Route::delete('/{id}', [PatientController::class, 'delete']);
     });
 });

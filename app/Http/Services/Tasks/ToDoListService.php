@@ -29,6 +29,10 @@ class ToDoListService
         //     $query->with('completion');
         // }
 
+        if (isset($data['patient_id'])) {
+            $query->with('completion');
+        }
+
         return FilterService::applyFilters(
             $query,
             $data,
@@ -54,6 +58,10 @@ class ToDoListService
         //     $task->load('completion');
         // }
 
+        if (isset($data['patient_id'])) {
+            $task->load('completion');
+        }
+
         return $task;
     }
 
@@ -68,6 +76,10 @@ class ToDoListService
         //     $task->load('completion');
         // }
 
+        if (isset($data['patient_id'])) {
+            $task->load('completion');
+        }
+
         return $task;
     }
 
@@ -81,6 +93,10 @@ class ToDoListService
         // if ($user->isPatient()) {
         //     $task->load('completion');
         // }
+
+        if (isset($data['patient_id'])) {
+            $task->load('completion');
+        }
 
         return $task;
     }

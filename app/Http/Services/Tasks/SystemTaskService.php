@@ -17,7 +17,7 @@ class SystemTaskService
     {
         $query = SystemTask::query()->with('systemTaskCompletion');
 
-        $searchFields = ['title', 'description'];
+        $searchFields = ['title', 'unique_key'];
         $numericFields = ['points'];
         $exactMatchFields = ['unique_key'];
         $dateFields = ['completed_at'];

@@ -144,7 +144,9 @@ class PatientService
             $patient->user->avatar = $imageName;
         }
 
-        $patient->user->update($data['user']);
+        if (isset($data['user'])) {
+            $patient->user->update($data['user']);
+        }
 
         unset($data['user']);
 

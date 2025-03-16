@@ -23,7 +23,8 @@ class SystemTaskService
         $dateFields = ['completed_at'];
 
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $query->with('systemTaskCompletion');
         }
 

@@ -15,12 +15,17 @@ class SystemTaskService
 {
     public function index($data)
     {
-        $query = SystemTask::query()->with('systemTaskCompletion');
+        $query = SystemTask::query();
 
         $searchFields = ['title', 'unique_key'];
         $numericFields = ['points'];
         $exactMatchFields = ['unique_key'];
         $dateFields = ['completed_at'];
+
+
+        if (isset($data['patient_id'])) {
+            $query->with('systemTaskCompletion');
+        }
 
 
         return FilterService::applyFilters(
@@ -41,7 +46,10 @@ class SystemTaskService
             MessageService::abort(404, 'المهمة غير موجودة');
         }
 
-        $task->load('systemTaskCompletion');
+
+        if (isset($data['patient_id'])) {
+            $task->load('systemTaskCompletion');
+        }
 
         return $task;
     }
@@ -50,7 +58,9 @@ class SystemTaskService
     {
         $task = SystemTask::create($data);
 
-        $task->load('systemTaskCompletion');
+        if (isset($data['patient_id'])) {
+            $task->load('systemTaskCompletion');
+        }
 
         return  $task;
     }
@@ -60,7 +70,9 @@ class SystemTaskService
 
         $task->update($data);
 
-        $task->load('systemTaskCompletion');
+        if (isset($data['patient_id'])) {
+            $task->load('systemTaskCompletion');
+        }
 
         return $task;
     }

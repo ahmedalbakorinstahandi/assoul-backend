@@ -14,6 +14,7 @@ use Database\Seeders\Health\BloodSugarReadingSedder;
 use Database\Seeders\Health\GuardianSedder;
 use Database\Seeders\Health\InsulinDoseSedder;
 use Database\Seeders\Health\MealSedder;
+use Database\Seeders\Notifications\NotificationSeeder;
 use Database\Seeders\Notifications\ScheduledNotificationSeeder;
 use Database\Seeders\Tasks\SystemTaskSeeder;
 use Database\Seeders\Tasks\ToDoListSeeder;
@@ -37,12 +38,13 @@ class DatabaseSeeder extends Seeder
             //     MealSedder::class,
             //     NotificationSedder::class,
             //     PhysicalActivitySedder::class,
-            UserSeeder::class,
+            // UserSeeder::class,
             // EducationalContentSeeder::class,
             // ScheduledNotificationSeeder::class,
             // SystemTaskSeeder::class,
             // GuardianSeeder::class,
             // ToDoListSeeder::class,
+            NotificationSeeder::class,
         ]);
 
         $this->call([

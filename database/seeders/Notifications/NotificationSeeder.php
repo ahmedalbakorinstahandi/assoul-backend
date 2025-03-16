@@ -28,7 +28,7 @@ class NotificationSeeder extends Seeder
                     'title' => $faker->sentence,
                     'message' => $faker->paragraph,
                     'type' => $faker->randomElement(['info', 'warning', 'alert']),
-                    'metadata' => json_encode(['key' => $faker->word]),
+                    'metadata' => ['key' => $faker->word],
                     'notifiable_type' => User::class,
                     'notifiable_id' => $user->id,
                 ]);

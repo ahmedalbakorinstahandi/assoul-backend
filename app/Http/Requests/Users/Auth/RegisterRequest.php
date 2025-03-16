@@ -13,7 +13,7 @@ class RegisterRequest extends BaseFormRequest
         $rules = [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => 'required|string|min:8',
             'phone' => 'required|string|max:255',
             'role' => 'required|string|in:guardian,doctor',

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ChildrenGuardian extends Model
 {
     protected $table = 'children_guardians';
-    protected $fillable = ['guardian_id', 'child_id'];
+    protected $fillable = ['guardian_id', 'patient_id'];
 
     public function guardian()
     {

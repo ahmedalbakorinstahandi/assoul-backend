@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\GuardianMiddleware;
 
 Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class])->group(function () {
+
+    Route::get('profile/', [GuardianController::class, 'getGuardianData']);
+    Route::post('profile/', [GuardianController::class, 'updateProfile']);
+
+
     Route::prefix('health')->group(function () {
         Route::get('/blood-sugar-readings', [BloodSugarReadingController::class, 'index']);
         Route::get('/blood-sugar-readings/{id}', [BloodSugarReadingController::class, 'show']);

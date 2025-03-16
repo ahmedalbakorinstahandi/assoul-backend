@@ -2,78 +2,125 @@
 
 namespace App\Http\Services\Users;
 
-use App\Models\Users\ChildrenGuardian;
+use App\Http\Controllers\Users\UserService;
 use App\Models\Users\Guardian;
 use App\Models\Users\User;
+use App\Services\FilterService;
 use App\Services\ImageService;
+use App\Services\MessageService;
 
 class GuardianService
 {
 
-
-
-
-    public function create($data, $user)
+    public function getGuardianData()
     {
-        Guardian::create([
-            'user_id' => $user->id
-        ]);
+        $user = User::auth();
+
+        $guardian = $user->guardian;
+
+        $guardian->load(['user']);
+
+        return $guardian;
+    }
+
+    public function updateProfile($data)
+    {
+        $user = User::auth();
+
+        if (isset($data['user']['avatar'])) {
+            $imageName = ImageService::storeImage($data['user']['avatar'], 'avatars');
+
+            $data['user']['avatar'] = $imageName;
+        }
+
+        if (isset($data['user']['password'])) {
+            $data['user']['password'] = bcrypt($data['user']['password']);
+        }
+
+        if (isset($data['user'])) {
+            $user->update($data['user']);
+        }
+
+        $guardian = $user->guardian;
+
+        $guardian->load(['user']);
+
+        return $guardian;
+    }
+
+    public function index($data)
+    {
+        $query = Guardian::query()->with(['user']);
+
+        $searchFields = [
+            ['user.first_name', 'user.last_name'],
+            'user.phone',
+            'user.email'
+        ];
+        $numericFields = [];
+        $exactMatchFields = ['id', 'user_id'];
+        $dateFields = ['created_at'];
+        $inFields = ['user.status'];
+
+
+        return FilterService::applyFilters(
+            $query,
+            $data,
+            $searchFields,
+            $numericFields,
+            $exactMatchFields,
+            $dateFields,
+            $inFields
+        );
     }
 
 
-    public function addCild($data)
+    public function show($id)
     {
-        $otp = rand(10000, 99999);
 
-        $avatarName = ImageService::storeImage($data['avatar'], 'avatars');
+        $guardian = Guardian::find($id);
 
-        $userPatient = User::create(
-            [
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'role' => 'patient',
-                'password' => bcrypt('NONE_PASSWORD'),
-                'otp' => $otp,
-                'otp_expide_at' => now()->addMinutes(5),
-                'verified' => true,
-                'avatar' => $avatarName,
-                'status' => 'Active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        );
-
-        $patient = $userPatient->patient()->create(
-            [
-                'gender' => $data['gender'],
-                'birth_date' => $data['birth_date'],
-                'height' => $data['height'],
-                'weight' => $data['weight'],
-                'insulin_doses' => 4,
-                'points' => 0,
-                'diabetes_diagnosis_age' => $data['diabetes_diagnosis_age'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
-        );
-
-        $user = User::auth();
-
-        if ($user->isGuardian()) {
-            $guardian = $user->guardian;
-        } else {
-            $guardian = Guardian::find($data['guardian_id']);
+        if (!$guardian) {
+            MessageService::abort(404, 'الوصي غير موجود');
         }
 
-        ChildrenGuardian::create([
-            'guardian_id' => $guardian->id,
-            'patient_id' => $patient->id,
+        $guardian->load(['user']);
+
+        return $guardian;
+    }
+
+    public function create($data)
+    {
+
+        $userService = new UserService();
+        $user = $userService->create($data['user']);
+
+        $guardian =  Guardian::create([
+            'user_id' => $user->id
         ]);
 
-        $patient->load('user');
+        $guardian->load(['user']);
 
-        return $patient;
+        return $guardian;
+    }
 
-        //data has : first_name, last_name, avatar, gender, birth_date, height, weight, diabetes_diagnosis_age , guardian_id if user is admin
+    public function update($guardian, $data)
+    {
+        $userService = new UserService();
+
+        if (isset($data['user'])) {
+            $userService->update($guardian->user, $data['user']);
+        }
+
+        $guardian->load(['user']);
+
+        return $guardian;
+    }
+
+    public function delete($guardian)
+    {
+        $guardian->user->delete();
+
+        $guardian->delete();
     }
 }

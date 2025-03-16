@@ -14,6 +14,7 @@ use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Controllers\Tasks\ToDoListController;
+use App\Http\Controllers\Users\GuardianController;
 use App\Http\Controllers\Users\PatientController;
 use App\Http\Middleware\AdminMiddlware;
 use Illuminate\Support\Facades\Route;
@@ -130,11 +131,18 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
     // users
     Route::prefix('users')->group(function () {
         Route::prefix('children')->group(function () {
-            Route::get('/', [PatientController::class, 'index']);
-            Route::get('/{id}', [PatientController::class, 'show']);
-            Route::post('/', [PatientController::class, 'create']);
-            Route::post('/{id}', [PatientController::class, 'update']);
-            Route::delete('/{id}', [PatientController::class, 'delete']);
+            Route::get('/children', [PatientController::class, 'index']);
+            Route::get('/children/{id}', [PatientController::class, 'show']);
+            Route::post('/children', [PatientController::class, 'create']);
+            Route::post('/children/{id}', [PatientController::class, 'update']);
+            Route::delete('/children/{id}', [PatientController::class, 'delete']);
         });
+
+        //GuardianController
+        Route::get('/guardians', [GuardianController::class, 'index']);
+        Route::get('/guardians/{id}', [GuardianController::class, 'show']);
+        Route::post('/guardians', [GuardianController::class, 'create']);
+        Route::put('/guardians/{id}', [GuardianController::class, 'update']);
+        Route::delete('/guardians/{id}', [GuardianController::class, 'delete']);
     });
 });

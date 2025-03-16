@@ -14,6 +14,7 @@ class CreateRequest extends BaseFormRequest
             'points' => 'required|integer|min:0',
             'image' => 'required|string|max:110',
             'unique_key' => 'nullable|string|max:255|unique:system_tasks,unique_key,deleted_at,NULL',
+            'color' => 'required|string|regex:/^#[A-Fa-f0-9]{6}$/',
         ];
     }
 }

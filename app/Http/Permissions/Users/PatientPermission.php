@@ -17,7 +17,7 @@ class PatientPermission
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
             $childrenIds = $user->guardian->children->pluck('id')->toArray();
-            $query->orWhereIn('patient_id', $childrenIds);
+            $query->orWhereIn('id', $childrenIds);
         }
 
         return $query;

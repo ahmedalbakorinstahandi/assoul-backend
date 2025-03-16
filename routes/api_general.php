@@ -8,6 +8,6 @@ Route::prefix('general')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::get('/notifications/{id}', [NotificationController::class, 'show']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
-    Route::post('notifications/{id}/read', [NotificationController::class, 'readNotification']);
-    Route::get('notifications/unread-count', [NotificationController::class, 'getNotificationsUnreadCount']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'readNotification']);
+    Route::get('/notifications/unread-count', [NotificationController::class, 'getNotificationsUnreadCount']);
 });

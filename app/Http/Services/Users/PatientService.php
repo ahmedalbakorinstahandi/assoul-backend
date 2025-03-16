@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Users;
 
+use App\Http\Permissions\Users\PatientPermission;
 use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\Guardian;
 use App\Models\Users\Patient;
@@ -56,6 +57,7 @@ class PatientService
         $inFields = ['gender'];
 
 
+        $query = PatientPermission::index($query);
 
 
         return FilterService::applyFilters(
@@ -78,12 +80,15 @@ class PatientService
             MessageService::abort(404, 'المريض غير موجود');
         }
 
+        PatientPermission::show($patient);
+
         return $patient;
     }
 
 
     public function create($data)
     {
+
         $otp = rand(10000, 99999);
 
         $avatarName = ImageService::storeImage($data['avatar'], 'avatars');
@@ -139,6 +144,8 @@ class PatientService
     public function update($patient, $data)
     {
 
+        PatientPermission::update($patient, $data);
+
         if (isset($data['user']['avatar'])) {
             $imageName = ImageService::storeImage($data['user']['avatar'], 'avatars');
             $patient->user->avatar = $imageName;
@@ -159,6 +166,8 @@ class PatientService
 
     public function delete($patient)
     {
+        PatientPermission::delete($patient);
+
         $patient->user->delete();
         $patient->delete();
     }

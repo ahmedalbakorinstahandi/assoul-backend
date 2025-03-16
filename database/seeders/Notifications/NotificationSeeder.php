@@ -17,7 +17,8 @@ class NotificationSeeder extends Seeder
     {
         // create 10 notifications for each user
 
-        $faker = Faker::create();
+        // $faker = Faker::create();
+        $faker = Faker::create('ar_SA');
 
         $users = User::all();
 
@@ -27,7 +28,9 @@ class NotificationSeeder extends Seeder
                     'user_id' => $user->id,
                     'title' => $faker->sentence,
                     'message' => $faker->paragraph,
-                    'type' => $faker->randomElement(['info', 'warning', 'alert']),
+                    'type' => $faker->randomElement(
+                        ['info', 'warning', 'alert']
+                    ),
                     'metadata' => ['key' => $faker->word],
                     'notifiable_type' => User::class,
                     'notifiable_id' => $user->id,

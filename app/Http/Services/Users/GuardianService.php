@@ -3,6 +3,7 @@
 namespace App\Http\Services\Users;
 
 use App\Http\Controllers\Users\UserService;
+use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\Guardian;
 use App\Models\Users\User;
 use App\Services\FilterService;
@@ -112,7 +113,7 @@ class GuardianService
         $userService = new UserService();
 
         if (isset($data['user'])) {
-            
+
             $userService->update($guardian->user, $data['user']);
         }
 
@@ -124,7 +125,7 @@ class GuardianService
     public function delete($guardian)
     {
         $guardian->user->delete();
-
+        ChildrenGuardian::where('guardian_id', $guardian->id)->delete();
         $guardian->delete();
     }
 }

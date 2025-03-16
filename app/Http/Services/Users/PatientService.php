@@ -169,6 +169,7 @@ class PatientService
         PatientPermission::delete($patient);
 
         $patient->user->delete();
+        ChildrenGuardian::where('patient_id', $patient->id)->delete();
         $patient->delete();
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Users;
 
+use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\User;
 use App\Services\MessageService;
 use Carbon\Carbon;
@@ -158,9 +159,11 @@ class AuthService
         // }
 
         if ($user->isPatient()) {
+            ChildrenGuardian::where('patient_id', $user->patient->id)->delete();
             $user->patient->delete();
         }
         if ($user->isGuardian()) {
+            ChildrenGuardian::where('guardian_id', $user->guardian->id)->delete();
             $user->guardian->delete();
         }
 

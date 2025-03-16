@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Http\Services\Notifications;
+
+use App\Models\Notifications\Notification;
+use App\Models\Users\User;
+use App\Services\FilterService;
+use App\Services\MessageService;
+
+class NotificationService
+{
+    public function index($data)
+    {
+        $query = Notification::query();
+
+        $searchFields = ['message', 'type'];
+        $numericFields = [];
+        $dateFields = ['read_at', 'created_at'];
+        $exactMatchFields = ['id', 'type', 'read_at'];
+        $inFields = ['type'];
+
+
+        $user = User::auth();
+
+
+        $query->where('user_id', $user->id);
+
+
+        return FilterService::applyFilters(
+            $query,
+            $data,
+            $searchFields,
+            $numericFields,
+            $dateFields,
+            $exactMatchFields,
+            $inFields
+        );
+    }
+
+    public function show($id)
+    {
+        $notification = Notification::with('user')->find($id);
+
+        if (!$notification) {
+            MessageService::abort(404, 'الإشعار غير موجود');
+        }
+
+        return $notification;
+    }
+
+    public function create($validatedData)
+    {
+        return Notification::create($validatedData);
+    }
+
+    public function update($notification, $validatedData)
+    {
+        $notification->update($validatedData);
+
+        return $notification;
+    }
+
+    public function readNotification($id)
+    {
+        $notifications = Notification::where('id', '<=', $id)->get();
+
+        foreach ($notifications as $notification) {
+            $notification->update(['read_at' => now()]);
+        }
+
+        return $notifications;
+    }
+
+    public function destroy($notification)
+    {
+        return $notification->delete();
+    }
+
+
+
+    public static function storeNotification($users_ids, $type, $title, $body, $data = [])
+    {
+
+        foreach ($users_ids as $user_id) {
+            $notificationData = [
+                'user_id' => $user_id,
+                'title' => $title,
+                'message' => $body,
+                'type' => $type,
+                'metadata' => $data,
+            ];
+
+            Notification::create($notificationData);
+        }
+    }
+}

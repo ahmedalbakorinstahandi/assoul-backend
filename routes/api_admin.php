@@ -13,6 +13,8 @@ use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\SystemTaskController;
+use App\Http\Controllers\Tasks\ToDoListController;
+use App\Http\Controllers\Users\PatientController;
 use App\Http\Middleware\AdminMiddlware;
 use Illuminate\Support\Facades\Route;
 
@@ -107,6 +109,14 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/system-tasks', [SystemTaskController::class, 'create']);
         Route::put('/system-tasks/{id}', [SystemTaskController::class, 'update']);
         Route::delete('/system-tasks/{id}', [SystemTaskController::class, 'delete']);
+
+
+        Route::get('/to-do-list', [ToDoListController::class, 'index']);
+        Route::get('/to-do-list/{id}', [ToDoListController::class, 'show']);
+        Route::post('/to-do-list', [ToDoListController::class, 'create']);
+        Route::put('/to-do-list/{id}', [ToDoListController::class, 'update']);
+        Route::delete('/to-do-list/{id}', [ToDoListController::class, 'delete']);
+        Route::post('/to-do-list/{id}/check', [ToDoListController::class, 'check']);
     });
 
     Route::prefix('schedules')->group(function () {
@@ -115,5 +125,16 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/appointments', [AppointmentController::class, 'create']);
         Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{id}', [AppointmentController::class, 'delete']);
+    });
+
+    // users
+    Route::prefix('users')->group(function () {
+        Route::prefix('children')->group(function () {
+            Route::get('/', [PatientController::class, 'index']);
+            Route::get('/{id}', [PatientController::class, 'show']);
+            Route::post('/', [PatientController::class, 'create']);
+            Route::post('/{id}', [PatientController::class, 'update']);
+            Route::delete('/{id}', [PatientController::class, 'delete']);
+        });
     });
 });

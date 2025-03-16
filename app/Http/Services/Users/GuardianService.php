@@ -38,7 +38,10 @@ class GuardianService
         }
 
         if (isset($data['user'])) {
-            $user->update($data['user']);
+            $userData = array_filter($data['user'], function ($value) {
+                return !is_null($value);
+            });
+            $user->update($userData);
         }
 
         $guardian = $user->guardian;

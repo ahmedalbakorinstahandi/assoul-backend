@@ -69,6 +69,7 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
 
     // children
     Route::prefix('children')->group(function () {
+        Route::get('/', [GuardianController::class, 'index']);
         Route::get('/{id}', [PatientController::class, 'show']);
         Route::post('/', [PatientController::class, 'create']);
         Route::put('/{id}', [PatientController::class, 'update']);

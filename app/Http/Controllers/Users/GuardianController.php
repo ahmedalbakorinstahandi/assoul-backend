@@ -9,6 +9,7 @@ use App\Http\Requests\Users\Guardian\UpdateRequest;
 use App\Http\Resources\Users\GuardianResource;
 use App\Http\Resources\Users\PatientResource;
 use App\Http\Services\Users\GuardianService;
+use App\Services\ResponseService;
 use Illuminate\Http\Request;
 
 class GuardianController extends Controller
@@ -46,6 +47,36 @@ class GuardianController extends Controller
             200
         );
     }
+
+
+    public function index(Request $request)
+    {
+        $guardians = $this->guardianService->index($request->all());
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => GuardianResource::collection($guardians->items()),
+                'meta' => ResponseService::meta($guardians),
+            ],
+            200
+        );
+    }
+
+
+    public function show($id)
+    {
+        $guardian = $this->guardianService->show($id);
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => new GuardianResource($guardian),
+            ],
+            200
+        );
+    }
+
 
     // create
     public function create(CreateRequest $request)

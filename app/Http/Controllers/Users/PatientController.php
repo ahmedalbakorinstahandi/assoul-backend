@@ -12,6 +12,7 @@ use App\Http\Resources\Users\PatientResource;
 use App\Http\Services\Users\PatientService;
 use App\Models\Games\Game;
 use App\Models\General\EducationalContent;
+use App\Services\ResponseService;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -77,6 +78,7 @@ class PatientController extends Controller
             [
                 'success' => true,
                 'data' => PatientResource::collection($patients),
+                'meta' => ResponseService::meta($patients),
             ],
             200
         );

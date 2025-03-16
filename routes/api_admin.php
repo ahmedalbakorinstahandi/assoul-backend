@@ -130,13 +130,11 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
 
     // users
     Route::prefix('users')->group(function () {
-        Route::prefix('children')->group(function () {
-            Route::get('/children', [PatientController::class, 'index']);
-            Route::get('/children/{id}', [PatientController::class, 'show']);
-            Route::post('/children', [PatientController::class, 'create']);
-            Route::post('/children/{id}', [PatientController::class, 'update']);
-            Route::delete('/children/{id}', [PatientController::class, 'delete']);
-        });
+        Route::get('/children', [PatientController::class, 'index']);
+        Route::get('/children/{id}', [PatientController::class, 'show']);
+        Route::post('/children', [PatientController::class, 'create']);
+        Route::post('/children/{id}', [PatientController::class, 'update']);
+        Route::delete('/children/{id}', [PatientController::class, 'delete']);
 
         //GuardianController
         Route::get('/guardians', [GuardianController::class, 'index']);

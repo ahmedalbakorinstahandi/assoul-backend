@@ -11,7 +11,7 @@ class InsulinDoseService
 {
     public function index($data)
     {
-        $query = InsulinDose::query()->with('patient');
+        $query = InsulinDose::query()->with(['patient.user']);
 
         $searchFields = ['insulin_type', 'injection_site'];
         $numericFields = ['dose_units'];

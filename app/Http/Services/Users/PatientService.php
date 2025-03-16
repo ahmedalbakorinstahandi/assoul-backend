@@ -44,7 +44,7 @@ class PatientService
 
     public function index($data)
     {
-        $query = Patient::query()->with(['user', 'guardian']);
+        $query = Patient::query()->with(['user', 'guardian.user']);
 
         $searchFields = [
             ['user.first_name', 'user.last_name'],
@@ -72,7 +72,7 @@ class PatientService
     public function show($id)
     {
 
-        $patient = Patient::with(['user', 'guardian'])->find($id);
+        $patient = Patient::with(['user', 'guardian.user'])->find($id);
 
         if (!$patient) {
             MessageService::abort(404, 'المريض غير موجود');
@@ -131,7 +131,7 @@ class PatientService
             'patient_id' => $patient->id,
         ]);
 
-        $patient->load(['user', 'guardian']);
+        $patient->load(['user', 'guardian.user']);
 
         return $patient;
     }
@@ -152,7 +152,7 @@ class PatientService
 
         $patient->update($data);
 
-        $patient->load(['user', 'guardian']);
+        $patient->load(['user', 'guardian.user']);
 
         return $patient;
     }

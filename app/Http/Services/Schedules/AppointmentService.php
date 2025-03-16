@@ -11,7 +11,7 @@ class AppointmentService
 {
     public function index($data)
     {
-        $query = Appointment::query()->with(['patient', 'guardian', 'doctor']);
+        $query = Appointment::query()->with(['patient.user', 'guardian.user', 'doctor.user']);
 
         $searchFields = ['notes'];
         $numericFields = ['patient_id', 'guardian_id', 'doctor_id'];
@@ -42,7 +42,7 @@ class AppointmentService
 
         AppointmentPermission::show($appointment);
 
-        $appointment->load(['patient', 'guardian', 'doctor']);
+        $appointment->load(['patient.user', 'guardian.user', 'doctor.user']);
 
         return $appointment;
     }
@@ -61,6 +61,8 @@ class AppointmentService
         AppointmentPermission::update($appointment, $data);
 
         $appointment->update($data);
+
+        $appointment->load(['patient.user', 'guardian.user', 'doctor.user']);
 
         return $appointment;
     }

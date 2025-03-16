@@ -11,7 +11,7 @@ class MealService
 {
     public function index($data)
     {
-        $query = Meal::query()->with('patient');
+        $query = Meal::query()->with(['patient.user']);
 
         $searchFields = ['description', 'notes'];
         $exactMatchFields = ['patient_id', 'type'];

@@ -11,7 +11,7 @@ class BloodSugarReadingService
 {
     public function index($data)
     {
-        $qusery = BloodSugarReading::query();
+        $qusery = BloodSugarReading::query()->with(['patient.user']);
 
         $searchFields = ['measurement_type', 'unit', 'notes'];
         $numericFields = ['value'];

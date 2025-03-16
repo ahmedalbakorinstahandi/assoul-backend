@@ -11,7 +11,7 @@ class PhysicalActivityService
 {
     public function index($data)
     {
-        $query = PhysicalActivity::query()->with('patient');
+        $query = PhysicalActivity::query()->with(['patient.user']);
 
         $searchFields = ['description', 'notes'];
         $numericFields = ['duration'];
@@ -28,7 +28,7 @@ class PhysicalActivityService
         $activity = PhysicalActivity::find($id);
 
         if (!$activity) {
-            MessageService::abort(404,'هذا السجل غير موجود');
+            MessageService::abort(404, 'هذا السجل غير موجود');
         }
 
         PhysicalActivityPermission::show($activity);

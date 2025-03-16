@@ -156,12 +156,17 @@ class AuthService
             return false;
         }
 
-        if ($user->role == "client") {
-            $user->client->delete();
+        if ($user->isPatient()) {
+            $user->patient->delete();
         }
-        if ($user->role == "provider") {
-            $user->provider->delete();
+        if ($user->isGuardian()) {
+            $user->guardian->delete();
         }
+
+        if ($user->isDoctor()) {
+            $user->doctor->delete();
+        }
+
         $user->delete();
 
         return true;

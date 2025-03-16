@@ -17,6 +17,8 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
 
+        $condition = false;
+        
         $user = User::auth();
 
         if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {

@@ -16,18 +16,4 @@ class GuardianController extends Controller
     {
         $this->guardianService = $guardianService;
     }
-
-
-    public function addChild(AddChildRequest $request)
-    {
-        $patient =  $this->guardianService->addCild($request->all());
-        return response()->json(
-
-            [
-                'success' => true,
-                'message' => 'تم اضافة الطفل بنجاح',
-                'data' =>  new PatientResource($patient),
-            ]
-        );
-    }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\Patient\AddChildRequest;
 use App\Http\Requests\Users\Patient\UpdateAvatarRequest;
+use App\Http\Requests\Users\Patient\UpdateRequest;
 use App\Http\Resources\Games\GameResource;
 use App\Http\Resources\General\EducationalContentResource;
 use App\Http\Resources\Users\PatientResource;
@@ -61,6 +63,77 @@ class PatientController extends Controller
                     'educational_content' => new EducationalContentResource($educationalContent),
                     'games' => GameResource::collection($games),
                 ],
+            ],
+            200
+        );
+    }
+
+
+    public function index()
+    {
+        $patients = $this->patientService->index(request()->all());
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => PatientResource::collection($patients),
+            ],
+            200
+        );
+    }
+
+    public function show($id)
+    {
+        $patient = $this->patientService->show($id);
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => new PatientResource($patient),
+            ],
+            200
+        );
+    }
+
+    public function create(AddChildRequest $request)
+    {
+        $patient =  $this->patientService->create($request->all());
+        return response()->json(
+
+            [
+                'success' => true,
+                'message' => 'تم اضافة الطفل بنجاح',
+                'data' =>  new PatientResource($patient),
+            ]
+        );
+    }
+
+    public function update($id, UpdateRequest $request)
+    {
+        $patient = $this->patientService->show($id);
+
+        $patient = $this->patientService->update($patient, $request->validate());
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'تم تحديث البيانات بنجاح',
+                'data' => new PatientResource($patient),
+            ],
+            200
+        );
+    }
+
+    public function delete($id)
+    {
+        $patient = $this->patientService->show($id);
+
+        $this->patientService->delete($patient);
+
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'تم حذف البيانات بنجاح',
             ],
             200
         );

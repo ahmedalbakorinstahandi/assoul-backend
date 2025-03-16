@@ -47,7 +47,8 @@ class SystemTaskService
         }
 
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('systemTaskCompletion');
         }
 
@@ -58,7 +59,8 @@ class SystemTaskService
     {
         $task = SystemTask::create($data);
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('systemTaskCompletion');
         }
 
@@ -70,7 +72,8 @@ class SystemTaskService
 
         $task->update($data);
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('systemTaskCompletion');
         }
 

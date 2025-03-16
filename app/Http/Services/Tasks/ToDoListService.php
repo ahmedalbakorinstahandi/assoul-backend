@@ -29,7 +29,8 @@ class ToDoListService
         //     $query->with('completion');
         // }
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $query->with('completion');
         }
 
@@ -58,7 +59,8 @@ class ToDoListService
         //     $task->load('completion');
         // }
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('completion');
         }
 
@@ -76,7 +78,8 @@ class ToDoListService
         //     $task->load('completion');
         // }
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('completion');
         }
 
@@ -94,7 +97,8 @@ class ToDoListService
         //     $task->load('completion');
         // }
 
-        if (isset($data['patient_id'])) {
+        $user = User::auth();
+        if (isset($data['patient_id']) || $user->isPatient()) {
             $task->load('completion');
         }
 

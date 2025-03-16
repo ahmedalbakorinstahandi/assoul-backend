@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\NotificationController;
+namespace App\Http\Controllers\Notifications;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Notifications\ScheduledNotification\CreateRequest;

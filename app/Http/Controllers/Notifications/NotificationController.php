@@ -47,7 +47,7 @@ class NotificationController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => trans('messages.item_created_successfully'),
+            'message' => 'تم إنشاء الإشعار بنجاح',
             'data' => new NotificationResource($notification),
         ]);
     }
@@ -60,7 +60,7 @@ class NotificationController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => trans('messages.item_updated_successfully'),
+            'message' => 'تم تحديث الإشعار بنجاح',
             'data' => new NotificationResource($notification),
         ]);
     }
@@ -86,8 +86,8 @@ class NotificationController extends Controller
         return response()->json([
             'success' => $deleted,
             'message' => $deleted
-                ? trans('messages.item_deleted_successfully')
-                : trans('messages.failed_delete_item'),
+                ? 'تم حذف الإشعار بنجاح'
+                : 'حدث خطأ أثناء حذف الإشعار',
         ]);
     }
 

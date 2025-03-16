@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Notifications\NotificationController;
-use App\Http\Middleware\ChildMiddleware;
 use Illuminate\Support\Facades\Route;
 
 

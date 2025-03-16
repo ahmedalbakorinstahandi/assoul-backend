@@ -2,6 +2,9 @@
 
 namespace App\Models\Schedules;
 
+use App\Models\Users\Doctor;
+use App\Models\Users\Guardian;
+use App\Models\Users\Patient;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
@@ -35,16 +38,16 @@ class Appointment extends Model
 
     public function patient()
     {
-        return $this->belongsTo('App\Models\Patient');
+        return $this->belongsTo(Patient::class);
     }
 
     public function guardian()
     {
-        return $this->belongsTo('App\Models\Guardian');
+        return $this->belongsTo(Guardian::class);
     }
 
     public function doctor()
     {
-        return $this->belongsTo('App\Models\Doctor');
+        return $this->belongsTo(Doctor::class);
     }
 }

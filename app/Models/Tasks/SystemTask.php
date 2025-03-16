@@ -34,8 +34,18 @@ class SystemTask extends Model
             $user = User::find($patient_id);
 
             if (!$user) {
-                MessageService::abort(404, 'الطفل غير محدد');
+                abort(
+                    response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'الطفل غير محدد',
+                            'data' => [],
+                        ],
+                        404
+                    )
+                );
             }
+
 
             $patient = $user->patient;
         }

@@ -18,7 +18,7 @@ class UserResource extends JsonResource
     {
 
         $condition = false;
-        
+
         $user = User::auth();
 
         if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {
@@ -44,7 +44,7 @@ class UserResource extends JsonResource
             'verified' => $this->verified,
             'avatar' => $this->avatar,
             'status' => $this->status,
-            'code' => $this->when($condition, $this->code),
+            'otp' => $this->when($condition, $this->otp),
             'otp_expide_at' => $this->when($condition, $this->otp_expide_at),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

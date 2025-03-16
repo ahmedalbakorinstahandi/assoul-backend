@@ -46,7 +46,7 @@ class GuardianService
         $patient = $userPatient->patient()->create(
             [
                 'gender' => $data['gender'],
-                'birth_data' => $data['birth_data'],
+                'birth_date' => $data['birth_date'],
                 'height' => $data['height'],
                 'weight' => $data['weight'],
                 'insulin_doses' => 4,
@@ -74,6 +74,6 @@ class GuardianService
 
         return $patient;
 
-        //data has : first_name, last_name, avatar, gender, birth_data, height, weight, diabetes_diagnosis_age , guardian_id if user is admin
+        //data has : first_name, last_name, avatar, gender, birth_date, height, weight, diabetes_diagnosis_age , guardian_id if user is admin
     }
 }

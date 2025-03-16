@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->enum('gender', ["male","female"]);
-            $table->date('birth_data');
+            $table->date('birth_date');
             $table->double('height')->nullable();
             $table->double('weight')->nullable();
             $table->tinyInteger('insulin_doses')->default(4);

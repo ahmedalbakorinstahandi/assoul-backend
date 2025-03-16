@@ -14,7 +14,7 @@ class Patient extends Model
     protected $fillable = [
         'user_id',
         'gender',
-        'birth_data',
+        'birth_date',
         'height',
         'weight',
         'insulin_doses',

@@ -13,7 +13,7 @@ class AddChildRequest extends BaseFormRequest
         $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'gender' => 'required|string|in:male,female,other',
             'birth_date' => 'required|date',
             'height' => 'required|numeric|min:0',

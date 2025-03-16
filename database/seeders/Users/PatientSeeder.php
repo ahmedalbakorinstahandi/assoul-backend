@@ -35,7 +35,7 @@ class PatientSeeder extends Seeder
         $patient = $user->patient()->create(
             [
                 'gender' => 'male',
-                'birth_data' => '2015-01-01',
+                'birth_date' => '2015-01-01',
                 'height' => 120.5,
                 'weight' => 40.0,
                 'insulin_doses' => 4,
@@ -67,7 +67,7 @@ class PatientSeeder extends Seeder
         $user->patient()->create(
             [
                 'gender' => 'male',
-                'birth_data' => '2018-05-15',
+                'birth_date' => '2018-05-15',
                 'height' => 130.0,
                 'weight' => 45.0,
                 'insulin_doses' => 5,
@@ -101,7 +101,7 @@ class PatientSeeder extends Seeder
         $user->patient()->create(
             [
                 'gender' => 'female',
-                'birth_data' => '2013-03-22',
+                'birth_date' => '2013-03-22',
                 'height' => 140.0,
                 'weight' => 35.0,
                 'insulin_doses' => 3,

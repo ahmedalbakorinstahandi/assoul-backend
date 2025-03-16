@@ -97,7 +97,8 @@ class PatientController extends Controller
 
     public function create(AddChildRequest $request)
     {
-        $patient =  $this->patientService->create($request->all());
+        $patient =  $this->patientService->create($request->validated());
+
         return response()->json(
 
             [
@@ -112,7 +113,7 @@ class PatientController extends Controller
     {
         $patient = $this->patientService->show($id);
 
-        $patient = $this->patientService->update($patient, $request->validate());
+        $patient = $this->patientService->update($patient, $request->validated());
 
         return response()->json(
             [

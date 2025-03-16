@@ -14,7 +14,7 @@ class UpdateProfileRequest extends BaseFormRequest
             'user.last_name' => 'nullable|string|max:50',
             'user.phone' => 'nullable|string|max:255',
             'user.avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user.password' => 'nullable|string|min:8|confirmed',
+            'user.password' => 'nullable|string|min:6|confirmed',
         ];
     }
 }

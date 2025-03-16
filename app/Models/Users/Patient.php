@@ -42,7 +42,7 @@ class Patient extends Model
 
     public function guardian()
     {
-        return $this->belongsTo(
+        return $this->belongsToMany(
             Guardian::class,
             ChildrenGuardian::class,
             'patient_id',

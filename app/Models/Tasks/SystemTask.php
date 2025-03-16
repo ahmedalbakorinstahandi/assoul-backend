@@ -14,7 +14,8 @@ class SystemTask extends Model
         'title',
         'points',
         'image',
-        'unique_key'
+        'unique_key',
+        'color',
     ];
 
     protected $dates = ['deleted_at'];

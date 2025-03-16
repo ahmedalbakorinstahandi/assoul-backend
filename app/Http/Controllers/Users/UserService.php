@@ -36,7 +36,10 @@ class UserService
             $data['password'] = bcrypt($data['password']);
         }
 
-        $user->update($data);
+        $userData = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+        $user->update($userData);
 
         return $user;
     }

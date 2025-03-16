@@ -23,11 +23,11 @@ class ToDoListService
         $query = ToDoListPermission::index($query);
 
 
-        $user = User::auth();
+        // $user = User::auth();
 
-        if ($user->isPatient()) {
-            $query->with('completion');
-        }
+        // if ($user->isPatient()) {
+        //     $query->with('completion');
+        // }
 
         return FilterService::applyFilters(
             $query,
@@ -49,10 +49,10 @@ class ToDoListService
 
         ToDoListPermission::show($task);
 
-        $user = User::auth();
-        if ($user->isPatient()) {
-            $task->load('completion');
-        }
+        // $user = User::auth();
+        // if ($user->isPatient()) {
+        //     $task->load('completion');
+        // }
 
         return $task;
     }
@@ -63,10 +63,10 @@ class ToDoListService
 
         $task = ToDoList::create($data);
 
-        $user = User::auth();
-        if ($user->isPatient()) {
-            $task->load('completion');
-        }
+        // $user = User::auth();
+        // if ($user->isPatient()) {
+        //     $task->load('completion');
+        // }
 
         return $task;
     }
@@ -77,10 +77,10 @@ class ToDoListService
 
         $task->update($data);
 
-        $user = User::auth();
-        if ($user->isPatient()) {
-            $task->load('completion');
-        }
+        // $user = User::auth();
+        // if ($user->isPatient()) {
+        //     $task->load('completion');
+        // }
 
         return $task;
     }
@@ -98,7 +98,18 @@ class ToDoListService
         ToDoListPermission::check($task);
 
         $status =  $data['status'];
-        $patient = User::auth()->patient;
+
+        $user = User::auth();
+
+        if ($user->isPatient()) {
+            $patient = $user->patient;
+        } else {
+            $patient_id = $data['patient_id'];
+
+            $user = User::find($patient_id);
+
+            $patient = $user->patient;
+        }
 
         $createdAt = Carbon::parse($data['completed_at'])->toDateString();
 

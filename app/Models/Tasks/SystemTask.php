@@ -3,6 +3,7 @@
 namespace App\Models\Tasks;
 
 use App\Models\Users\User;
+use App\Services\MessageService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,24 @@ class SystemTask extends Model
 
     public function systemTaskCompletion()
     {
-        $patient = User::auth()->patient;
+
+        $user = User::auth();
+
+        if ($user->isPatient()) {
+            $patient = $user->patient;
+        } else {
+            $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
+
+            $user = User::find($patient_id);
+
+            if (!$user) {
+                MessageService::abort(404, 'الطفل غير محدد');
+            }
+
+            $patient = $user->patient;
+        }
+
+        // $patient = User::auth()->patient;
 
         $createdAt = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
 

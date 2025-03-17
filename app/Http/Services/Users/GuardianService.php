@@ -93,10 +93,10 @@ class GuardianService
         return $guardian;
     }
 
-    public function create($data)
+    public function create($data, $user = null)
     {
 
-        if (isset($data['user'])) {
+        if (!$user && isset($data['user'])) {
             $userService = new UserService();
             $user = $userService->create($data['user']);
         }

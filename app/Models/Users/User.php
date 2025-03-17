@@ -107,7 +107,7 @@ class User extends Authenticatable
             return User::find(Auth::user()->id);
         }
 
-        MessageService::abort(503, 'messages.unauthorized');
+        MessageService::abort(503, 'أنت غير مسجل الدخول');
     }
 
 

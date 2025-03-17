@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->group(function () {
 
 
+
     Route::prefix('games')->group(function () {
         Route::get('games', [GameController::class, 'index']);
         Route::get('games/{id}', [GameController::class, 'show']);
@@ -146,6 +147,15 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::put('/guardians/{id}', [GuardianController::class, 'update']);
         Route::delete('/guardians/{id}', [GuardianController::class, 'delete']);
 
+        Route::get('/doctors', [DoctorController::class, 'index']);
+        Route::get('/doctors/{id}', [DoctorController::class, 'show']);
+        Route::post('/doctors', [DoctorController::class, 'create']);
+        Route::put('/doctors/{id}', [DoctorController::class, 'update']);
+        Route::delete('/doctors/{id}', [DoctorController::class, 'delete']);
+    });
+
+
+    Route::prefix('users')->group(function () {
         Route::get('/doctors', [DoctorController::class, 'index']);
         Route::get('/doctors/{id}', [DoctorController::class, 'show']);
         Route::post('/doctors', [DoctorController::class, 'create']);

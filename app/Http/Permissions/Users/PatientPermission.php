@@ -4,6 +4,7 @@ namespace App\Http\Permissions\Users;
 
 use App\Models\Users\Guardian;
 use App\Models\Users\User;
+use App\Services\MessageService;
 
 class PatientPermission
 {
@@ -28,13 +29,13 @@ class PatientPermission
         $user = User::auth();
 
         if ($user->isPatient() && $user->patient->id !== $patient->id) {
-            abort(403, 'لا يمكنك عرض هذا المريض');
+            MessageService::abort(403, 'لا يمكنك عرض هذا المريض');
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
             $childrenIds = $user->guardian->children->pluck('id')->toArray();
             if (!in_array($patient->id, $childrenIds)) {
-                abort(403, 'لا يمكنك عرض هذا المريض');
+                MessageService::abort(403, 'لا يمكنك عرض هذا المريض');
             }
         }
     }

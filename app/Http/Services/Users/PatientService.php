@@ -74,7 +74,7 @@ class PatientService
     public function show($id)
     {
 
-        $patient = Patient::with(['user', 'guardian.user'])->find($id);
+        $patient = Patient::with(['user', 'guardian.user', 'medicalRecords', 'instructions', 'notes'])->find($id);
 
         if (!$patient) {
             MessageService::abort(404, 'المريض غير موجود');
@@ -136,7 +136,7 @@ class PatientService
             'patient_id' => $patient->id,
         ]);
 
-        $patient->load(['user', 'guardian.user']);
+        $patient->load(['user', 'guardian.user', 'medicalRecords', 'instructions', 'notes']);
 
         return $patient;
     }
@@ -159,7 +159,7 @@ class PatientService
 
         $patient->update($data);
 
-        $patient->load(['user', 'guardian.user']);
+        $patient->load(['user', 'guardian.user', 'medicalRecords', 'instructions', 'notes']);
 
         return $patient;
     }
@@ -192,7 +192,7 @@ class PatientService
         $patient->user->otp_expide_at = now()->addMinutes(5);
         $patient->user->save();
 
-        $patient->load(['user', 'guardian.user']);
+        $patient->load(['user', 'guardian.user', 'medicalRecords', 'instructions', 'notes']);
 
         return $patient;
     }

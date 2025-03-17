@@ -3,6 +3,9 @@
 namespace App\Models\Users;
 
 use App\Models\Health\BloodSugarReading;
+use App\Models\Patient\Instruction;
+use App\Models\Patient\MedicalRecord;
+use App\Models\Patient\PatientNote;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,11 +37,20 @@ class Patient extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    // public function doctor()
-    // {
-    //     return $this->belongsTo(Doctor::class)->withTrashed();
-    // }
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class);
+    }
 
+    public function instructions()
+    {
+        return $this->hasMany(Instruction::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(PatientNote::class);
+    }
 
     public function guardian()
     {

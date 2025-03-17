@@ -11,6 +11,9 @@ use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
+use App\Http\Controllers\Patients\InstructionController;
+use App\Http\Controllers\Patients\MedicalRecordController;
+use App\Http\Controllers\Patients\PatientNoteController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Controllers\Tasks\ToDoListController;
@@ -152,5 +155,27 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/doctors', [DoctorController::class, 'create']);
         Route::put('/doctors/{id}', [DoctorController::class, 'update']);
         Route::delete('/doctors/{id}', [DoctorController::class, 'delete']);
+    });
+
+    Route::prefix('patients')->group(function () {
+        Route::get('/medical-records', [MedicalRecordController::class, 'index']);
+        Route::get('/medical-records/{id}', [MedicalRecordController::class, 'show']);
+        Route::post('/medical-records', [MedicalRecordController::class, 'create']);
+        Route::put('/medical-records/{id}', [MedicalRecordController::class, 'update']);
+        Route::delete('/medical-records/{id}', [MedicalRecordController::class, 'delete']);
+
+
+        Route::get('/notes', [PatientNoteController::class, 'index']);
+        Route::get('/notes/{id}', [PatientNoteController::class, 'show']);
+        Route::post('/notes', [PatientNoteController::class, 'create']);
+        Route::put('/notes/{id}', [PatientNoteController::class, 'update']);
+        Route::delete('/notes/{id}', [PatientNoteController::class, 'delete']);
+
+
+        Route::get('/instructions', [InstructionController::class, 'index']);
+        Route::get('/instructions/{id}', [InstructionController::class, 'show']);
+        Route::post('/instructions', [InstructionController::class, 'create']);
+        Route::put('/instructions/{id}', [InstructionController::class, 'update']);
+        Route::delete('/instructions/{id}', [InstructionController::class, 'delete']);
     });
 });

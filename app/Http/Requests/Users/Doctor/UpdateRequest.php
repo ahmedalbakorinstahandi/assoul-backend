@@ -2,27 +2,22 @@
 
 namespace App\Http\Requests\Users\Doctor;
 
+use App\Http\Requests\BaseFormRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class UpdateRequest extends BaseFormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'user.first_name' => 'nullable|string|max:255',
+            'user.last_name' => 'nullable|string|max:255',
+            'user.avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user.phone' => 'nullable|string|max:255',
+            'user.password' => 'nullable|string|min:6|confirmed',
+            'specialization' => 'nullable|string|max:255',
+            'classification_number' => 'nullable|string|max:255',
+            'workplace_clinic_location' => 'nullable|string|max:255',
         ];
     }
 }

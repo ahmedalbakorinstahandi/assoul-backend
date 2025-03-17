@@ -35,7 +35,7 @@ class InstructionService
     {
         $instruction = Instruction::find($id);
 
-        if ($instruction) {
+        if (!$instruction) {
             MessageService::abort(404, "السجل غير موجود");
         }
 

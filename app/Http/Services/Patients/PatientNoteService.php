@@ -36,7 +36,7 @@ class PatientNoteService
     {
         $patientNote = PatientNote::find($id);
 
-        if ($patientNote) {
+        if (!$patientNote) {
             MessageService::abort(404, "السجل غير موجود");
         }
 

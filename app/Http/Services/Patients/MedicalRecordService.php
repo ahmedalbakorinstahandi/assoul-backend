@@ -37,7 +37,7 @@ class MedicalRecordService
     {
         $medicalRecord = MedicalRecord::find($id);
 
-        if ($medicalRecord) {
+        if (!$medicalRecord) {
             MessageService::abort(404, "السجل غير موجود");
         }
 

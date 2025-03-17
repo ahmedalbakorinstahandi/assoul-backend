@@ -28,7 +28,7 @@ class AppointmentResource extends JsonResource
             'patient_status' => $this->patient_status,
             'notes' => $this->notes,
             'canceled_by' => $this->canceled_by,
-            'canceled_at' => $this->canceled_at ? $this->canceled_at->format('Y-m-d H:i:s') : null,
+            'canceled_at' => $this->canceled_at,
             'cancel_reason' => $this->cancel_reason,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

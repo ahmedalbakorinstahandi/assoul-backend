@@ -6,6 +6,7 @@ use App\Http\Resources\Notifications\NotificationResource;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends JsonResource
 {
@@ -19,17 +20,19 @@ class UserResource extends JsonResource
 
         $condition = false;
 
-        $user = User::auth();
+        if (Auth::check()) {
+            $user = User::auth();
 
-        if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {
-            $childrenIds = $user->guardian->children->pluck('id')->toArray();
-            if (in_array($this->id, $childrenIds)) {
+            if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {
+                $childrenIds = $user->guardian->children->pluck('id')->toArray();
+                if (in_array($this->id, $childrenIds)) {
+                    $condition = true;
+                }
+            }
+
+            if ($user->isAdmin() && $this->isPatient()) {
                 $condition = true;
             }
-        }
-
-        if ($user->isAdmin() && $this->isPatient()) {
-            $condition = true;
         }
 
 

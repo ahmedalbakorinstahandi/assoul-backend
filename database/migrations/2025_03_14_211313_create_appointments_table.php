@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('guardian_id')->references('id')->on('guardians');
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('id')->on('doctors');
+            $table->string('title', 512);
             $table->dateTime('appointment_date');
             $table->enum('status', ["pending", "confirmed", "cancelled", "completed"]);
             $table->enum('canceled_by', ['admin', 'guardian', 'doctor'])->nullable();

@@ -11,7 +11,7 @@ class CreateRequest extends BaseFormRequest
     {
         return [
             'game_id' => 'required|exists:games,id',
-            'number' => 'required|integer|unique:levels,number',
+            'number' => 'required|integer',
             'title' => 'required|string|max:255',
             'status' => 'required|in:pending,published',
         ];

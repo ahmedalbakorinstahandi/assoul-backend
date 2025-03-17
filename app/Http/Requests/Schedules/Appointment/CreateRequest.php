@@ -14,6 +14,7 @@ class CreateRequest extends BaseFormRequest
             'patient_id' => 'required|exists:patients,id',
             'guardian_id' => 'required|exists:guardians,id',
             'doctor_id' => 'required|exists:doctors,id',
+            'title' => 'required|string|max:512',
             'appointment_date' => 'required|date|after:now',
             // 'status' => 'required|in:pending,confirmed,cancelled,completed',
             'patient_status' => 'required|in:emergency,needs_follow_up,stable',

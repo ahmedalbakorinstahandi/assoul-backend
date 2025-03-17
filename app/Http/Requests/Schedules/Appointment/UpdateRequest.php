@@ -10,6 +10,7 @@ class UpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
+            'title' => 'nullable|string|max:512',
             'appointment_date' => 'nullable|date|after:now',
             'status' => 'nullable|in:pending,confirmed,cancelled,completed',
             'patient_status' => 'nullable|in:emergency,needs_follow_up,stable',

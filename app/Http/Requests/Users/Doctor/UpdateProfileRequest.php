@@ -12,7 +12,6 @@ class UpdateProfileRequest extends BaseFormRequest
         return [
             'user.first_name' => 'nullable|string|max:255',
             'user.last_name' => 'nullable|string|max:255',
-            'user.email' => 'nullable|email|unique:users,email',
             'user.phone' => 'nullable|string|max:255',
             'user.password' => 'nullable|string|min:6|confirmed',
             'user.avatar' => 'nullable|string|max:110',

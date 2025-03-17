@@ -14,6 +14,7 @@ class UpdateRequest extends BaseFormRequest
             'status' => 'nullable|in:pending,confirmed,cancelled,completed',
             'patient_status' => 'nullable|in:emergency,needs_follow_up,stable',
             'notes' => 'nullable|string',
+            'cancel_reason' => 'required_if:status,cancelled|nullable|string',
         ];
     }
 }

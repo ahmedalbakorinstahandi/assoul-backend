@@ -63,6 +63,13 @@ class AppointmentService
 
         $appointment->update($data);
 
+        if ($data['status'] = 'cancelled') {
+            $appointment->cancel_reason = $data['cancel_reason'];
+            $appointment->canceled_at = now();
+            $appointment->canceled_by = User::auth()->role;
+            $appointment->save();
+        }
+
         $appointment->load(['patient.user', 'guardian.user', 'doctor.user']);
 
         return $appointment;
@@ -80,8 +87,12 @@ class AppointmentService
         $appointment->cancel_reason = $data['cancel_reason'];
         $appointment->canceled_at = now();
         $appointment->canceled_by = User::auth()->role;
+        $appointment->status = 'cancelled';
+        $appointment->save();
 
         // TODO:: SEND NOTIFICATIONS
+
+        $appointment->load(['patient.user', 'guardian.user', 'doctor.user']);
 
         return $appointment;
     }

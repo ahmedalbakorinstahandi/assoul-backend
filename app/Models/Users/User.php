@@ -114,6 +114,7 @@ class User extends Authenticatable
             'ip' => request()->ip(),
             'user_agent' => request()->header('User-Agent'),
             'referer' => request()->header('referer'),
+            'stack_trace' => debug_backtrace(),
         ]);
         MessageService::abort(503, 'أنت غير مسجل الدخول');
     }

@@ -16,7 +16,10 @@ class Appointment extends Model
         'appointment_date',
         'status',
         'patient_status',
-        'notes'
+        'notes',
+        'canceled_by',
+        'canceled_at',
+        'cancel_reason',
     ];
 
     protected $dates = [

@@ -70,6 +70,7 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
         Route::post('/appointments', [AppointmentController::class, 'create']);
         Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{id}', [AppointmentController::class, 'delete']);
+        Route::post('/appointments/{id}/cancel', [AppointmentController::class, 'cancel']);
     });
 
 

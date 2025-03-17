@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Schedules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Schedules\Appointment\CancelRequest;
 use App\Http\Requests\Schedules\Appointment\CreateRequest;
 use App\Http\Requests\Schedules\Appointment\UpdateRequest;
 use App\Http\Resources\Schedules\AppointmentResource;
@@ -73,6 +74,20 @@ class AppointmentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'تم حذف الموعد بنجاح',
+        ]);
+    }
+
+    // cancel
+    public function cancel($id, CancelRequest $request)
+    {
+        $appointment = $this->appointmentService->show($id);
+
+        $appointment = $this->appointmentService->cancel($appointment, $request->validated());
+
+        return response()->json([
+            'success' => true,
+            'data' => new AppointmentResource($appointment),
+            'message' => 'تم إلغاء الموعد',
         ]);
     }
 }

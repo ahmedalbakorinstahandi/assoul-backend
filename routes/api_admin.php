@@ -127,6 +127,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/appointments', [AppointmentController::class, 'create']);
         Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{id}', [AppointmentController::class, 'delete']);
+        Route::post('/appointments/{id}/cancel', [AppointmentController::class, 'cancel']);
     });
 
     // users

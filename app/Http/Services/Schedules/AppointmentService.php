@@ -4,6 +4,7 @@ namespace App\Http\Services\Schedules;
 
 use App\Http\Permissions\Schedules\AppointmentPermission;
 use App\Models\Schedules\Appointment;
+use App\Models\Users\User;
 use App\Services\FilterService;
 use App\Services\MessageService;
 
@@ -72,5 +73,16 @@ class AppointmentService
         AppointmentPermission::delete($appointment);
 
         return $appointment->delete();
+    }
+
+    public function cancel(Appointment $appointment, $data)
+    {
+        $appointment->cancel_reason = $data['cancel_reason'];
+        $appointment->canceled_at = now();
+        $appointment->canceled_by = User::auth()->role;
+
+        // TODO:: SEND NOTIFICATIONS
+
+        return $appointment;
     }
 }

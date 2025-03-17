@@ -63,7 +63,7 @@ class AppointmentService
 
         $appointment->update($data);
 
-        if ($data['status'] = 'cancelled') {
+        if ($data['status'] == 'cancelled') {
             $appointment->cancel_reason = $data['cancel_reason'];
             $appointment->canceled_at = now();
             $appointment->canceled_by = User::auth()->role;

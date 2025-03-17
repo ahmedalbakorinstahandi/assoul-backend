@@ -96,8 +96,10 @@ class GuardianService
     public function create($data)
     {
 
-        $userService = new UserService();
-        $user = $userService->create($data['user']);
+        if (isset($data['user'])) {
+            $userService = new UserService();
+            $user = $userService->create($data['user']);
+        }
 
         $guardian =  Guardian::create([
             'user_id' => $user->id

@@ -108,15 +108,8 @@ class User extends Authenticatable
             return User::find(Auth::user()->id);
         }
 
-        Log::error('Unauthenticated access attempt', [
-            'url' => request()->fullUrl(),
-            'method' => request()->method(),
-            'ip' => request()->ip(),
-            'user_agent' => request()->header('User-Agent'),
-            'referer' => request()->header('referer'),
-            'stack_trace' => debug_backtrace(),
-        ]);
-        MessageService::abort(503, 'أنت غير مسجل الدخول');
+      
+        abort(503, 'أنت غير مسجل الدخول');
     }
 
 

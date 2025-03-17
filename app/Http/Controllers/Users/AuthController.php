@@ -74,7 +74,7 @@ class AuthController extends Controller
 
         if ($user->approve == 0)
             $user->update([
-                'approve' => 1
+                'verified' => 1
             ]);
 
         $token = $user->createToken($user->first_name . '-AuthToken')->plainTextToken;

@@ -14,6 +14,7 @@ use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Controllers\Tasks\ToDoListController;
+use App\Http\Controllers\Users\DoctorController;
 use App\Http\Controllers\Users\GuardianController;
 use App\Http\Controllers\Users\PatientController;
 use App\Http\Middleware\AdminMiddlware;
@@ -144,5 +145,11 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/guardians', [GuardianController::class, 'create']);
         Route::put('/guardians/{id}', [GuardianController::class, 'update']);
         Route::delete('/guardians/{id}', [GuardianController::class, 'delete']);
+
+        Route::get('/doctors', [DoctorController::class, 'index']);
+        Route::get('/doctors/{id}', [DoctorController::class, 'show']);
+        Route::post('/doctors', [DoctorController::class, 'create']);
+        Route::put('/doctors/{id}', [DoctorController::class, 'update']);
+        Route::delete('/doctors/{id}', [DoctorController::class, 'delete']);
     });
 });

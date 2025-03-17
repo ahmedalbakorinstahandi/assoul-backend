@@ -23,6 +23,9 @@ return new class extends Migration
             $table->foreign('doctor_id')->references('id')->on('doctors');
             $table->dateTime('appointment_date');
             $table->enum('status', ["pending", "confirmed", "cancelled", "completed"]);
+            $table->enum('canceled_by', ["admin", "guardian", "doctor"])->nullable();
+            $table->timestamp('canceled_at')->nullable();
+            $table->string('cancel_reason')->nullable();
             $table->enum('patient_status', ["emergency", "needs_follow_up", "stable"]);
             $table->text('notes')->nullable();
             $table->timestamps();

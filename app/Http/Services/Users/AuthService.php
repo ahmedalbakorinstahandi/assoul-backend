@@ -17,6 +17,7 @@ class AuthService
             $user = User::where('role', 'patient')
                 ->where('otp', $loginUserData['code'])
                 ->where('otp_expide_at', '>', now())
+                // TODO:  verified is true
                 ->first();
 
             if (!$user) {
@@ -26,6 +27,7 @@ class AuthService
 
             $user = User::where('email', $loginUserData['email'])
                 ->where('role', $loginUserData['role'])
+                // TODO:  verified is true
                 ->first();
 
             if (!$user || !Hash::check($loginUserData['password'], $user->password)) {

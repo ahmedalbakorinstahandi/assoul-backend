@@ -7,6 +7,7 @@ use App\Http\Controllers\Health\PhysicalActivityController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Controllers\Tasks\ToDoListController;
+use App\Http\Controllers\Users\DoctorController;
 use App\Http\Controllers\Users\GuardianController;
 use App\Http\Controllers\Users\PatientController;
 use Illuminate\Support\Facades\Route;
@@ -81,4 +82,8 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
         Route::delete('/{id}', [PatientController::class, 'delete']);
         Route::post('/{id}/generate-code', [PatientController::class, 'generateCode']);
     });
+
+
+    Route::get('/doctors', [DoctorController::class, 'index']);
+    Route::get('/doctors/{id}', [DoctorController::class, 'show']);
 });

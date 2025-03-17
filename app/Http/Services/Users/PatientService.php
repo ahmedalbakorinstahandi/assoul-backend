@@ -21,7 +21,7 @@ class PatientService
 
         $patient = $user->patient;
 
-        $patient->load(['user', 'guardian']);
+        $patient->load(['user', 'guardian', 'medicalRecords', 'instructions', 'notes']);
 
         return $patient;
     }
@@ -37,7 +37,7 @@ class PatientService
 
         $patient = $user->patient;
 
-        $patient->load(['user', 'guardian']);
+        $patient->load(['user', 'guardian', 'medicalRecords', 'instructions', 'notes']);
 
         return $patient;
     }
@@ -45,7 +45,7 @@ class PatientService
 
     public function index($data)
     {
-        $query = Patient::query()->with(['user', 'guardian.user']);
+        $query = Patient::query()->with(['user', 'guardian.user', 'medicalRecords', 'instructions', 'notes']);
 
         $searchFields = [
             ['user.first_name', 'user.last_name'],

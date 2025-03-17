@@ -84,6 +84,6 @@ Route::prefix('guardian')->middleware(['auth:sanctum', GuardianMiddleware::class
     });
 
 
-    Route::get('doctors', [DoctorController::class, 'index']);
-    Route::get('doctors/{id}', [DoctorController::class, 'show']);
+    Route::get('/doctors', [DoctorController::class, 'index']);
+    Route::get('/doctors/{id}', [DoctorController::class, 'show']);
 });

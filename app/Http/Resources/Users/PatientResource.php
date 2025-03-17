@@ -2,6 +2,10 @@
 
 namespace App\Http\Resources\Users;
 
+use App\Http\Resources\Patients\InstructionResource;
+use App\Http\Resources\Patients\MedicalRecordResource;
+use App\Http\Resources\Patients\PatientNoteResource;
+use App\Http\Resources\Schedules\AppointmentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,6 +32,10 @@ class PatientResource extends JsonResource
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'user' => new UserResource($this->whenLoaded('user')),
             'guardian' => GuardianResource::collection($this->whenLoaded('guardian')),
+            'medical_records' => MedicalRecordResource::collection($this->whenLoaded('medicalRecords')),
+            'instructions' => InstructionResource::collection($this->whenLoaded('instructions')),
+            'appointments' => AppointmentResource::collection($this->whenLoaded('appointments')),
+            'notes' => PatientNoteResource::collection($this->whenLoaded('notes')),
         ];
     }
 }

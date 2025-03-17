@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -107,6 +108,13 @@ class User extends Authenticatable
             return User::find(Auth::user()->id);
         }
 
+        Log::error('Unauthenticated access attempt', [
+            'url' => request()->fullUrl(),
+            'method' => request()->method(),
+            'ip' => request()->ip(),
+            'user_agent' => request()->header('User-Agent'),
+            'referer' => request()->header('referer'),
+        ]);
         MessageService::abort(503, 'أنت غير مسجل الدخول');
     }
 

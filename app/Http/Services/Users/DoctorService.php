@@ -49,7 +49,13 @@ class DoctorService
         }
 
         $doctor = $user->doctor;
-        $doctor->update($data);
+
+        if (isset($data)) {
+            $doctorData = array_filter($data, function ($value) {
+                return !is_null($value);
+            });
+            $doctor->update($doctorData);
+        }
         $doctor->load(['user']);
 
         return $doctor;

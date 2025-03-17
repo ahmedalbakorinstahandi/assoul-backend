@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Users\DoctorController;
+use App\Http\Controllers\Users\PatientController;
 use App\Http\Middleware\DoctorMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -16,5 +17,11 @@ Route::prefix('doctors')->middleware(['auth:sanctum', DoctorMiddleware::class])-
         Route::post('/appointments', [AppointmentController::class, 'create']);
         Route::put('/appointments/{id}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{id}', [AppointmentController::class, 'delete']);
+    });
+
+
+    Route::prefix('users')->group(function () {
+        Route::get('/patients', [PatientController::class, 'index']);
+        Route::get('/patients/{id}', [PatientController::class, 'show']);
     });
 });

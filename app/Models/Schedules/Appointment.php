@@ -25,8 +25,8 @@ class Appointment extends Model
     ];
 
     protected $casts = [
-        'status' => 'boolean',
-        'patient_status' => 'boolean',
+        'status' => 'string',
+        'patient_status' => 'string',
         'deleted_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

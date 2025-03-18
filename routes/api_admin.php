@@ -10,6 +10,7 @@ use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
+use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Controllers\Patients\InstructionController;
 use App\Http\Controllers\Patients\MedicalRecordController;
@@ -106,6 +107,13 @@ Route::prefix('admin')->middleware(['auth:sanctum', AdminMiddlware::class])->gro
         Route::post('/scheduled-notifications', [ScheduledNotificationController::class, 'create']);
         Route::put('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'update']);
         Route::delete('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'delete']);
+
+
+        Route::get('/notifications', [NotificationController::class, 'index']);
+        Route::get('/notifications/{id}', [NotificationController::class, 'show']);
+        Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'readNotification']);
+        Route::get('/notifications/unread-count', [NotificationController::class, 'getNotificationsUnreadCount']);
     });
 
     Route::prefix('tasks')->group(function () {

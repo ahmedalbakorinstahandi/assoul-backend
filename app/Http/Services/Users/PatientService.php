@@ -52,7 +52,7 @@ class PatientService
             'user.phone',
         ];
         $numericFields = ['height', 'weight', 'diabetes_diagnosis_age'];
-        $exactMatchFields = ['gender', 'guardian_id', 'id', 'user_id'];
+        $exactMatchFields = ['gender', 'guardian.guardian_id', 'id', 'user_id'];
         $dateFields = ['birth_date', 'created_at'];
         $inFields = ['gender'];
 

@@ -62,6 +62,11 @@ class Patient extends Model
         )->withTrashed();
     }
 
+    public function childrenGuardian()
+    {
+        return $this->hasMany(ChildrenGuardian::class);
+    }
+
     public function bloodSugarReadings()
     {
         return $this->hasMany(BloodSugarReading::class);

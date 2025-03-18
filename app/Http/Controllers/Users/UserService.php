@@ -14,7 +14,7 @@ class UserService
             $data['avatar'] = $imageName;
         }
 
-        if ($data['password']) {
+        if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
 
@@ -32,7 +32,7 @@ class UserService
             $data['avatar'] = $imageName;
         }
 
-        if ($data['password']) {
+        if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
 

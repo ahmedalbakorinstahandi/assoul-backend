@@ -16,7 +16,7 @@ class AppointmentService
 
         $searchFields = ['notes'];
         $numericFields = ['patient_id', 'guardian_id', 'doctor_id'];
-        $exactMatchFields = ['status', 'patient_status'];
+        $exactMatchFields = ['status', 'patient_status', 'patient_id', 'guardian_id', 'doctor_id'];
         $dateFields = ['appointment_date'];
         $inFields = ['status', 'patient_status'];
 

@@ -27,7 +27,7 @@ class UserService
 
     public function update($user, $data)
     {
-        if ($data['avatar']) {
+        if (isset($data['avatar']) && $data['avatar'] instanceof \Illuminate\Http\UploadedFile) {
             $imageName = ImageService::storeImage($data['avatar'], 'avatars');
             $data['avatar'] = $imageName;
         }

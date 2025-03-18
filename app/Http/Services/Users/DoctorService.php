@@ -109,7 +109,7 @@ class DoctorService
     {
         if ($user == null) {
             $userService = new UserService();
-            $userService->create($data['user']);
+            $user = $userService->create($data['user']);
             unset($data['user']);
         }
 

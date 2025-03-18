@@ -52,9 +52,15 @@ class PatientService
             'user.phone',
         ];
         $numericFields = ['height', 'weight', 'diabetes_diagnosis_age'];
-        $exactMatchFields = ['gender', 'childrenGuardian.guardian.id', 'id', 'user_id'];
+        $exactMatchFields = ['gender', 'id', 'user_id'];
         $dateFields = ['birth_date', 'created_at'];
         $inFields = ['gender'];
+
+        if (isset($data['guardian_id'])) {
+            $query->whereHas('guardian', function ($query) use ($data) {
+                $query->where('guardian_id', $data['guardian_id']);
+            });
+        }
 
 
         $query = PatientPermission::index($query);

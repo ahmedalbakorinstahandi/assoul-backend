@@ -11,7 +11,7 @@ class UpdateRequest extends BaseFormRequest
     {
         return [
             'title' => 'nullable|string|max:512',
-            'appointment_date' => 'nullable|date|after:now',
+            'appointment_date' => 'nullable|date',
             'status' => 'nullable|in:pending,confirmed,cancelled,completed',
             'patient_status' => 'nullable|in:emergency,needs_follow_up,stable',
             'notes' => 'nullable|string',

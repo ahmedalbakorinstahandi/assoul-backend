@@ -14,11 +14,11 @@ class UpdateRequest extends  BaseFormRequest
             'content' => 'nullable|string',
             'image' => 'nullable|string|max:110',
             'type' => 'nullable|in:daily,weekly,monthly,yearly',
-            'month' => 'required_if:type,monthly,yearly|nullable|integer|min:1|max:12',
+            'month' => 'required_if:type,yearly|nullable|integer|min:1|max:12',
             'week' => 'required_if:type,weekly|nullable|integer|min:1|max:53',
-            'day' => 'required_if:type,daily,weekly,monthly,yearly|nullable|integer|min:1|max:31',
-            'time' => 'nullable|date_format:H:i',
-            'status' => 'nullable|in:active,inactive',
+            'day' => 'required_if:type,monthly,yearly|nullable|integer|min:1|max:31',
+            'time' => 'required|date_format:H:i',
+            'status' => 'required|in:active,inactive',
         ];
     }
 }

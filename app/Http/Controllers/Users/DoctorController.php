@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\Doctor\CreateRequest;
 use App\Http\Requests\Users\Doctor\UpdateProfileRequest;
 use App\Http\Requests\Users\Doctor\UpdateRequest;
+use App\Http\Resources\Patients\DoctorPatientResource;
 use App\Http\Resources\Users\DoctorResource;
 use App\Http\Services\Users\DoctorService;
+use App\Models\Users\User;
 use App\Services\ResponseService;
 
 class DoctorController extends Controller
@@ -45,6 +47,25 @@ class DoctorController extends Controller
             200
         );
     }
+
+    //getHomeData
+    public function getHomeData()
+    {
+
+        $user = User::auth();
+
+        $patients = $user->doctor->doctorPatients()->with('patient')->get();
+
+        return response()->json(
+            [
+                'success' => true,
+                'data' => DoctorPatientResource::collection($patients),
+            ],
+            200
+        );
+    }
+
+    ////////////////////////////
 
     public function index()
     {

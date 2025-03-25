@@ -12,7 +12,7 @@ class UpdateRequest extends BaseFormRequest
     {
         return [
             'game_id' => 'nullable|exists:games,id',
-            'number' => 'nullable|integer|unique:levels,number',
+            'number' => 'nullable|integer|number',
             'title' => 'nullable|string|max:255',
             'status' => 'nullable|in:published',
         ];

@@ -54,7 +54,7 @@ class DoctorController extends Controller
 
         $user = User::auth();
 
-        $patients = $user->doctor->doctorPatients()->with('patient')->get();
+        $patients = $user->doctor->doctorPatients()->with('patient.user')->get();
 
         return response()->json(
             [

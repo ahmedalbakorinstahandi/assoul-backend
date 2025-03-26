@@ -4,6 +4,7 @@ use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
+use App\Http\Controllers\Patients\DoctorPatientController;
 use App\Http\Controllers\Schedules\AppointmentController;
 use App\Http\Controllers\Users\DoctorController;
 use App\Http\Controllers\Users\PatientController;
@@ -18,6 +19,9 @@ Route::prefix('doctors')->middleware(['auth:sanctum', DoctorMiddleware::class])-
     Route::get('profile/', [DoctorController::class, 'getDoctorData']);
     Route::post('profile/', [DoctorController::class, 'updateProfile']);
     Route::get('home/', [DoctorController::class, 'getHomeData']);
+
+
+
 
     Route::prefix('schedules')->group(function () {
         Route::get('/appointments', [AppointmentController::class, 'index']);
@@ -36,6 +40,11 @@ Route::prefix('doctors')->middleware(['auth:sanctum', DoctorMiddleware::class])-
 
 
     Route::prefix('patients')->group(function () {
+
+        //follow
+        Route::post('/follow', [DoctorPatientController::class, 'follow']);
+
+
         Route::get('/medical-records', [MedicalRecordController::class, 'index']);
         Route::get('/medical-records/{id}', [MedicalRecordController::class, 'show']);
         Route::post('/medical-records', [MedicalRecordController::class, 'create']);
@@ -85,5 +94,4 @@ Route::prefix('doctors')->middleware(['auth:sanctum', DoctorMiddleware::class])-
         Route::put('/meals/{id}', [MealController::class, 'update']);
         Route::delete('/meals/{id}', [MealController::class, 'delete']);
     });
-
 });

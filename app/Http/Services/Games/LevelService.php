@@ -10,9 +10,6 @@ use App\Services\MessageService;
 
 class LevelService
 {
-
-
-
     public function index($data)
     {
         $query = Level::query()->with('game');

@@ -17,7 +17,7 @@ class Level extends Model
         'number',
         'status',
     ];
-    
+
 
     public function game()
     {
@@ -32,6 +32,35 @@ class Level extends Model
     public function progress()
     {
         return $this->hasMany(Progress::class);
+    }
+
+
+    public function canPublish()
+    {
+        //if question type is MCQ we have 4 answers for each question to be published
+        //if question type is DragDrop we have 2 answers for each question to be published
+        // if question type is LetterArrangement we have 1 answer for each question to be published
+
+
+        $questions = $this->questions()->get();
+
+        foreach ($questions as $question) {
+            if ($question->type == 'MCQ') {
+                if ($question->answers()->count() < 4) {
+                    return false;
+                }
+            } elseif ($question->type == 'DragDrop') {
+                if ($question->answers()->count() < 2) {
+                    return false;
+                }
+            } elseif ($question->type == 'LetterArrangement') {
+                if ($question->answers()->count() < 1) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     // // progress

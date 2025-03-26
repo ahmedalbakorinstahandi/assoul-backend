@@ -17,6 +17,7 @@ class LevelResource extends JsonResource
             'child_status' => $this->getChildLevelStatus(),
             'question_count' => $this->questions()->count(),
             'game_id' => $this->game_id,
+            'can_publish' => $this->canPublish(),
             'game' => new GameResource($this->whenLoaded('game')),
             'questions' => QuestionResource::collection($this->whenLoaded('questions')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

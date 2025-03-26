@@ -17,7 +17,6 @@ class DoctorPatientController extends Controller
         $this->doctorPatientService = $doctorPatientService;
     }
 
-
     public function follow(FollowRequest $request)
     {
         $data = $request->validated();

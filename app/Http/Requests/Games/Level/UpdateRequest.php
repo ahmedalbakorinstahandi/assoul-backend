@@ -11,8 +11,7 @@ class UpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'game_id' => 'nullable|exists:games,id',
-            'number' => 'nullable|integer|number',
+            'number' => 'nullable|integer|integer',
             'title' => 'nullable|string|max:255',
             'status' => 'nullable|in:published',
         ];

@@ -12,8 +12,8 @@ class CreateRequest extends BaseFormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'patient_id' => 'required|exists:patients,id',
-            'assigned_by' => 'nullable|exists:guardians,id',
+            'patient_id' => 'required|exists:patients,id,deleted_at,NULL',
+            // 'assigned_by' => 'nullable|exists:guardians,id,deleted_at,NULL',
         ];
     }
 }

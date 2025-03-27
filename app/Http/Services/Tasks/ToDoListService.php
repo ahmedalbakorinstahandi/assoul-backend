@@ -6,6 +6,7 @@ use App\Services\MessageService;
 use App\Http\Permissions\Tasks\ToDoListPermission;
 use App\Models\Tasks\ToDoList;
 use App\Models\Tasks\ToDoListCompletion;
+use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
 use Carbon\Carbon;
@@ -58,6 +59,10 @@ class ToDoListService
     public function create($data)
     {
         $data = ToDoListPermission::create($data);
+
+        $patient = Patient::find($data['patient_id']);
+
+        $data['assigned_by'] = $patient->guardian->first()->id;
 
         $task = ToDoList::create($data);
 

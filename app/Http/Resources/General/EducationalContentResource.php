@@ -15,6 +15,7 @@ class EducationalContentResource extends JsonResource
             'link' => $this->link,
             'duration' => $this->duration,
             'is_visible' => $this->is_visible,
+            'key' => $this->key,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

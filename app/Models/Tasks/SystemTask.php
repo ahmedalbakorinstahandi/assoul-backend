@@ -56,17 +56,17 @@ class SystemTask extends Model
 
         $createdAt = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
 
-        // return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
-        //     ->whereDate('completed_at', $createdAt)
-        //     ->where('patient_id', $patient->id);
-
-        $systemTaskCompletion = SystemTaskCompletion::query()
-            ->where('task_id', $this->id)
-            ->where('patient_id', $patient->id)
+        return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
             ->whereDate('completed_at', $createdAt)
-            ->first();
+            ->where('patient_id', $patient->id);
 
-        return $systemTaskCompletion ?? null;
+        // $systemTaskCompletion = SystemTaskCompletion::query()
+        //     ->where('task_id', $this->id)
+        //     ->where('patient_id', $patient->id)
+        //     ->whereDate('completed_at', $createdAt)
+        //     ->first();
+
+        // return $systemTaskCompletion ?? null;
     }
 
 

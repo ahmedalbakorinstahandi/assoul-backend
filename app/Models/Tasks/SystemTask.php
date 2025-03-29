@@ -52,18 +52,19 @@ class SystemTask extends Model
 
         // $patient = User::auth()->patient;
 
-        // MessageService::abort(
+        MessageService::abort(
 
-        //     200,
-        //     [
-        //         'success' => true,
-        //         'patient' => $patient->load('user'),
-        //         'user' => $user->load('patient'),
-        //         'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
-        //         'system_task' => $this,
-        //         'user_is_patient' => $user->isPatient(),
-        //     ]
-        // );
+            200,
+            [
+                'success' => true,
+                'patient' => $patient->load('user'),
+                'user' => $user->load('patient'),
+                'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
+                'system_task' => $this,
+                'user_is_patient' => $user->isPatient(),
+                'id' => $user->patient->id,
+            ]
+        );
 
         $completed_at = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
 

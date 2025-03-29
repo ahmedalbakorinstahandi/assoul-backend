@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Event\Telemetry\System;
 use App\Models\Tasks\SystemTaskCompletion;
+use App\Models\Users\Patient;
 
 class SystemTask extends Model
 {
@@ -28,12 +29,12 @@ class SystemTask extends Model
 
         $user = User::auth();
 
-        if ($user->isPatient()) {
-            $patient = $user->patient;
-        } else {
+        if (!$user->isPatient()) {
             $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
 
-            $user = User::find($patient_id);
+            $patient = Patient::find($patient_id);
+
+            $user = User::find($patient->user_id);
 
             if (!$user) {
                 abort(
@@ -47,39 +48,28 @@ class SystemTask extends Model
                     )
                 );
             }
-
-
-            $patient = $user->patient;
         }
 
         // $patient = User::auth()->patient;
 
-        MessageService::abort(
-            
-            200,
-            [
-                'success' => true,
-                'patient' => $patient->load('user'),
-                'user' => $user->load('patient'),
-                'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
-                'system_task' => $this,
-                'user_is_patient' => $user->isPatient(),
-             ]
-        );
+        // MessageService::abort(
+
+        //     200,
+        //     [
+        //         'success' => true,
+        //         'patient' => $patient->load('user'),
+        //         'user' => $user->load('patient'),
+        //         'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
+        //         'system_task' => $this,
+        //         'user_is_patient' => $user->isPatient(),
+        //     ]
+        // );
 
         $completed_at = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
 
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
             ->whereDate('completed_at', $completed_at)
-            ->where('patient_id', $patient->id);
-
-        // $systemTaskCompletion = SystemTaskCompletion::query()
-        //     ->where('task_id', $this->id)
-        //     ->where('patient_id', $patient->id)
-        //     ->whereDate('completed_at', $createdAt)
-        //     ->first();
-
-        // return $systemTaskCompletion ?? null;
+            ->where('patient_id', $user->patient->id);
     }
 
 

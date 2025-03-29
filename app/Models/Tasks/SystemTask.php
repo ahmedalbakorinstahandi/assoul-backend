@@ -54,10 +54,22 @@ class SystemTask extends Model
 
         // $patient = User::auth()->patient;
 
-        $createdAt = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
+        MessageService::abort(
+            
+            200,
+            [
+                'success' => true,
+                'patient' => $patient,
+                'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
+                'system_task' => $this,
+                'system_task_completion' => $this->systemTaskCompletion,
+            ]
+        );
+
+        $completed_at = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
 
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
-            ->whereDate('completed_at', $createdAt)
+            ->whereDate('completed_at', $completed_at)
             ->where('patient_id', $patient->id);
 
         // $systemTaskCompletion = SystemTaskCompletion::query()

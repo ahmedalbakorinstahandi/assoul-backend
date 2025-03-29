@@ -117,7 +117,7 @@ class User extends Authenticatable
 
     public function doctor()
     {
-        return $this->hasOne(Doctor::class);
+        return $this->hasOne(Doctor::class, 'user_id')->withTrashed();
     }
 
     public function guardian()
@@ -128,7 +128,7 @@ class User extends Authenticatable
 
     public function patient()
     {
-        return $this->hasOne(Patient::class);
+        return $this->hasOne(Patient::class,'user_id')->withTrashed();
     }
 
     public function notifications()

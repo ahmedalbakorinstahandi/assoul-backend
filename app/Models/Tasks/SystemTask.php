@@ -7,6 +7,7 @@ use App\Services\MessageService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use PHPUnit\Event\Telemetry\System;
+use App\Models\Tasks\SystemTaskCompletion;
 
 class SystemTask extends Model
 {
@@ -59,12 +60,12 @@ class SystemTask extends Model
         //     ->whereDate('completed_at', $createdAt)
         //     ->where('patient_id', $patient->id);
 
-
-        $systemTaskCompletion = SystemTaskCompletion::where('task_id', $this->id)
+        $systemTaskCompletion = SystemTaskCompletion::query()
+            ->where('task_id', $this->id)
             ->where('patient_id', $patient->id)
             ->whereDate('completed_at', $createdAt)
-            ->get()->first();
-
+            ->first();
+ 
         return $systemTaskCompletion;
     }
 

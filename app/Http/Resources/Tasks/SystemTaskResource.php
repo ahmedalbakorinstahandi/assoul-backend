@@ -23,10 +23,7 @@ class SystemTaskResource extends JsonResource
             'unique_key' => $this->unique_key,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
-            'system_task_completion' => $this->whenLoaded(
-                'systemTaskCompletion',
-                fn() => new SystemTaskCompletionResource($this->getSystemTaskCompletion())
-            ),
+            'system_task_completion' =>   $this->getSystemTaskCompletion() != null ? new SystemTaskCompletionResource($this->getSystemTaskCompletion()) : null,
         ];
     }
 }

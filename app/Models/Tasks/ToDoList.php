@@ -66,4 +66,38 @@ class ToDoList extends Model
             ->whereDate('completed_at', $createdAt)
             ->where('patient_id', $patient->id);
     }
+
+
+
+    public function getTaskCompletion()
+    {
+        $user = User::auth();
+
+        if (!$user->isPatient()) {
+            $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
+
+            if (!$patient_id) {
+                return null;
+            }
+
+            $patient = Patient::find($patient_id);
+
+            if (!$patient) {
+                return null;
+            }
+
+            $user = User::find($patient->user_id);
+
+            if (!$user) {
+                return null;
+            }
+        }
+
+        $completed_at = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
+
+        return ToDoListCompletion::where('task_id', $this->id)
+            ->whereDate('completed_at', $completed_at)
+            ->where('patient_id', $user->patient->id)
+            ->first();
+    }
 }

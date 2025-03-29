@@ -65,8 +65,8 @@ class SystemTask extends Model
             ->where('patient_id', $patient->id)
             ->whereDate('completed_at', $createdAt)
             ->first();
- 
-        return $systemTaskCompletion;
+
+        return $systemTaskCompletion ?? null;
     }
 
 

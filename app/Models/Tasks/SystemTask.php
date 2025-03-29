@@ -50,20 +50,6 @@ class SystemTask extends Model
             }
         }
 
-        // $patient = User::auth()->patient;
-
-        MessageService::abort(
-
-            200,
-            [
-                'success' => true,
-                'user' => $user->load('patient'),
-                'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
-                'system_task' => $this,
-                'user_is_patient' => $user->isPatient(),
-                'id' => $user->patient->id,
-            ]
-        );
 
         $completed_at = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
 
@@ -71,6 +57,40 @@ class SystemTask extends Model
             ->whereDate('completed_at', $completed_at)
             ->where('patient_id', $user->patient->id);
     }
+
+
+    public function getSystemTaskCompletion()
+    {
+        $user = User::auth();
+
+        if (!$user->isPatient()) {
+            $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
+
+            if (!$patient_id) {
+                return null;
+            }
+
+            $patient = Patient::find($patient_id);
+
+            if (!$patient) {
+                return null;
+            }
+
+            $user = User::find($patient->user_id);
+
+            if (!$user) {
+                return null;
+            }
+        }
+
+        $completed_at = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();
+
+        return SystemTaskCompletion::where('task_id', $this->id)
+            ->whereDate('completed_at', $completed_at)
+            ->where('patient_id', $user->patient->id)
+            ->first();
+    }
+
 
 
     public function getSystemTaskCompletionFirst()

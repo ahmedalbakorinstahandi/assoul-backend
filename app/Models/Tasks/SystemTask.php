@@ -63,7 +63,6 @@ class SystemTask extends Model
         $systemTaskCompletion = SystemTaskCompletion::where('task_id', $this->id)
             ->where('patient_id', $patient->id)
             ->whereDate('completed_at', $createdAt)
-            ->orderBy('created_at', 'desc')
             ->get()->first();
 
         return $systemTaskCompletion;

@@ -57,7 +57,6 @@ class SystemTask extends Model
             200,
             [
                 'success' => true,
-                'patient' => $patient->load('user'),
                 'user' => $user->load('patient'),
                 'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
                 'system_task' => $this,

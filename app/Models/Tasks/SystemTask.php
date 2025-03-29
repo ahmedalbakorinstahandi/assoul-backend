@@ -63,6 +63,7 @@ class SystemTask extends Model
                 'user' => $user->load('patient'),
                 'completed_at' => request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString(),
                 'system_task' => $this,
+                'user_is_patient' => $user->isPatient(),
              ]
         );
 

@@ -18,22 +18,23 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        $condition = false;
+        // ToDo: Check if the user is a guardian and the patient is one of their children
+        $condition = true;
 
-        if (Auth::check()) {
-            $user = User::auth();
+        // if (Auth::check()) {
+        //     $user = User::auth();
 
-            if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {
-                $childrenIds = $user->guardian->children->pluck('id')->toArray();
-                if (in_array($this->id, $childrenIds)) {
-                    $condition = true;
-                }
-            }
+        //     if ($user->isGuardian() && $this->isPatient() && optional($user->guardian)->children) {
+        //         $childrenIds = $user->guardian->children->pluck('id')->toArray();
+        //         if (in_array($this->id, $childrenIds)) {
+        //             $condition = true;
+        //         }
+        //     }
 
-            if ($user->isAdmin() && $this->isPatient()) {
-                $condition = true;
-            }
-        }
+        //     if ($user->isAdmin() && $this->isPatient()) {
+        //         $condition = true;
+        //     }
+        // }
 
 
 

@@ -29,25 +29,29 @@ class SystemTask extends Model
 
         $user = User::auth();
 
-        if (!$user->isPatient()) {
+        if ($user->isPatient()) {
+            $patient = $user->patient;
+        } else {
             $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
 
-            $patient = Patient::find($patient_id);
-
-            $user = User::find($patient->user_id);
+            $user = User::find($patient_id);
 
             if (!$user) {
-                abort(
-                    response()->json(
-                        [
-                            'success' => false,
-                            'message' => 'الطفل غير محدد',
-                            'data' => [],
-                        ],
-                        404
-                    )
-                );
+                if (!$user) {
+                    abort(
+                        response()->json(
+                            [
+                                'success' => false,
+                                'message' => 'الطفل غير محدد',
+                                'data' => [],
+                            ],
+                            404
+                        )
+                    );
+                }
             }
+
+            $patient = $user->patient;
         }
 
 

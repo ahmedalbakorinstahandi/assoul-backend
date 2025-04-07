@@ -41,24 +41,23 @@ class ToDoList extends Model
         } else {
             $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
 
-            $user = User::find($patient_id);
+            $patient = Patient::find($patient_id);
 
-            if (!$user) {
-                if (!$user) {
-                    abort(
-                        response()->json(
-                            [
-                                'success' => false,
-                                'message' => 'الطفل غير محدد',
-                                'data' => [],
-                            ],
-                            404
-                        )
-                    );
-                }
+            // $user = User::find($patient_id);
+
+
+            if (!$patient) {
+                abort(
+                    response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'الطفل غير محدد',
+                            'data' => [],
+                        ],
+                        404
+                    )
+                );
             }
-
-            $patient = $user->patient;
         }
 
         $createdAt = request()->input('completed_at') ?? request()->query('completed_at') ?? now()->toDateString();

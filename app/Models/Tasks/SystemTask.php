@@ -34,24 +34,23 @@ class SystemTask extends Model
         } else {
             $patient_id = request()->input('patient_id') ?? request()->query('patient_id');
 
-            $user = User::find($patient_id);
+            $patient = Patient::find($patient_id);
 
-            if (!$user) {
-                if (!$user) {
-                    abort(
-                        response()->json(
-                            [
-                                'success' => false,
-                                'message' => 'الطفل غير محدد',
-                                'data' => [],
-                            ],
-                            404
-                        )
-                    );
-                }
+            // $user = User::find($patient_id);
+
+
+            if (!$patient) {
+                abort(
+                    response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'الطفل غير محدد',
+                            'data' => [],
+                        ],
+                        404
+                    )
+                );
             }
-
-            $patient = $user->patient;
         }
 
 
@@ -59,7 +58,7 @@ class SystemTask extends Model
 
         return $this->hasOne(SystemTaskCompletion::class, 'task_id', 'id')
             ->whereDate('completed_at', $completed_at)
-            ->where('patient_id', $user->patient->id);
+            ->where('patient_id', $patient->id);
     }
 
 

@@ -12,7 +12,7 @@ class FollowRequest extends BaseFormRequest
     {
         return [
             'doctor_id' => !User::auth()->isAdmin()  ? '' :  'required|exists:users,id,deleted_at,NULL',
-            'patient_id' => 'required|exists:users,id,deleted_at,NULL',
+            'patient_id' => 'required|exists:patients,id,deleted_at,NULL',
         ];
     }
 }

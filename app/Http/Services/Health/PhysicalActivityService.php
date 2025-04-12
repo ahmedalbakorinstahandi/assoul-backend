@@ -61,7 +61,7 @@ class PhysicalActivityService
 
         // guardian:notification
         FirebaseService::sendToTopicAndStorage(
-            'user' . $guardian->user_id,
+            'user-' . $guardian->user_id,
             [
                 $guardian->user_id,
             ],
@@ -103,7 +103,7 @@ class PhysicalActivityService
 
         // guardian:notification
         FirebaseService::sendToTopicAndStorage(
-            'user' . $guardian->user_id,
+            'user-' . $guardian->user_id,
             [
                 $guardian->user_id,
             ],

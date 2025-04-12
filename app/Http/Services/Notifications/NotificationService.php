@@ -3,8 +3,11 @@
 namespace App\Http\Services\Notifications;
 
 use App\Models\Notifications\Notification;
+use App\Models\Users\ChildrenGuardian;
+use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
+use App\Services\FirebaseService;
 use App\Services\MessageService;
 
 class NotificationService
@@ -97,5 +100,29 @@ class NotificationService
 
             Notification::create($notificationData);
         }
+    }
+
+    //sendEmergencyNotification
+    public static function sendEmergencyNotification($data)
+    {
+        $user = User::auth();
+
+        $patient = $user->patient;
+
+        $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
+
+        FirebaseService::sendToTopicAndStorage(
+            'user-' . $guardian->user_id,
+            [
+                $guardian->user_id,
+            ],
+            [
+                'id' => $patient->id,
+                'type' => Patient::class,
+            ],
+            $data['title'],
+            $data['message'],
+            'emergency',
+        );
     }
 }

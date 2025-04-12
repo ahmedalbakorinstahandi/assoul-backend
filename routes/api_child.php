@@ -8,6 +8,7 @@ use App\Http\Controllers\Health\BloodSugarReadingController;
 use App\Http\Controllers\Health\InsulinDoseController;
 use App\Http\Controllers\Health\MealController;
 use App\Http\Controllers\Health\PhysicalActivityController;
+use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Notifications\ScheduledNotificationController;
 use App\Http\Controllers\Tasks\SystemTaskController;
 use App\Http\Controllers\Tasks\ToDoListController;
@@ -74,6 +75,7 @@ Route::prefix('child')->middleware(['auth:sanctum', ChildMiddleware::class])->gr
     Route::prefix('notifications')->group(function () {
         Route::get('/scheduled-notifications', [ScheduledNotificationController::class, 'index']);
         Route::get('/scheduled-notifications/{id}', [ScheduledNotificationController::class, 'show']);
+        Route::post('/emergency', [NotificationController::class, 'sendEmergencyNotification']);
     });
 
 

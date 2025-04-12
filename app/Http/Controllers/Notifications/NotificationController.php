@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Notifications;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Notifications\Notification\CreateRequest;
+use App\Http\Requests\Notifications\Notification\SendEmergencyRequest;
 use App\Http\Requests\Notifications\Notification\UpdateRequest;
 use App\Http\Resources\Notifications\NotificationResource;
 use App\Http\Services\Notifications\NotificationService;
@@ -100,6 +101,18 @@ class NotificationController extends Controller
         return response()->json([
             'success' => true,
             'data' => ['count' => $count],
+        ]);
+    }
+
+
+    // send emergency notification
+    public function sendEmergencyNotification(SendEmergencyRequest $request)
+    {
+        $this->notificationService->sendEmergencyNotification($request->validated());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إرسال الإشعار بنجاح',
         ]);
     }
 }

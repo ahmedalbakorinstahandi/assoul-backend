@@ -27,13 +27,18 @@ class AuthService
 
 
             $patient = $user->patient;
-            $guardian = $patient->guardian;
+            // $guardian = $patient->guardian;
+
+            $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
+            if (!$guardian) {
+                MessageService::abort(422, 'لا يوجد وصي لهذا الطفل');
+            }
 
             // guardian:notification
             FirebaseService::sendToTopicAndStorage(
-                'user-' . $guardian->guardian->user->id,
+                'user-' . $guardian->user_id,
                 [
-                    $guardian->guardian->user->id,
+                    $guardian->user_id,
                 ],
                 [
                     'id' => $user->id,

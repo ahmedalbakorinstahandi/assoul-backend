@@ -31,9 +31,9 @@ class AuthService
 
             // guardian:notification
             FirebaseService::sendToTopicAndStorage(
-                'user' . $guardian->user_id,
+                'user' . $guardian->user->id,
                 [
-                    $guardian->user_id,
+                    $guardian->user->id,
                 ],
                 [
                     'id' => $user->id,

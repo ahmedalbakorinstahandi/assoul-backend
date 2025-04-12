@@ -56,10 +56,23 @@ class DoctorController extends Controller
 
         $patients = $user->doctor->doctorPatients()->with('patient.user')->get();
 
+        // statistics
+        $appointments_pending_count = $user->doctor->appointments()->where('status', 'pending')->count();
+        $appointments_cancelled_count = $user->doctor->appointments()->where('status', 'cancelled')->count();
+        $appointments_completed_count = $user->doctor->appointments()->where('status', 'completed')->count();
+
+
         return response()->json(
             [
                 'success' => true,
-                'data' => DoctorPatientResource::collection($patients),
+                'data' => [
+                    'patients' => DoctorPatientResource::collection($patients),
+                    'appointments' => [
+                        'pending_count' => $appointments_pending_count,
+                        'cancelled_count' => $appointments_cancelled_count,
+                        'completed_count' => $appointments_completed_count,
+                    ],
+                ],
             ],
             200
         );

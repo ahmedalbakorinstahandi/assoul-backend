@@ -6,6 +6,7 @@ use App\Services\MessageService;
 use App\Http\Permissions\Tasks\SystemTaskPermission;
 use App\Models\Tasks\SystemTask;
 use App\Models\Tasks\SystemTaskCompletion;
+use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
 use Carbon\Carbon;
@@ -95,9 +96,9 @@ class SystemTaskService
         $user = User::auth();
 
         if (!$user->isPatient()) {
-            $patient = User::find($data['patient_id']);
+            $patient = Patient::find($data['patient_id']);
         } else {
-            $patient = User::auth()->patient;
+            $patient =  $user->patient;
         }
 
 

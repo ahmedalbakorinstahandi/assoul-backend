@@ -90,8 +90,8 @@ class NotificationService
                 'title' => $title,
                 'message' => $body,
                 'type' => $type,
-                'notificationable_id' => $notificationable['id'] ?? null,
-                'notificationable_type' => $notificationable['type'] ?? 'Custom',
+                'notifiable_id' => $notificationable['id'] ?? null,
+                'notifiable_type' => $notificationable['type'] ?? 'Custom',
                 'metadata' => [
                     'data' => $data,
                     'notificationable' => $notificationable,

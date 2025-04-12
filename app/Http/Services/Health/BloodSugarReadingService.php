@@ -4,6 +4,7 @@ namespace App\Http\Services\Health;
 
 use App\Http\Permissions\Health\BloodSugarReadingPermission;
 use App\Models\Health\BloodSugarReading;
+use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
@@ -70,7 +71,7 @@ class BloodSugarReadingService
     {
         $patient = Patient::find($patient_id);
 
-        $guardian = $patient->guardian;
+        $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
 
         // guardian:notification
         FirebaseService::sendToTopicAndStorage(
@@ -114,7 +115,7 @@ class BloodSugarReadingService
     {
         $patient = Patient::find($patient_id);
 
-        $guardian = $patient->guardian;
+        $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
 
         // guardian:notification
         FirebaseService::sendToTopicAndStorage(

@@ -30,24 +30,22 @@ class AuthService
             // $guardian = $patient->guardian;
 
             $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
-            if (!$guardian) {
-                MessageService::abort(422, 'لا يوجد وصي لهذا الطفل');
+            if ($guardian) {
+                // guardian:notification
+                FirebaseService::sendToTopicAndStorage(
+                    'user-' . $guardian->user_id,
+                    [
+                        $guardian->user_id,
+                    ],
+                    [
+                        'id' => $user->id,
+                        'type' => User::class,
+                    ],
+                    'طفلك قام بتسجيل الدخول',
+                    'لقد قام طفلك ' . $patient->user->first_name . ' بتسجيل الدخول إلى حسابه.',
+                    'info',
+                );
             }
-
-            // guardian:notification
-            FirebaseService::sendToTopicAndStorage(
-                'user-' . $guardian->user_id,
-                [
-                    $guardian->user_id,
-                ],
-                [
-                    'id' => $user->id,
-                    'type' => User::class,
-                ],
-                'طفلك قام بتسجيل الدخول',
-                'لقد قام طفلك ' . $patient->user->first_name . ' بتسجيل الدخول إلى حسابه.',
-                'info',
-            );
         } else {
 
             $user = User::where('email', $loginUserData['email'])

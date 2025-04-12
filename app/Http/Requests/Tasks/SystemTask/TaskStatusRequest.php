@@ -20,7 +20,7 @@ class TaskStatusRequest extends BaseFormRequest
         $user = User::auth();
 
         if (!$user->isPatient()) {
-            $rules['patient_id'] = 'required|exists:users,id,deleted_at,NULL';
+            $rules['patient_id'] = 'required|exists:patients,id,deleted_at,NULL';
         }
 
         return $rules;

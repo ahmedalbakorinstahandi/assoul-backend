@@ -8,7 +8,9 @@ namespace App\Http\Services\Games;
 use App\Services\MessageService;
 use App\Http\Permissions\Games\GamePermission;
 use App\Models\Games\Game;
+use App\Models\Users\User;
 use App\Services\FilterService;
+use App\Services\FirebaseService;
 
 class GameService
 {
@@ -59,15 +61,43 @@ class GameService
 
         $game = Game::create($data);
 
+        if ($game->is_enable) {
+            $this->sendNotificationOnGameCreation($game);
+        }
+
         return $game;
     }
 
     public function update(Game $game, $data)
     {
 
+        $game_is_enable = $game->is_enable;
+
         $game->update($data);
 
+        if ($game->is_enable && !$game_is_enable) {
+            $this->sendNotificationOnGameCreation($game);
+        }
+
         return $game;
+    }
+
+
+    public function sendNotificationOnGameCreation(Game $game)
+    {
+        // child:notification
+        $users = User::where('role', 'patient')->get();
+        FirebaseService::sendToTopicAndStorage(
+            'role-children',
+            $users->pluck('id')->toArray(),
+            [
+                'id' => $game->id,
+                'type' => Game::class,
+            ],
+            'لعبة جديدة متاحة',
+            'لعبة جديدة متاحة بعنوان ' . $game->title,
+            'info',
+        );
     }
 
     public function delete(Game $game)

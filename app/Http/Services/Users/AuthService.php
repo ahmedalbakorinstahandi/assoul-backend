@@ -4,6 +4,7 @@ namespace App\Http\Services\Users;
 
 use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\User;
+use App\Services\FirebaseService;
 use App\Services\MessageService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -23,11 +24,31 @@ class AuthService
             if (!$user) {
                 MessageService::abort(422, 'رمز غير صالح');
             }
+
+
+            $patient = $user->patient;
+            $guardian = $patient->guardian;
+
+            // guardian:notification
+            FirebaseService::sendToTopicAndStorage(
+                'user' . $guardian->user_id,
+                [
+                    $guardian->user_id,
+                ],
+                [
+                    'id' => $user->id,
+                    'type' => User::class,
+                ],
+                'طفلك قام بتسجيل الدخول',
+                'لقد قام طفلك ' . $patient->user->first_name . ' بتسجيل الدخول إلى حسابه.',
+                'info',
+            );
         } else {
 
             $user = User::where('email', $loginUserData['email'])
                 ->where('role', $loginUserData['role'])
                 // TODO:  verified is true
+
                 ->first();
 
             if (!$user || !Hash::check($loginUserData['password'], $user->password)) {

@@ -6,6 +6,7 @@ use App\Http\Permissions\Games\LevelPermission;
 use App\Models\Games\Level;
 use App\Models\Users\User;
 use App\Services\FilterService;
+use App\Services\FirebaseService;
 use App\Services\MessageService;
 
 class LevelService
@@ -65,9 +66,32 @@ class LevelService
 
         $data = LevelPermission::update($level, $data);
 
+        $level_status = $level->status;
+
         $level->update($data);
 
+        if ($level->status == 'published' && $level_status == 'pending') {
+            $this->sendNotificationToChildren($level);
+        }
+
         return $level;
+    }
+
+    public function sendNotificationToChildren($level)
+    {
+        // child:notification
+        $users = User::where('role', 'patient')->get();
+        FirebaseService::sendToTopicAndStorage(
+            'role-children',
+            $users->pluck('id')->toArray(),
+            [
+                'id' =>   $level->id,
+                'type' => Level::class,
+            ],
+            'مستوى جديد متاح',
+            'مستوى جديد متاح في اللعبة ' . $level->game->title,
+            'info',
+        );
     }
 
 

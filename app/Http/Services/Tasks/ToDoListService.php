@@ -80,6 +80,7 @@ class ToDoListService
 
     public function sendNotificationToChild($task, $patient)
     {
+        // child:notification
         $user = $patient->user;
 
         FirebaseService::sendToTopicAndStorage(
@@ -92,7 +93,7 @@ class ToDoListService
                 'type' => ToDoList::class,
             ],
             'تمت إضافة مهمة جديدة',
-            'يرجى مراجعة المهام الخاصة بك للاطلاع على المهام الجديدة',
+            'تم إضافة مهمة جديدة، يرجى مراجعة قائمة المهام الخاصة بك', 
             'info',
         );
     }
@@ -117,6 +118,26 @@ class ToDoListService
         ToDoListPermission::delete($task);
 
         return $task->delete();
+    }
+
+    public function sendCancellationNotificationToChild($task, $patient)
+    {
+        // child:notification
+        $user = $patient->user;
+
+        FirebaseService::sendToTopicAndStorage(
+            'user-' . $user->id,
+            [
+                $user->id,
+            ],
+            [
+                'id' =>   $task->id,
+                'type' => ToDoList::class,
+            ],
+            'تم إلغاء المهمة اليومية',
+            'تم إلغاء مهمة من مهامك اليومية، تأكد من قائمة مهامك يا بطل',
+            'warning',
+        );
     }
 
     public function check($task, $data)

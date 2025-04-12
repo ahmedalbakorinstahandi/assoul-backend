@@ -4,7 +4,10 @@ namespace App\Http\Services\Health;
 
 use App\Http\Permissions\Health\MealPermission;
 use App\Models\Health\Meal;
+use App\Models\Users\Patient;
+use App\Models\Users\User;
 use App\Services\FilterService;
+use App\Services\FirebaseService;
 use App\Services\MessageService;
 
 class MealService
@@ -48,7 +51,37 @@ class MealService
     public function create($data)
     {
         $data = MealPermission::create($data);
-        return Meal::create($data);
+
+        $meal = Meal::create($data);
+
+        $user = User::auth();
+        if ($user->isPatient()) {
+            $this->sendNotificationOnMealCreation($meal, $data['patient_id']);
+        }
+
+        return $meal;
+    }
+
+    public function sendNotificationOnMealCreation(Meal $meal, $patient_id)
+    {
+        $patient = Patient::find($patient_id);
+
+        $guardian = $patient->guardian;
+
+        // guardian:notification
+        FirebaseService::sendToTopicAndStorage(
+            'user' . $guardian->user_id,
+            [
+                $guardian->user_id,
+            ],
+            [
+                'id' => $meal->id,
+                'type' => Meal::class,
+            ],
+            'طفلك تناول وجبة ال' . $this->translateMealType($meal->type),
+            'تم تسجيل وجبة جديدة لطفلك ' . $patient->user->first_name . ' تحتوي على: ' . $meal->description,
+            'info',
+        );
     }
 
     public function update($meal, $data)
@@ -63,6 +96,49 @@ class MealService
     {
         MealPermission::delete($meal);
 
-        $meal->delete();
+        $user = User::auth();
+        if ($user->isPatient()) {
+            $this->sendNotificationOnMealDeletion($meal, $meal->patient_id);
+        }
+
+        return $meal->delete();
+    }
+
+    public function sendNotificationOnMealDeletion(Meal $meal, $patient_id)
+    {
+        $patient = Patient::find($patient_id);
+
+        $guardian = $patient->guardian;
+
+        // guardian:notification
+        FirebaseService::sendToTopicAndStorage(
+            'user' . $guardian->user_id,
+            [
+                $guardian->user_id,
+            ],
+            [
+                'id' => $meal->id,
+                'type' => Meal::class,
+            ],
+            'تم حذف وجبة ال' . $this->translateMealType($meal->type),
+            'تم حذف وجبة تحتوي على: ' . $meal->description . ' من طفلك ' . $patient->user->first_name,
+            'warning',
+        );
+    }
+
+    public function translateMealType($type)
+    {
+        switch ($type) {
+            case 'breakfast':
+                return 'فطور';
+            case 'lunch':
+                return 'غداء';
+            case 'dinner':
+                return 'عشاء';
+            case 'snack':
+                return 'وجبة خفيفة';
+            default:
+                return $type;
+        }
     }
 }

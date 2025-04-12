@@ -9,6 +9,7 @@ use App\Models\Tasks\SystemTaskCompletion;
 use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
+use App\Services\FirebaseService;
 use Carbon\Carbon;
 use Illuminate\Container\Attributes\Auth;
 
@@ -66,7 +67,27 @@ class SystemTaskService
             $task->load('systemTaskCompletion');
         }
 
+        $this->sendNotificationOnTaskCreation($task);
+
         return  $task;
+    }
+
+
+    public function sendNotificationOnTaskCreation(SystemTask $task)
+    {
+        $users = User::where('role', 'patient')->get();
+        // child:notification
+        FirebaseService::sendToTopicAndStorage(
+            'role-children',
+            $users->pluck('id')->toArray(),
+            [
+                'id' => $task->id,
+                'type' => SystemTask::class,
+            ],
+            'تحدٍ جديد من عسّول!',
+            'تحدٍ بعنوان: ' . $task->title,
+            'info',
+        );
     }
 
     public function update(SystemTask $task, $data)

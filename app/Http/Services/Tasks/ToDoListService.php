@@ -109,9 +109,7 @@ class ToDoListService
         } else {
             $patient_id = $data['patient_id'];
 
-            $user = User::find($patient_id);
-
-            $patient = $user->patient;
+            $patient = Patient::find($patient_id);
         }
 
         $createdAt = Carbon::parse($data['completed_at'])->toDateString();

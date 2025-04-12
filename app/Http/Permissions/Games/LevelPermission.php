@@ -21,7 +21,7 @@ class LevelPermission
                 $game_id = 0;
             }
 
-            $query->where('game_id', $game_id);
+            $query->where('game_id', $game_id)->where('status', 'published');
         }
 
         return $query;

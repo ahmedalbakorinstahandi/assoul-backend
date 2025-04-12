@@ -4,6 +4,7 @@ namespace App\Http\Services\Schedules;
 
 use App\Http\Permissions\Schedules\AppointmentPermission;
 use App\Models\Schedules\Appointment;
+use App\Models\Users\ChildrenGuardian;
 use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
@@ -73,7 +74,8 @@ class AppointmentService
         if ($user->isDoctor()) {
             // guardian:notification
             $patient = Patient::find($appointment->patient_id);
-            $user_id = $patient->guardian->user_id;
+            $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
+            $user_id = $guardian->user_id;
             $topic = 'user-' . $user_id;
             $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
             $title = "اقتراح موعد جديد";

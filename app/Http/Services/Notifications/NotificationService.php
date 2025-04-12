@@ -89,10 +89,10 @@ class NotificationService
                 'type' => $type,
                 'notificationable_id' => $notificationable['id'] ?? null,
                 'notificationable_type' => $notificationable['type'] ?? 'Custom',
-                'metadata' => json_encode([
-                    'data' => $data,
-                    'notificationable' => $notificationable,
-                ]),
+                // 'metadata' => [
+                //     'data' => $data,
+                //     'notificationable' => $notificationable,
+                // ],
             ];
 
             Notification::create($notificationData);

@@ -90,8 +90,8 @@ class NotificationService
                 'title' => $title,
                 'message' => $body,
                 'type' => $type,
-                'notifiable_id' => $notificationable['id'] ?? null,
-                'notifiable_type' => $notificationable['type'] ?? 'Custom',
+                'notifiable_id' => isset($notificationable['id']) ? $notificationable['id'] : null,
+                'notifiable_type' => isset($notificationable['type']) ? $notificationable['type'] : 'Custom',
                 'metadata' => [
                     'data' => $data,
                     'notificationable' => $notificationable,
@@ -101,6 +101,7 @@ class NotificationService
             Notification::create($notificationData);
         }
     }
+    
 
     //sendEmergencyNotification
     public static function sendEmergencyNotification($data)

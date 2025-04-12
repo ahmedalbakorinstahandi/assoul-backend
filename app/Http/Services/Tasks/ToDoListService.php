@@ -157,6 +157,19 @@ class ToDoListService
             $patient = Patient::find($patient_id);
         }
 
+        if (!$patient) {
+            abort(
+                response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'الطفل غير محدد',
+                        'data' => [],
+                    ],
+                    404
+                )
+            );
+        }
+
         $createdAt = Carbon::parse($data['completed_at'])->toDateString();
 
         $taskCompletion = ToDoListCompletion::where('task_id', $task->id)

@@ -88,8 +88,8 @@ class ToDoListService
                 $user->id,
             ],
             [
-                'notificationable_id' =>   $task->id,
-                'notificationable_type' => ToDoList::class,
+                'id' =>   $task->id,
+                'type' => ToDoList::class,
             ],
             'تمت إضافة مهمة جديدة',
             'يرجى مراجعة المهام الخاصة بك للاطلاع على المهام الجديدة',

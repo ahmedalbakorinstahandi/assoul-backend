@@ -118,7 +118,7 @@ class FirebaseService
 
         $data['notificationable_id'] = $notificationable['id'] ?? null;
         $data['notificationable_type'] = $notificationable['type'] ?? 'Custom';
-        $data['notificationable'] = $notificationable;
+        // $data['notificationable'] = $notificationable;
 
         $messageConfig = self::createMessageConfig($topic, $title, $body, $data, $channelId);
         $message = CloudMessage::fromArray($messageConfig);

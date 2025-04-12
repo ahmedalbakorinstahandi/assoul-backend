@@ -9,6 +9,7 @@ use App\Models\Tasks\ToDoListCompletion;
 use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FilterService;
+use App\Services\FirebaseService;
 use Carbon\Carbon;
 
 class ToDoListService
@@ -71,8 +72,30 @@ class ToDoListService
             $task->load('completion');
         }
 
+
+        $this->sendNotificationToChild($task, $patient);
+
         return $task;
     }
+
+    public function sendNotificationToChild($task, $patient)
+    {
+        $user = $patient->user;
+
+        FirebaseService::sendToTopicAndStorage(
+            'user-' . $user->id,
+            [
+                $user->id,
+            ],
+            [
+                'notificationable_id' =>   $task->id,
+                'notificationable_type' => ToDoList::class,
+            ],
+            'تمت إضافة مهمة جديدة',
+            'يرجى مراجعة المهام الخاصة بك للاطلاع على المهام الجديدة',
+        );
+    }
+
 
     public function update(ToDoList $task, $data)
     {

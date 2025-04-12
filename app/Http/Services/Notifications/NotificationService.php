@@ -78,7 +78,7 @@ class NotificationService
 
 
 
-    public static function storeNotification($users_ids, $type, $title, $body, $data = [])
+    public static function storeNotification($users_ids, $notificationable, $type, $title, $body, $data = [])
     {
 
         foreach ($users_ids as $user_id) {
@@ -87,7 +87,12 @@ class NotificationService
                 'title' => $title,
                 'message' => $body,
                 'type' => $type,
-                'metadata' => $data,
+                'notificationable_id' => $notificationable['id'] ?? null,
+                'notificationable_type' => $notificationable['type'] ?? 'Custom',
+                'metadata' => [
+                    'data' => $data,
+                    'notificationable' => $notificationable,
+                ],
             ];
 
             Notification::create($notificationData);

@@ -91,7 +91,15 @@ class SystemTaskService
     {
 
         $status =  $data['status'];
-        $patient = User::auth()->patient;
+
+        $user = User::auth();
+
+        if (!$user->isPatient()) {
+            $patient = User::find($data['patient_id']);
+        } else {
+            $patient = User::auth()->patient;
+        }
+
 
         $createdAt = Carbon::parse($data['completed_at'])->toDateString();
 

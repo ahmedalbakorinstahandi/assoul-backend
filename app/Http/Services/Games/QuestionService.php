@@ -125,7 +125,7 @@ class QuestionService
 
         if ($question->type == 'LetterArrangement') {
             $answer = $data['answer'];
-            if ($question->answers->first()->text = $answer) {
+            if ($question->answers->first()->text == $answer) {
                 $answer_is_correct = true;
             }
         } else {

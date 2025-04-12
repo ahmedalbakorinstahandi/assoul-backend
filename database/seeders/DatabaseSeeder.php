@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             //     InsulinDoseSedder::class,
             //     MealSedder::class,
             //     NotificationSedder::class,
-            //     PhysicalActivitySedder::class,
+            //     PhysicalActivitySeeder::class,
             // UserSeeder::class,
             // EducationalContentSeeder::class,
             // ScheduledNotificationSeeder::class,

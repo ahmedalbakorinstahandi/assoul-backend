@@ -3,6 +3,7 @@
 namespace App\Http\Services\Users;
 
 use App\Models\Users\ChildrenGuardian;
+use App\Models\Users\Patient;
 use App\Models\Users\User;
 use App\Services\FirebaseService;
 use App\Services\MessageService;
@@ -38,8 +39,8 @@ class AuthService
                         $guardian->user_id,
                     ],
                     [
-                        'id' => $user->id,
-                        'type' => User::class,
+                        'id' => $patient->id,
+                        'type' => Patient::class,
                     ],
                     'طفلك قام بتسجيل الدخول',
                     'لقد قام طفلك ' . $patient->user->first_name . ' بتسجيل الدخول إلى حسابه.',

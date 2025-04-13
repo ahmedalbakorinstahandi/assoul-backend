@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Patient\DoctorPatient;
+use App\Models\Schedules\Appointment;
 use App\Models\Users\Patient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,5 +35,10 @@ class Doctor extends Model
     public function doctorPatients()
     {
         return $this->hasMany(DoctorPatient::class);
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
     }
 }

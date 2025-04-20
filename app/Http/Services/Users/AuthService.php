@@ -58,6 +58,9 @@ class AuthService
             if (!$user || !Hash::check($loginUserData['password'], $user->password)) {
                 MessageService::abort(422, 'البريد الالكتروني او كلمة المرور غير صحيحة');
             }
+
+
+           
         }
 
         $user->token = $user->createToken('authToken')->plainTextToken;

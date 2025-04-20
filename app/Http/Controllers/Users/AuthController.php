@@ -11,6 +11,7 @@ use App\Http\Requests\Users\Auth\VerifyCodeRequest;
 use App\Http\Resources\Users\UserResource;
 use App\Http\Services\Users\AuthService;
 use App\Models\Users\User;
+use App\Services\FirebaseService;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,11 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $user = $this->authService->login($request->validated());
+
+
+        if ($user->isAdmin()) {
+            FirebaseService::subscribeToAllTopic($request, $user);
+        }
 
         return response()->json(
             [

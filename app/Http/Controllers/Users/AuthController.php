@@ -12,6 +12,7 @@ use App\Http\Resources\Users\UserResource;
 use App\Http\Services\Users\AuthService;
 use App\Models\Users\User;
 use App\Services\FirebaseService;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,13 @@ class AuthController extends Controller
     {
         $user = $this->authService->login($request->validated());
 
-
+        // log user ingo
+        Log::info('User logged in', [
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'role' => $user->role,
+            'device_token' => $request->device_token
+        ]);
         if ($user->isAdmin()) {
             FirebaseService::subscribeToAllTopic($request, $user);
         }

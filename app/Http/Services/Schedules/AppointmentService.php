@@ -38,22 +38,16 @@ class AppointmentService
         );
 
 
-        // المواعيد القائمة
-        $confirmed_count = $query->where('status', 'confirmed')->count();
-        // المواعيد المكتملة
-        $completed_count = $query->where('status', 'completed')->count();
-        // المواعيد الملغاة
-        $cancelled_count = $query->where('status', 'cancelled')->count();
-        // المواعيد المعلقة
-        $pending_count = $query->where('status', 'pending')->count();
-        // المواعيد التي تحتاج متابعة
-        $needs_follow_up_count = $query->where('patient_status', 'needs_follow_up')->count();
-        // المواعيد الطارئة
-        $emergency_count = $query->where('patient_status', 'emergency')->count();
-        // المواعيد المستقرة
-        $stable_count = $query->where('patient_status', 'stable')->count();
+        // Clone the query for each count to avoid interference
+        $confirmed_count = (clone $query)->where('status', 'confirmed')->count();
+        $completed_count = (clone $query)->where('status', 'completed')->count();
+        $cancelled_count = (clone $query)->where('status', 'cancelled')->count();
+        $pending_count = (clone $query)->where('status', 'pending')->count();
+        $needs_follow_up_count = (clone $query)->where('patient_status', 'needs_follow_up')->count();
+        $emergency_count = (clone $query)->where('patient_status', 'emergency')->count();
+        $stable_count = (clone $query)->where('patient_status', 'stable')->count();
 
-        $all_count = $query->count();
+        $all_count = (clone $query)->count();
 
         $appointments = $query->latest()->paginate($data['limit'] ?? 20);
 

@@ -14,6 +14,7 @@ class LoginRequest extends BaseFormRequest
             'code' => 'required_if:role,child',
             'email' => 'required_unless:role,child|email',
             'password' => 'required_unless:role,child',
+            'device_token' => 'nullable|string|min:10',
         ];
     }
 }

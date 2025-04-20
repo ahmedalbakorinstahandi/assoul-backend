@@ -43,44 +43,43 @@ class FirebaseService
 
     public static function subscribeToAllTopic($request, $user)
     {
-        if ($request->has('device_token')) {
-            $deviceToken = $request->device_token;
 
-            $latestToken = $user->tokens()->latest()->first();
-            if ($latestToken) {
-                $latestToken->update([
+        $deviceToken = $request->device_token;
+
+        $latestToken = $user->tokens()->latest()->first();
+        if ($latestToken) {
+            $latestToken->update([
+                'device_token' => $deviceToken,
+            ]);
+        }
+
+        $APP_ENV_TYPE = env('APP_ENV_TYPE', 'staging');
+
+        $topics = [
+            'user-' . $user->id,
+            'role-' . $user->role,
+            'all-users',
+        ];
+
+        if ($APP_ENV_TYPE != 'production') {
+            for ($i = 0; $i < count($topics); $i++) {
+                $topics[$i] = $topics[$i] . '-' . $APP_ENV_TYPE;
+            }
+        }
+
+
+        foreach ($topics as $topic) {
+
+            $subscriptionResult = FirebaseService::subscribeToTopic($deviceToken, $topic);
+
+            // i need store device token in personal access token table
+
+            if (!$subscriptionResult['success']) {
+                Log::error('Failed to subscribe to topic', [
+                    'topic' => $topic,
                     'device_token' => $deviceToken,
+                    'error' => $subscriptionResult['error'] ?? 'Unknown error',
                 ]);
-            }
-
-            $APP_ENV_TYPE = env('APP_ENV_TYPE', 'staging');
-
-            $topics = [
-                'user-' . $user->id,
-                'role-' . $user->role,
-                'all-users',
-            ];
-
-            if ($APP_ENV_TYPE != 'production') {
-                for ($i = 0; $i < count($topics); $i++) {
-                    $topics[$i] = $topics[$i] . '-' . $APP_ENV_TYPE;
-                }
-            }
-
-
-            foreach ($topics as $topic) {
-                
-                $subscriptionResult = FirebaseService::subscribeToTopic($deviceToken, $topic);
-
-                // i need store device token in personal access token table
-
-                if (!$subscriptionResult['success']) {
-                    Log::error('Failed to subscribe to topic', [
-                        'topic' => $topic,
-                        'device_token' => $deviceToken,
-                        'error' => $subscriptionResult['error'] ?? 'Unknown error',
-                    ]);
-                }
             }
         }
     }

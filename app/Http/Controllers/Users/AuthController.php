@@ -33,7 +33,7 @@ class AuthController extends Controller
         // log user ingo
         Log::info($user->role);
         Log::info($request->device_token);
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() && $request->device_token != null) {
             FirebaseService::subscribeToAllTopic($request, $user);
         }
 

@@ -44,9 +44,14 @@ class FirebaseService
     public static function subscribeToAllTopic($request, $user)
     {
 
+
         $deviceToken = $request->device_token;
 
+        Log::info('device_token' . $deviceToken);
+
         $latestToken = $user->tokens()->latest()->first();
+
+        Log::info('latestToken' . $latestToken);
         if ($latestToken) {
             $latestToken->update([
                 'device_token' => $deviceToken,

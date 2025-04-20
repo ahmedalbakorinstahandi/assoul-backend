@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Services\Notifications\NotificationService;
 use App\Models\Users\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Illuminate\Support\Facades\Log;
@@ -53,9 +54,9 @@ class FirebaseService
 
         Log::info('latestToken' . $latestToken);
         if ($latestToken) {
-            $latestToken->update([
-                'device_token' => $deviceToken,
-            ]);
+            DB::table('personal_access_tokens')
+                ->where('id', $latestToken->id)
+                ->update(['device_token' => $deviceToken]);
         }
 
         $APP_ENV_TYPE = env('APP_ENV_TYPE', 'staging');

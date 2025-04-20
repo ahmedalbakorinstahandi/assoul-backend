@@ -69,7 +69,10 @@ class FirebaseService
 
 
             foreach ($topics as $topic) {
+                
                 $subscriptionResult = FirebaseService::subscribeToTopic($deviceToken, $topic);
+
+                // i need store device token in personal access token table
 
                 if (!$subscriptionResult['success']) {
                     Log::error('Failed to subscribe to topic', [

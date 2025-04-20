@@ -22,12 +22,13 @@ class AppointmentController extends Controller
 
     public function index(Request $request)
     {
-        $appointments = $this->appointmentService->index($request->all());
+        $data = $this->appointmentService->index($request->all());
 
         return response()->json([
             'success' => true,
-            'data' => AppointmentResource::collection($appointments->items()),
-            'meta' => ResponseService::meta($appointments),
+            'data' => AppointmentResource::collection($data['data']->items()),
+            'info' => $data['info'],
+            'meta' => ResponseService::meta($data['data']),
         ]);
     }
 

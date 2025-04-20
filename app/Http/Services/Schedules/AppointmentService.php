@@ -26,7 +26,7 @@ class AppointmentService
 
         $query = AppointmentPermission::index($query);
 
-        return FilterService::applyFilters(
+        $query = FilterService::applyFilters(
             $query,
             $data,
             $searchFields,
@@ -34,8 +34,65 @@ class AppointmentService
             $dateFields,
             $exactMatchFields,
             $inFields,
+            false,
         );
+
+
+        // المواعيد القائمة
+        $confirmed_count = $query->where('status', 'confirmed')->count();
+        // المواعيد المكتملة
+        $completed_count = $query->where('status', 'completed')->count();
+        // المواعيد الملغاة
+        $cancelled_count = $query->where('status', 'cancelled')->count();
+        // المواعيد المعلقة
+        $pending_count = $query->where('status', 'pending')->count();
+        // المواعيد التي تحتاج متابعة
+        $needs_follow_up_count = $query->where('patient_status', 'needs_follow_up')->count();
+        // المواعيد الطارئة
+        $emergency_count = $query->where('patient_status', 'emergency')->count();
+        // المواعيد المستقرة
+        $stable_count = $query->where('patient_status', 'stable')->count();
+
+        $all_count = $query->count();
+
+        $appointments = $query->latest()->paginate($data['limit'] ?? 20);
+
+
+        return [
+            'data' => $appointments,
+            'info' => [
+                'confirmed_count' => $confirmed_count,
+                'completed_count' => $completed_count,
+                'cancelled_count' => $cancelled_count,
+                'pending_count' => $pending_count,
+                'needs_follow_up_count' => $needs_follow_up_count,
+                'emergency_count' => $emergency_count,
+                'stable_count' => $stable_count,
+                'all_count' => $all_count,
+            ],
+        ];
     }
+
+
+    // Schema::create('appointments', function (Blueprint $table) {
+    //     $table->id();
+    //     $table->unsignedBigInteger('patient_id');
+    //     $table->foreign('patient_id')->references('id')->on('patients');
+    //     $table->unsignedBigInteger('guardian_id')->nullable();
+    //     $table->foreign('guardian_id')->references('id')->on('guardians');
+    //     $table->unsignedBigInteger('doctor_id');
+    //     $table->foreign('doctor_id')->references('id')->on('doctors');
+    //     $table->string('title', 512);
+    //     $table->dateTime('appointment_date');
+    //     $table->enum('status', ["pending", "confirmed", "cancelled", "completed"]);
+    //     $table->enum('canceled_by', ['admin', 'guardian', 'doctor'])->nullable();
+    //     $table->timestamp('canceled_at')->nullable();
+    //     $table->string('cancel_reason', 1020)->nullable();
+    //     $table->enum('patient_status', ["emergency", "needs_follow_up", "stable"]);
+    //     $table->text('notes')->nullable();
+    //     $table->timestamps();
+    //     $table->softDeletes();
+    // });
 
     public function show($id)
     {

@@ -164,6 +164,9 @@ class AuthService
 
     public function logout($token)
     {
+
+        FirebaseService::unsubscribeFromAllTopic($token);
+
         return $token->delete();
     }
 

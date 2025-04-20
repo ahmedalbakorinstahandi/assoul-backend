@@ -143,6 +143,8 @@ class AuthController extends Controller
     {
         $token = request()->bearerToken();
 
+        
+
         $this->authService->logout(PersonalAccessToken::findToken($token));
 
         return response()->json([

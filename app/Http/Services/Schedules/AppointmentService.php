@@ -68,26 +68,6 @@ class AppointmentService
     }
 
 
-    // Schema::create('appointments', function (Blueprint $table) {
-    //     $table->id();
-    //     $table->unsignedBigInteger('patient_id');
-    //     $table->foreign('patient_id')->references('id')->on('patients');
-    //     $table->unsignedBigInteger('guardian_id')->nullable();
-    //     $table->foreign('guardian_id')->references('id')->on('guardians');
-    //     $table->unsignedBigInteger('doctor_id');
-    //     $table->foreign('doctor_id')->references('id')->on('doctors');
-    //     $table->string('title', 512);
-    //     $table->dateTime('appointment_date');
-    //     $table->enum('status', ["pending", "confirmed", "cancelled", "completed"]);
-    //     $table->enum('canceled_by', ['admin', 'guardian', 'doctor'])->nullable();
-    //     $table->timestamp('canceled_at')->nullable();
-    //     $table->string('cancel_reason', 1020)->nullable();
-    //     $table->enum('patient_status', ["emergency", "needs_follow_up", "stable"]);
-    //     $table->text('notes')->nullable();
-    //     $table->timestamps();
-    //     $table->softDeletes();
-    // });
-
     public function show($id)
     {
         $appointment = Appointment::find($id);
@@ -112,6 +92,8 @@ class AppointmentService
 
 
         $appointment = Appointment::create($data);
+
+        $this->sendNotification($appointment);
 
         return $appointment->load(['patient.user', 'guardian.user', 'doctor.user']);
     }
@@ -157,6 +139,10 @@ class AppointmentService
     {
         AppointmentPermission::update($appointment, $data);
 
+        if ($data['status'] != 'pending') {
+            $this->updateStatusNotfication($appointment, $data['status']);
+        }
+
         $appointment->update($data);
 
         if ($data['status'] == 'cancelled') {
@@ -166,9 +152,80 @@ class AppointmentService
             $appointment->save();
         }
 
+
         $appointment->load(['patient.user', 'guardian.user', 'doctor.user']);
 
         return $appointment;
+    }
+
+
+    public function updateStatusNotfication($appointment, $status)
+    {
+        $user = User::auth();
+
+        if ($user->isDoctor()) {
+            // guardian:notification
+            $patient = Patient::find($appointment->patient_id);
+            $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
+            $user_id = $guardian->user_id;
+            $topic = 'user-' . $user_id;
+            $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
+
+            if ($status == 'cancelled') {
+                if ($appointment->$status == 'pending') {
+                    $title = "رفض الطلب";
+                    $message = 'تم رفض طلب الموعد من الدكتور ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name . ' بتاريخ ' . $appointment_date;
+                } elseif ($appointment->$status == 'confirmed') {
+                    $title = "إلغاء الموعد";
+                    $message = 'تم إلغاء الموعد من الدكتور ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name . ' بتاريخ ' . $appointment_date;
+                }
+            } elseif ($status == 'confirmed') {
+                $title = "تأكيد الموعد";
+                $message = 'تم تأكيد الموعد من الدكتور ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name . ' بتاريخ ' . $appointment_date;
+            } elseif ($status == 'completed') {
+                $title = "إكمال الموعد";
+                $message = 'تم إكمال الموعد من الدكتور ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name . ' بتاريخ ' . $appointment_date;
+            } elseif ($status == 'pending') {
+                $title = "تحديث حالة الموعد";
+                $message = 'تم تحديث حالة الموعد إلى معلق من الدكتور ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name . ' بتاريخ ' . $appointment_date;
+            }
+        } elseif ($user->isGuardian()) {
+            // doctor:notification
+            $user_id = $appointment->doctor->user_id;
+            $topic = 'user-' . $user_id;
+            $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
+
+            if ($status == 'cancelled') {
+                $title = "إلغاء الموعد";
+                $message = 'تم إلغاء الموعد من ولي الأمر للمريض ' . $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name . ' بتاريخ ' . $appointment_date;
+            } elseif ($status == 'confirmed') {
+                $title = "تأكيد الموعد";
+                $message = 'تم تأكيد الموعد من ولي الأمر للمريض ' . $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name . ' بتاريخ ' . $appointment_date;
+            } elseif ($status == 'completed') {
+                $title = "إكمال الموعد";
+                $message = 'تم إكمال الموعد من ولي الأمر للمريض ' . $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name . ' بتاريخ ' . $appointment_date;
+            } elseif ($status == 'pending') {
+                $title = "تحديث حالة الموعد";
+                $message = 'تم تحديث حالة الموعد إلى معلق من ولي الأمر للمريض ' . $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name . ' بتاريخ ' . $appointment_date;
+            }
+        }
+
+        FirebaseService::sendToTopicAndStorage(
+            $topic,
+            [$user_id],
+            [
+                'id' => $appointment->id,
+                'type' => Appointment::class,
+                'status' => 1,
+                'status_text' => Appointment::getStatusText($status),
+                'status_type' => Appointment::getStatusType($status),
+                'status_color' => Appointment::getStatusColor($status),
+                'status_icon' => Appointment::getStatusIcon($status),
+            ],
+            $title,
+            $message,
+            'info',
+        );
     }
 
     public function delete(Appointment $appointment)

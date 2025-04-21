@@ -110,14 +110,14 @@ class AppointmentService
             $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
             $user_id = $guardian->user_id;
             $topic = 'user-' . $user_id;
-            $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
+            $appointment_date = $appointment->appointment_date->format('Y-m-d');
             $title = "اقتراح موعد جديد";
             $message = 'تم اقتراح موعد جديد من الدكتور ' . $appointment->doctor->user->first_name . ' ' . $appointment->doctor->user->last_name . ' بتاريخ ' . $appointment_date;
         } elseif ($user->isGuardian()) {
             // doctor:notification
             $user_id = $appointment->doctor->user_id;
             $topic = 'user-' . $user_id;
-            $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
+            $appointment_date = $appointment->appointment_date->format('Y-m-d');
             $title = "طلب حجز موعد جديد";
             $message = 'عندك طلب حجز موعد جديد للمريض ' . $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name . ' بتاريخ ' . $appointment_date;
         }
@@ -169,7 +169,7 @@ class AppointmentService
             $guardian = ChildrenGuardian::where('patient_id', $patient->id)->first()->guardian;
             $user_id = $guardian->user_id;
             $topic = 'user-' . $user_id;
-            $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
+            $appointment_date = $appointment->appointment_date->format('Y-m-d');
 
             if ($status == 'cancelled') {
                 if ($appointment->$status == 'pending') {
@@ -193,7 +193,7 @@ class AppointmentService
             // doctor:notification
             $user_id = $appointment->doctor->user_id;
             $topic = 'user-' . $user_id;
-            $appointment_date = $appointment->appointment_date->format('Y-m-d H:i');
+            $appointment_date = $appointment->appointment_date->format('Y-m-d');
 
             if ($status == 'cancelled') {
                 $title = "إلغاء الموعد";

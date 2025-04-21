@@ -13,7 +13,7 @@ class BloodSugarReadingPermission
         $user = User::auth();
 
         if ($user->isPatient()) {
-            $query->where('patient_id', $user->id);
+            $query->where('patient_id', $user->patient->id);
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
@@ -30,7 +30,7 @@ class BloodSugarReadingPermission
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->id) {
+        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->patient->id) {
             MessageService::abort(403, 'غير مسموح لك بالوصول لهذه البيانات');
         }
 
@@ -47,7 +47,7 @@ class BloodSugarReadingPermission
         $user = User::auth();
 
         if ($user->isPatient()) {
-            $data['patient_id'] = $user->id;
+            $data['patient_id'] = $user->patient->id;
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
@@ -65,7 +65,7 @@ class BloodSugarReadingPermission
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->id) {
+        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->patient->id) {
             MessageService::abort(403, 'غير مسموح لك بتعديل هذه البيانات');
         }
 
@@ -81,7 +81,7 @@ class BloodSugarReadingPermission
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->id) {
+        if ($user->isPatient() && $bloodSugarReading->patient_id !== $user->patient->id) {
             MessageService::abort(403, 'غير مسموح لك بحذف هذه البيانات');
         }
 

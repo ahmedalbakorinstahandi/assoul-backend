@@ -14,7 +14,7 @@ class ToDoListPermission
         $user = User::auth();
 
         if ($user->isPatient()) {
-            $query->where('patient_id', $user->id);
+            $query->where('patient_id', $user->patient->id);
         }
 
         if ($user->isGuardian() && optional($user->guardian)->children) {
@@ -29,7 +29,7 @@ class ToDoListPermission
     {
         $user = User::auth();
 
-        if ($user->isPatient() && $task->patient_id != $user->id) {
+        if ($user->isPatient() && $task->patient_id != $user->patient->id) {
             MessageService::abort(403, 'غير مسموح لك بالوصول إلى هذه المهمة');
         }
 

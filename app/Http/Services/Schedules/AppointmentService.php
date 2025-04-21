@@ -120,6 +120,15 @@ class AppointmentService
             $appointment_date = $appointment->appointment_date->format('Y-m-d');
             $title = "طلب حجز موعد جديد";
             $message = 'عندك طلب حجز موعد جديد للمريض ' . $appointment->patient->user->first_name . ' ' . $appointment->patient->user->last_name . ' بتاريخ ' . $appointment_date;
+
+            // إضافة حالة الطفل مترجمة للعربي إذا كان عن طريق الأهل
+            if ($appointment->patient_status == 'emergency') {
+                $message .= ' (حالة الطفل: طارئة)';
+            } elseif ($appointment->patient_status == 'needs_follow_up') {
+                $message .= ' (حالة الطفل: يحتاج متابعة)';
+            } elseif ($appointment->patient_status == 'stable') {
+                $message .= ' (حالة الطفل: مستقرة)';
+            }
         }
 
         FirebaseService::sendToTopicAndStorage(

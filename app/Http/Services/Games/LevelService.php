@@ -64,6 +64,14 @@ class LevelService
     public function update($level, $data)
     {
 
+        // if($level->status == 'published') {
+        //     MessageService::abort(422, 'لا يمكن تعديل مستوى تم نشره');
+        // }
+
+        // if ($level->status == 'pending' && $data['status'] == 'published' && !$level->canPublish()) {
+        //     MessageService::abort(422, 'لا يمكن نشر المستوى قبل اضافة جميع الاسئلة');
+        // }
+
         $data = LevelPermission::update($level, $data);
 
         $level_status = $level->status;
@@ -89,7 +97,7 @@ class LevelService
                 'type' => Level::class,
             ],
             'مستوى جديد متاح',
-            'مستوى جديد متاح في اللعبة ' . $level->game->title,
+            'مستوى جديد متاح في اللعبة ' . $level->game->name,
             'info',
         );
     }

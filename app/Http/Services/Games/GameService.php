@@ -95,7 +95,7 @@ class GameService
                 'type' => Game::class,
             ],
             'لعبة جديدة متاحة',
-            'لعبة جديدة متاحة بعنوان ' . $game->title,
+            'لعبة جديدة متاحة بعنوان ' . $game->name,
             'info',
         );
     }

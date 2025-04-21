@@ -122,7 +122,8 @@ class Level extends Model
         $progressCount = $this->progress()->where('patient_id', $patientId)->distinct('question_id')->count();
 
         // الحالة: `completed` إذا تم الإجابة على جميع الأسئلة
-        if ($progressCount == $questionCount) {
+        if ($progressCount == $questionCount && $questionCount > 0) {
+            // إذا كان هناك أسئلة في المستوى وتمت الإجابة عليها جميعًا
             return 'completed';
         }
 
@@ -157,3 +158,56 @@ class Level extends Model
         return 'locked';
     }
 }
+
+
+// public function getChildLevelStatus()
+// {
+//     $user = User::auth();
+
+//     if (!$user->isPatient()) {
+//         return null;
+//     }
+
+//     $patientId = $user->patient->id;
+
+//     // جلب عدد الأسئلة في المستوى
+//     $questionCount = $this->questions()->count();
+
+//     // جلب عدد الأسئلة التي تم التقدم فيها
+//     $progressCount = $this->progress()->where('patient_id', $patientId)->distinct('question_id')->count();
+
+//     // الحالة: `completed` إذا تم الإجابة على جميع الأسئلة
+//     if ($progressCount == $questionCount) {
+//         return 'completed';
+//     }
+
+//     // الحالة: `in_progress` إذا تم الإجابة على بعض الأسئلة
+//     if ($progressCount > 0) {
+//         return 'in_progress';
+//     }
+
+//     // تحديد المستوى الأول ديناميكيًا
+//     $firstLevel = Level::where('game_id', $this->game_id)->orderBy('number', 'asc')->first();
+
+//     if ($this->id == $firstLevel->id) {
+//         return 'unlocked';
+//     }
+
+//     // جلب المستوى السابق
+//     $previousLevel = Level::where('game_id', $this->game_id)
+//         ->where('number', '<', $this->number)
+//         ->orderBy('number', 'desc')
+//         ->first();
+
+//     // التحقق من حالة المستوى السابق
+//     if ($previousLevel) {
+//         $previousStatus = $previousLevel->getChildLevelStatus();
+
+//         if ($previousStatus == 'completed') {
+//             return 'unlocked';
+//         }
+//     }
+
+//     // إذا لم يتحقق أي شرط، فالمستوى مغلق `locked`
+//     return 'locked';
+// }

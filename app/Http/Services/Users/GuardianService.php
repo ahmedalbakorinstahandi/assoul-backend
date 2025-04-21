@@ -39,6 +39,7 @@ class GuardianService
         }
 
         if (isset($data['user'])) {
+            
             $userData = array_filter($data['user'], function ($value) {
                 return !is_null($value);
             });
@@ -98,6 +99,8 @@ class GuardianService
 
         if (!$user && isset($data['user'])) {
             $userService = new UserService();
+            // role
+            $data['user']['role'] = 'guardian';
             $user = $userService->create($data['user']);
         }
 

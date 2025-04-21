@@ -109,6 +109,8 @@ class DoctorService
     {
         if ($user == null) {
             $userService = new UserService();
+            // role
+            $data['user']['role'] = 'doctor';
             $user = $userService->create($data['user']);
             unset($data['user']);
         }

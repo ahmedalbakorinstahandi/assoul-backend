@@ -9,3 +9,6 @@ Route::get('/', function () {
 Route::get('/privacy-policy', function () {
     return view('privacy_policy');
 });
+Route::get('/delete-account', function () {
+    return view('delete-account');
+});

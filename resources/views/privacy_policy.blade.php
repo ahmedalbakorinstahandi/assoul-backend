@@ -109,7 +109,7 @@
             <li>سحب الموافقة في أي وقت.</li>
             <li>طلب نسخة من بياناتك.</li>
         </ul>
-        <p>يمكنك تقديم الطلبات عبر البريد الإلكتروني <a href="mailto:support@assoul.com">support@assoul.com</a> أو من خلال إعدادات التطبيق.</p>
+        <p>يمكنك تقديم الطلبات عبر البريد الإلكتروني <a href="mailto:Ksaengasool@gmail.com">Ksaengasool@gmail.com</a> أو من خلال إعدادات التطبيق.</p>
     </div>
 
     <div class="section">
@@ -131,7 +131,7 @@
         <h2>11. التواصل معنا</h2>
         <p>إذا كانت لديك أي استفسارات أو مخاوف بخصوص سياسة الخصوصية، يرجى التواصل معنا عبر:</p>
         <ul class="contact-info">
-            <li>البريد الإلكتروني: <a href="mailto:support@assoul.com">support@assoul.com</a></li>
+            <li>البريد الإلكتروني: <a href="mailto:Ksaengasool@gmail.com">Ksaengasool@gmail.com</a></li>
             <li>العنوان: [المقر الرئيسي لتطبيق عسول]</li>
         </ul>
     </div>

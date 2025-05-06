@@ -58,7 +58,7 @@
         <h5>خطوات طلب حذف الحساب:</h5>
         <ol>
             <li>أرسل رسالة إلى البريد الإلكتروني التالي من البريد المرتبط بحسابك:
-                <strong>support@assoul.com</strong>
+                <strong>Ksaengasool@gmail.com</strong>
             </li>
             <li>يجب أن تحتوي الرسالة على المعلومات التالية:
                 <ul>

@@ -65,7 +65,8 @@ class NotificationService
 
     public function readNotification($id)
     {
-        $notifications = Notification::where('id', '<=', $id)->get();
+        $user = User::auth();
+        $notifications = Notification::where('id', '<=', $id)->where('read_at', null)->where('user_id', $user->id)->get();
 
         foreach ($notifications as $notification) {
             $notification->update(['read_at' => now()]);
@@ -101,7 +102,7 @@ class NotificationService
             Notification::create($notificationData);
         }
     }
-    
+
 
     //sendEmergencyNotification
     public static function sendEmergencyNotification($data)

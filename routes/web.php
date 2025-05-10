@@ -12,3 +12,6 @@ Route::get('/privacy-policy', function () {
 Route::get('/delete-account', function () {
     return view('delete_account');
 });
+Route::get('/support', function () {
+    return view('support');
+});

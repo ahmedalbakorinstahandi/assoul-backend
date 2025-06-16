@@ -54,7 +54,7 @@ class PatientController extends Controller
 
     public function getHomeData()
     {
-        $educationalContent = EducationalContent::inRandomOrder()->limit(1)->get()->first();
+        $educationalContent = EducationalContent::where('id', 12)->first();
         $games = Game::orderBy('order')->limit(3)->get();
 
         return response()->json(
